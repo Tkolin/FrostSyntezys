@@ -1,20 +1,19 @@
 import { ConfigProvider } from "antd";
-import "./App.css";
-import CustomLayout from "./layouts";
+import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 
-function App() {
+const App = () => {
+  // moment.locale("ru");
   return (
-    <ConfigProvider locale={ruRU}>
+    <ConfigProvider>
       <Router>
-        <CustomLayout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </CustomLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
       </Router>
     </ConfigProvider>
   );
-}
+};
 
 export default App;
