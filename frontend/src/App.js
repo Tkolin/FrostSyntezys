@@ -1,24 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import { ConfigProvider } from "antd";
+import "./App.css";
+import CustomLayout from "./layouts";
+import Home from "./pages/Home";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ConfigProvider locale={ruRU}>
+      <Router>
+        <CustomLayout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </CustomLayout>
+      </Router>
+    </ConfigProvider>
   );
 }
 

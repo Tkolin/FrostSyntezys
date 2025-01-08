@@ -1,1 +1,3 @@
-export default main = () => {};
+export default main = () => {
+  return <></>;
+};
