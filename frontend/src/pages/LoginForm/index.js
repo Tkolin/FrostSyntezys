@@ -3,11 +3,11 @@ import { Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { LOGIN_MUTATION } from "../../graphql/mutations/auth";
-
+ 
 const LoginForm = ({}) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const LOGIN_MUTATION =
   const [loadingSecond, setLoadingSecond] = useState(false);
   // const { openNotification } = useContext(NotificationContext);
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {

@@ -2,7 +2,7 @@ import React from "react";
 import App from "./App";
 
 import { createRoot } from "react-dom/client";
-import ApolloProvider from "./ApolloProvider";
+import ApolloProvider from "./providers/ApolloProvider";
 
 const root = document.getElementById("root");
 

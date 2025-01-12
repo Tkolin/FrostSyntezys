@@ -1,0 +1,727 @@
+type Query {
+  _empty: String
+  Caches: [Cache!]!
+  Cache(id: ID!): Cache
+  CacheLocks: [CacheLock!]!
+  CacheLock(id: ID!): CacheLock
+  Facilitys: [Facility!]!
+  Facility(id: ID!): Facility
+  InstalledThermistorChains: [InstalledThermistorChain!]!
+  InstalledThermistorChain(id: ID!): InstalledThermistorChain
+  InstalledThermistorChainPoints: [InstalledThermistorChainPoint!]!
+  InstalledThermistorChainPoint(id: ID!): InstalledThermistorChainPoint
+  Jobs: [Job!]!
+  Job(id: ID!): Job
+  JobBatchs: [JobBatch!]!
+  JobBatch(id: ID!): JobBatch
+  Locations: [Location!]!
+  Location(id: ID!): Location
+  MeteringThermistorChains: [MeteringThermistorChain!]!
+  MeteringThermistorChain(id: ID!): MeteringThermistorChain
+  MeteringThermistorChainPoints: [MeteringThermistorChainPoint!]!
+  MeteringThermistorChainPoint(id: ID!): MeteringThermistorChainPoint
+  Notifications: [Notification!]!
+  Notification(id: ID!): Notification
+  Sessions: [Session!]!
+  Session(id: ID!): Session
+  ThermistorChains: [ThermistorChain!]!
+  ThermistorChain(id: ID!): ThermistorChain
+  Users: [User!]!
+  User(id: ID!): User
+  CachePaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): CachePaginator!
+  CacheLockPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): CacheLockPaginator!
+  FacilityPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): FacilityPaginator!
+  InstalledThermistorChainPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): InstalledThermistorChainPaginator!
+  InstalledThermistorChainPointPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): InstalledThermistorChainPointPaginator!
+  JobPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): JobPaginator!
+  JobBatchPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): JobBatchPaginator!
+  LocationPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): LocationPaginator!
+  MeteringThermistorChainPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): MeteringThermistorChainPaginator!
+  MeteringThermistorChainPointPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): MeteringThermistorChainPointPaginator!
+  NotificationPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): NotificationPaginator!
+  SessionPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): SessionPaginator!
+  ThermistorChainPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): ThermistorChainPaginator!
+  UserPaginated(
+    # Limits number of fetched items.
+    first: Int!
+
+    # The offset from which items are returned.
+    page: Int
+  ): UserPaginator!
+}
+
+type Mutation {
+  _empty: String
+  createCache(
+    key: String
+    value: String
+    expiration: Int
+    created_at: String
+    updated_at: String
+  ): Cache
+  updateCache(
+    id: ID!
+    key: String
+    value: String
+    expiration: Int
+    created_at: String
+    updated_at: String
+  ): Cache
+  deleteCache(id: ID!): Cache
+  createCacheLock(
+    key: String
+    owner: String
+    expiration: Int
+    created_at: String
+    updated_at: String
+  ): CacheLock
+  updateCacheLock(
+    id: ID!
+    key: String
+    owner: String
+    expiration: Int
+    created_at: String
+    updated_at: String
+  ): CacheLock
+  deleteCacheLock(id: ID!): CacheLock
+  createFacility(id: Int, name: String, number: String): Facility
+  updateFacility(id: Int, name: String, number: String): Facility
+  deleteFacility(id: ID!): Facility
+  createInstalledThermistorChain(
+    id: Int
+    thermistor_chain_id: Int
+    location_id: Int
+    created_at: String
+    updated_at: String
+    location: String
+    thermistor_chain: String
+  ): InstalledThermistorChain
+  updateInstalledThermistorChain(
+    id: Int
+    thermistor_chain_id: Int
+    location_id: Int
+    created_at: String
+    updated_at: String
+    location: String
+    thermistor_chain: String
+  ): InstalledThermistorChain
+  deleteInstalledThermistorChain(id: ID!): InstalledThermistorChain
+  createInstalledThermistorChainPoint(
+    installed_thermistor_chains_id: Int
+    id: Int
+    deep: String
+    created_at: String
+    updated_at: String
+    installed_thermistor_chain: String
+  ): InstalledThermistorChainPoint
+  updateInstalledThermistorChainPoint(
+    id: Int
+    installed_thermistor_chains_id: Int
+    deep: String
+    created_at: String
+    updated_at: String
+    installed_thermistor_chain: String
+  ): InstalledThermistorChainPoint
+  deleteInstalledThermistorChainPoint(id: ID!): InstalledThermistorChainPoint
+  createJob(
+    id: Int
+    queue: String
+    payload: String
+    attempts: Int
+    reserved_at: String
+    available_at: Int
+    created_at: Int
+    updated_at: String
+  ): Job
+  updateJob(
+    id: Int
+    queue: String
+    payload: String
+    attempts: Int
+    reserved_at: String
+    available_at: Int
+    created_at: Int
+    updated_at: String
+  ): Job
+  deleteJob(id: ID!): Job
+  createJobBatch(
+    id: String
+    name: String
+    total_jobs: Int
+    pending_jobs: Int
+    failed_jobs: Int
+    failed_job_ids: String
+    options: String
+    cancelled_at: String
+    created_at: Int
+    finished_at: String
+    updated_at: String
+  ): JobBatch
+  updateJobBatch(
+    id: String
+    name: String
+    total_jobs: Int
+    pending_jobs: Int
+    failed_jobs: Int
+    failed_job_ids: String
+    options: String
+    cancelled_at: String
+    created_at: Int
+    finished_at: String
+    updated_at: String
+  ): JobBatch
+  deleteJobBatch(id: ID!): JobBatch
+  createLocation(
+    id: Int
+    x: String
+    y: String
+    created_at: String
+    updated_at: String
+  ): Location
+  updateLocation(
+    id: Int
+    x: String
+    y: String
+    created_at: String
+    updated_at: String
+  ): Location
+  deleteLocation(id: ID!): Location
+  createMeteringThermistorChain(
+    id: Int
+    installed_thermistor_chains_id: Int
+    date_metering: String
+    created_at: String
+    updated_at: String
+    installed_thermistor_chain: String
+  ): MeteringThermistorChain
+  updateMeteringThermistorChain(
+    id: Int
+    installed_thermistor_chains_id: Int
+    date_metering: String
+    created_at: String
+    updated_at: String
+    installed_thermistor_chain: String
+  ): MeteringThermistorChain
+  deleteMeteringThermistorChain(id: ID!): MeteringThermistorChain
+  createMeteringThermistorChainPoint(
+    id: Int
+    metering_thermistor_chain_id: Int
+    created_at: String
+    updated_at: String
+    metering_thermistor_chain: String
+  ): MeteringThermistorChainPoint
+  updateMeteringThermistorChainPoint(
+    id: Int
+    metering_thermistor_chain_id: Int
+    created_at: String
+    updated_at: String
+    metering_thermistor_chain: String
+  ): MeteringThermistorChainPoint
+  deleteMeteringThermistorChainPoint(id: ID!): MeteringThermistorChainPoint
+  createNotification(
+    id: Int
+    installed_thermistor_chains_id: Int
+    description: String
+    date_start: String
+    date_end: String
+    user_id: String
+    created_at: String
+    updated_at: String
+    installed_thermistor_chain: String
+  ): Notification
+  updateNotification(
+    id: Int
+    installed_thermistor_chains_id: Int
+    description: String
+    date_start: String
+    date_end: String
+    user_id: String
+    created_at: String
+    updated_at: String
+    installed_thermistor_chain: String
+  ): Notification
+  deleteNotification(id: ID!): Notification
+  createSession(
+    id: String
+    user_id: String
+    ip_address: String
+    user_agent: String
+    payload: String
+    last_activity: Int
+    created_at: String
+    updated_at: String
+  ): Session
+  updateSession(
+    id: String
+    user_id: String
+    ip_address: String
+    user_agent: String
+    payload: String
+    last_activity: Int
+    created_at: String
+    updated_at: String
+  ): Session
+  deleteSession(id: ID!): Session
+  createThermistorChain(
+    id: Int
+    number: String
+    name: String
+    created_at: String
+    updated_at: String
+  ): ThermistorChain
+  updateThermistorChain(
+    id: Int
+    number: String
+    name: String
+    created_at: String
+    updated_at: String
+  ): ThermistorChain
+  deleteThermistorChain(id: ID!): ThermistorChain
+  createUser(
+    id: Int
+    name: String
+    email: String
+    email_verified_at: String
+    password: String
+    remember_token: String
+    created_at: String
+    updated_at: String
+  ): User
+  updateUser(
+    id: Int
+    name: String
+    email: String
+    email_verified_at: String
+    password: String
+    remember_token: String
+    created_at: String
+    updated_at: String
+  ): User
+  deleteUser(id: ID!): User
+}
+
+type Cache {
+  key: String
+  value: String
+  expiration: Int
+  created_at: String
+  updated_at: String
+  id: ID!
+}
+
+type CacheLock {
+  key: String
+  owner: String
+  expiration: Int
+  created_at: String
+  updated_at: String
+  id: ID!
+}
+
+type Facility {
+  id: ID!
+  name: String
+  number: String
+}
+
+type InstalledThermistorChain {
+  id: ID!
+  thermistor_chain_id: Int
+  location_id: Int
+  created_at: String
+  updated_at: String
+  location: String
+  thermistor_chain: String
+  installed_thermistor_chain_points: [InstalledThermistorChainPoint!]!
+  metering_thermistor_chains: [MeteringThermistorChain!]!
+  notifications: [Notification!]!
+}
+
+type InstalledThermistorChainPoint {
+  installed_thermistor_chains_id: Int
+  id: ID!
+  deep: String
+  created_at: String
+  updated_at: String
+  installed_thermistor_chain: String
+}
+
+type Job {
+  id: ID!
+  queue: String
+  payload: String
+  attempts: Int
+  reserved_at: String
+  available_at: Int
+  created_at: Int
+  updated_at: String
+}
+
+type JobBatch {
+  id: ID!
+  name: String
+  total_jobs: Int
+  pending_jobs: Int
+  failed_jobs: Int
+  failed_job_ids: String
+  options: String
+  cancelled_at: String
+  created_at: Int
+  finished_at: String
+  updated_at: String
+}
+
+type Location {
+  id: ID!
+  x: String
+  y: String
+  created_at: String
+  updated_at: String
+  installed_thermistor_chains: [InstalledThermistorChain!]!
+}
+
+type MeteringThermistorChain {
+  id: ID!
+  installed_thermistor_chains_id: Int
+  date_metering: String
+  created_at: String
+  updated_at: String
+  installed_thermistor_chain: String
+  metering_thermistor_chain_points: [MeteringThermistorChainPoint!]!
+}
+
+type MeteringThermistorChainPoint {
+  id: ID!
+  metering_thermistor_chain_id: Int
+  created_at: String
+  updated_at: String
+  metering_thermistor_chain: String
+}
+
+type Notification {
+  id: ID!
+  installed_thermistor_chains_id: Int
+  description: String
+  date_start: String
+  date_end: String
+  user_id: String
+  created_at: String
+  updated_at: String
+  installed_thermistor_chain: String
+}
+
+type Session {
+  id: ID!
+  user_id: String
+  ip_address: String
+  user_agent: String
+  payload: String
+  last_activity: Int
+  created_at: String
+  updated_at: String
+}
+
+type ThermistorChain {
+  id: ID!
+  number: String
+  name: String
+  created_at: String
+  updated_at: String
+  installed_thermistor_chains: [InstalledThermistorChain!]!
+}
+
+type User {
+  id: ID!
+  name: String
+  email: String
+  email_verified_at: String
+  password: String
+  remember_token: String
+  created_at: String
+  updated_at: String
+}
+
+# Information about pagination using a fully featured paginator.
+type PaginatorInfo {
+  # Number of items in the current page.
+  count: Int!
+
+  # Index of the current page.
+  currentPage: Int!
+
+  # Index of the first item in the current page.
+  firstItem: Int
+
+  # Are there more pages after this one?
+  hasMorePages: Boolean!
+
+  # Index of the last item in the current page.
+  lastItem: Int
+
+  # Index of the last available page.
+  lastPage: Int!
+
+  # Number of items per page.
+  perPage: Int!
+
+  # Number of total available items.
+  total: Int!
+}
+
+# A paginated list of Cache items.
+type CachePaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Cache items.
+  data: [Cache!]!
+}
+
+# A paginated list of CacheLock items.
+type CacheLockPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of CacheLock items.
+  data: [CacheLock!]!
+}
+
+# A paginated list of Facility items.
+type FacilityPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Facility items.
+  data: [Facility!]!
+}
+
+# A paginated list of InstalledThermistorChain items.
+type InstalledThermistorChainPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of InstalledThermistorChain items.
+  data: [InstalledThermistorChain!]!
+}
+
+# A paginated list of InstalledThermistorChainPoint items.
+type InstalledThermistorChainPointPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of InstalledThermistorChainPoint items.
+  data: [InstalledThermistorChainPoint!]!
+}
+
+# A paginated list of Job items.
+type JobPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Job items.
+  data: [Job!]!
+}
+
+# A paginated list of JobBatch items.
+type JobBatchPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of JobBatch items.
+  data: [JobBatch!]!
+}
+
+# A paginated list of Location items.
+type LocationPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Location items.
+  data: [Location!]!
+}
+
+# A paginated list of MeteringThermistorChain items.
+type MeteringThermistorChainPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of MeteringThermistorChain items.
+  data: [MeteringThermistorChain!]!
+}
+
+# A paginated list of MeteringThermistorChainPoint items.
+type MeteringThermistorChainPointPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of MeteringThermistorChainPoint items.
+  data: [MeteringThermistorChainPoint!]!
+}
+
+# A paginated list of Notification items.
+type NotificationPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Notification items.
+  data: [Notification!]!
+}
+
+# A paginated list of Session items.
+type SessionPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of Session items.
+  data: [Session!]!
+}
+
+# A paginated list of ThermistorChain items.
+type ThermistorChainPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of ThermistorChain items.
+  data: [ThermistorChain!]!
+}
+
+# A paginated list of User items.
+type UserPaginator {
+  # Pagination information about the list of items.
+  paginatorInfo: PaginatorInfo!
+
+  # A list of User items.
+  data: [User!]!
+}
+
+# Directions for ordering a list of records.
+enum SortOrder {
+  # Sort records in ascending order.
+  ASC
+
+  # Sort records in descending order.
+  DESC
+}
+
+# Aggregate functions when ordering by a relation without specifying a column.
+enum OrderByRelationAggregateFunction {
+  # Amount of items.
+  COUNT
+}
+
+# Aggregate functions when ordering by a relation that may specify a column.
+enum OrderByRelationWithColumnAggregateFunction {
+  # Average.
+  AVG
+
+  # Minimum.
+  MIN
+
+  # Maximum.
+  MAX
+
+  # Sum.
+  SUM
+
+  # Amount of items.
+  COUNT
+}
+
+# Allows ordering a list of records.
+input OrderByClause {
+  # The column that is used for ordering.
+  column: String!
+
+  # The direction that is used for ordering.
+  order: SortOrder!
+}
+
+# Specify if you want to include or exclude trashed results from a query.
+enum Trashed {
+  # Only return trashed results.
+  ONLY
+
+  # Return both trashed and non-trashed results.
+  WITH
+
+  # Only return non-trashed results.
+  WITHOUT
+}

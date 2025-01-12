@@ -7,6 +7,7 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import Home from "./pages/Home";
 import JournalPage from "./pages/JournalPage";
 import StatisticPage from "./pages/StatisticPage";
+import AntdConfigProvider from "./providers/AntdConfigProvider";
 const GlobalStyles = createGlobalStyle`
     body {
         margin: 0;
@@ -19,13 +20,15 @@ const App = () => {
     <ConfigProvider>
       <GlobalStyles />
       <Router>
-        <DefaultLayout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="1" element={<StatisticPage />} />
-            <Route path="2" element={<JournalPage />} />
-          </Routes>
-        </DefaultLayout>
+        <AntdConfigProvider>
+          <DefaultLayout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="1" element={<StatisticPage />} />
+              <Route path="2" element={<JournalPage />} />
+            </Routes>
+          </DefaultLayout>
+        </AntdConfigProvider>
       </Router>
     </ConfigProvider>
   );

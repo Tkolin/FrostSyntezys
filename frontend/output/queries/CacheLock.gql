@@ -1,0 +1,10 @@
+query CacheLock($id: ID!){
+    CacheLock(id: $id){
+        key
+        owner
+        expiration
+        created_at
+        updated_at
+        id
+    }
+}

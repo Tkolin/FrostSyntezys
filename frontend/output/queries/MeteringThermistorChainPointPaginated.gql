@@ -1,0 +1,21 @@
+query MeteringThermistorChainPointPaginated($first: Int!, $page: Int){
+    MeteringThermistorChainPointPaginated(first: $first, page: $page){
+        paginatorInfo{
+            count
+            currentPage
+            firstItem
+            hasMorePages
+            lastItem
+            lastPage
+            perPage
+            total
+        }
+        data{
+            id
+            metering_thermistor_chain_id
+            created_at
+            updated_at
+            metering_thermistor_chain
+        }
+    }
+}

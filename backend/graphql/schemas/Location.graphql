@@ -1,0 +1,36 @@
+extend type Query {
+    Locations: [Location!]! @all
+    LocationPaginated(first: Int, page: Int): [Location!]! @paginate
+    Location(id: ID!): Location @find
+}
+
+extend type Mutation {
+    createLocation(
+        id: Int
+        x: String
+        y: String
+        created_at: String
+        updated_at: String
+    ): Location @create
+
+    updateLocation(id: ID!,
+        id: Int
+        x: String
+        y: String
+        created_at: String
+        updated_at: String
+    ): Location @update
+
+    deleteLocation(id: ID!): Location @delete
+}
+
+type Location {
+        id: Int
+        x: String
+        y: String
+        created_at: String
+        updated_at: String
+    id: ID!
+        installed_thermistor_chains: [InstalledThermistorChain!]! @hasMany
+
+}

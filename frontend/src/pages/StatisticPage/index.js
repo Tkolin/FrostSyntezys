@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import ThermalKosaGroupTable from "./components/ThermalKosaGroupTable";
 import ThermalKosaTable from "./components/ThermalKosaTable";
 
@@ -10,6 +11,7 @@ const index = () => {
 
       <div style={{ width: "100%" }}>
         <ThermalKosaTable />
+        <Button>sfafasfas</Button>
       </div>
     </div>
   );

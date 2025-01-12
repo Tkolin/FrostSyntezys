@@ -1,0 +1,44 @@
+extend type Query {
+    Sessions: [Session!]! @all
+    SessionPaginated(first: Int, page: Int): [Session!]! @paginate
+    Session(id: ID!): Session @find
+}
+
+extend type Mutation {
+    createSession(
+        id: String
+        user_id: String
+        ip_address: String
+        user_agent: String
+        payload: String
+        last_activity: Int
+        created_at: String
+        updated_at: String
+    ): Session @create
+
+    updateSession(id: ID!,
+        id: String
+        user_id: String
+        ip_address: String
+        user_agent: String
+        payload: String
+        last_activity: Int
+        created_at: String
+        updated_at: String
+    ): Session @update
+
+    deleteSession(id: ID!): Session @delete
+}
+
+type Session {
+        id: String
+        user_id: String
+        ip_address: String
+        user_agent: String
+        payload: String
+        last_activity: Int
+        created_at: String
+        updated_at: String
+    id: ID!
+
+}

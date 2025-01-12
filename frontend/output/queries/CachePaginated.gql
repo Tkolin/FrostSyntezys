@@ -1,0 +1,22 @@
+query CachePaginated($first: Int!, $page: Int){
+    CachePaginated(first: $first, page: $page){
+        paginatorInfo{
+            count
+            currentPage
+            firstItem
+            hasMorePages
+            lastItem
+            lastPage
+            perPage
+            total
+        }
+        data{
+            key
+            value
+            expiration
+            created_at
+            updated_at
+            id
+        }
+    }
+}

@@ -1,0 +1,19 @@
+query FacilityPaginated($first: Int!, $page: Int){
+    FacilityPaginated(first: $first, page: $page){
+        paginatorInfo{
+            count
+            currentPage
+            firstItem
+            hasMorePages
+            lastItem
+            lastPage
+            perPage
+            total
+        }
+        data{
+            id
+            name
+            number
+        }
+    }
+}

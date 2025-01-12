@@ -1,0 +1,44 @@
+extend type Query {
+    Users: [User!]! @all
+    UserPaginated(first: Int, page: Int): [User!]! @paginate
+    User(id: ID!): User @find
+}
+
+extend type Mutation {
+    createUser(
+        id: Int
+        name: String
+        email: String
+        email_verified_at: String
+        password: String
+        remember_token: String
+        created_at: String
+        updated_at: String
+    ): User @create
+
+    updateUser(id: ID!,
+        id: Int
+        name: String
+        email: String
+        email_verified_at: String
+        password: String
+        remember_token: String
+        created_at: String
+        updated_at: String
+    ): User @update
+
+    deleteUser(id: ID!): User @delete
+}
+
+type User {
+        id: Int
+        name: String
+        email: String
+        email_verified_at: String
+        password: String
+        remember_token: String
+        created_at: String
+        updated_at: String
+    id: ID!
+
+}

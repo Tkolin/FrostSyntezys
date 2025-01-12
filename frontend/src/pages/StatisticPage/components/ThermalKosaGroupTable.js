@@ -1,26 +1,27 @@
-import { Table } from "antd";
+import { Button, Space, Table, Typography } from "antd";
+import dayjs from "dayjs";
 import React, { useState } from "react";
 const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
+    title: "Номер",
+    dataIndex: "number",
   },
   {
-    title: "Age",
-    dataIndex: "age",
+    title: "Дата изменения",
+    dataIndex: "datetime_edit",
   },
   {
-    title: "Address",
-    dataIndex: "address",
+    title: "Действия",
+    dataIndex: "activity",
   },
 ];
 const dataSource = Array.from({
   length: 46,
 }).map((_, i) => ({
   key: i,
-  name: `Edward King ${i}`,
-  age: 32,
-  address: `London, Park Lane no. ${i}`,
+  number: `saaew ${i}`,
+  datetime_edit: dayjs(),
+  activity: `+`,
 }));
 const ThermalKosaGroupTable = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -32,45 +33,50 @@ const ThermalKosaGroupTable = () => {
     selectedRowKeys,
     onChange: onSelectChange,
     selections: [
-      Table.SELECTION_ALL,
-      Table.SELECTION_INVERT,
-      Table.SELECTION_NONE,
-      {
-        key: "odd",
-        text: "Select Odd Row",
-        onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return false;
-            }
-            return true;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
-      {
-        key: "even",
-        text: "Select Even Row",
-        onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = [];
-          newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
-            if (index % 2 !== 0) {
-              return true;
-            }
-            return false;
-          });
-          setSelectedRowKeys(newSelectedRowKeys);
-        },
-      },
+      //   Table.SELECTION_ALL,
+      //   Table.SELECTION_INVERT,
+      //   Table.SELECTION_NONE,
+      //   {
+      //     key: "odd",
+      //     text: "Select Odd Row",
+      //     onSelect: (changeableRowKeys) => {
+      //       let newSelectedRowKeys = [];
+      //       newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
+      //         if (index % 2 !== 0) {
+      //           return false;
+      //         }
+      //         return true;
+      //       });
+      //       setSelectedRowKeys(newSelectedRowKeys);
+      //     },
+      //   },
+      //   {
+      //     key: "even",
+      //     text: "Select Even Row",
+      //     onSelect: (changeableRowKeys) => {
+      //       let newSelectedRowKeys = [];
+      //       newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
+      //         if (index % 2 !== 0) {
+      //           return true;
+      //         }
+      //         return false;
+      //       });
+      //       setSelectedRowKeys(newSelectedRowKeys);
+      //     },
+      //   },
     ],
   };
   return (
-    <Table
-      rowSelection={rowSelection}
-      columns={columns}
-      dataSource={dataSource}
-    />
+    <Space direction="vertical">
+      <Typography.Title level={2}>SfafsfaS</Typography.Title>
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={dataSource}
+      />
+
+      <Button style={{ width: "100%" }}>+</Button>
+    </Space>
   );
 };
 export default ThermalKosaGroupTable;

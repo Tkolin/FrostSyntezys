@@ -1,0 +1,53 @@
+extend type Query {
+    JobBatchs: [JobBatch!]! @all
+    JobBatchPaginated(first: Int, page: Int): [JobBatch!]! @paginate
+    JobBatch(id: ID!): JobBatch @find
+}
+
+extend type Mutation {
+    createJobBatch(
+        id: String
+        name: String
+        total_jobs: Int
+        pending_jobs: Int
+        failed_jobs: Int
+        failed_job_ids: String
+        options: String
+        cancelled_at: String
+        created_at: Int
+        finished_at: String
+        updated_at: String
+    ): JobBatch @create
+
+    updateJobBatch(id: ID!,
+        id: String
+        name: String
+        total_jobs: Int
+        pending_jobs: Int
+        failed_jobs: Int
+        failed_job_ids: String
+        options: String
+        cancelled_at: String
+        created_at: Int
+        finished_at: String
+        updated_at: String
+    ): JobBatch @update
+
+    deleteJobBatch(id: ID!): JobBatch @delete
+}
+
+type JobBatch {
+        id: String
+        name: String
+        total_jobs: Int
+        pending_jobs: Int
+        failed_jobs: Int
+        failed_job_ids: String
+        options: String
+        cancelled_at: String
+        created_at: Int
+        finished_at: String
+        updated_at: String
+    id: ID!
+
+}

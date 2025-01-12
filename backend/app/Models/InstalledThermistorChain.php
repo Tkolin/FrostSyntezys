@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * Created by Reliese Model.
+ */
+
+namespace App\Models;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Class InstalledThermistorChain
+ * 
+ * @property int $id
+ * @property int $thermistor_chain_id
+ * @property int $location_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * 
+ * @property Location $location
+ * @property ThermistorChain $thermistor_chain
+ * @property Collection|InstalledThermistorChainPoint[] $installed_thermistor_chain_points
+ * @property Collection|MeteringThermistorChain[] $metering_thermistor_chains
+ * @property Collection|Notification[] $notifications
+ *
+ * @package App\Models
+ */
+class InstalledThermistorChain extends Model
+{
+	protected $table = 'installed_thermistor_chains';
+	public $incrementing = false;
+
+	protected $casts = [
+		'id' => 'int',
+		'thermistor_chain_id' => 'int',
+		'location_id' => 'int'
+	];
+
+	protected $fillable = [
+		'thermistor_chain_id',
+		'location_id'
+	];
+
+	public function location()
+	{
+		return $this->belongsTo(Location::class);
+	}
+
+	public function thermistor_chain()
+	{
+		return $this->belongsTo(ThermistorChain::class);
+	}
+
+	public function installed_thermistor_chain_points()
+	{
+		return $this->hasMany(InstalledThermistorChainPoint::class, 'installed_thermistor_chains_id');
+	}
+
+	public function metering_thermistor_chains()
+	{
+		return $this->hasMany(MeteringThermistorChain::class, 'installed_thermistor_chains_id');
+	}
+
+	public function notifications()
+	{
+		return $this->hasMany(Notification::class, 'installed_thermistor_chains_id');
+	}
+}

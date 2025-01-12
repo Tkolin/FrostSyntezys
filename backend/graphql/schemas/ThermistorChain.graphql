@@ -1,0 +1,36 @@
+extend type Query {
+    ThermistorChains: [ThermistorChain!]! @all
+    ThermistorChainPaginated(first: Int, page: Int): [ThermistorChain!]! @paginate
+    ThermistorChain(id: ID!): ThermistorChain @find
+}
+
+extend type Mutation {
+    createThermistorChain(
+        id: Int
+        number: String
+        name: String
+        created_at: String
+        updated_at: String
+    ): ThermistorChain @create
+
+    updateThermistorChain(id: ID!,
+        id: Int
+        number: String
+        name: String
+        created_at: String
+        updated_at: String
+    ): ThermistorChain @update
+
+    deleteThermistorChain(id: ID!): ThermistorChain @delete
+}
+
+type ThermistorChain {
+        id: Int
+        number: String
+        name: String
+        created_at: String
+        updated_at: String
+    id: ID!
+        installed_thermistor_chains: [InstalledThermistorChain!]! @hasMany
+
+}

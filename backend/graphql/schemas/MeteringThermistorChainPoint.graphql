@@ -1,0 +1,35 @@
+extend type Query {
+    MeteringThermistorChainPoints: [MeteringThermistorChainPoint!]! @all
+    MeteringThermistorChainPointPaginated(first: Int, page: Int): [MeteringThermistorChainPoint!]! @paginate
+    MeteringThermistorChainPoint(id: ID!): MeteringThermistorChainPoint @find
+}
+
+extend type Mutation {
+    createMeteringThermistorChainPoint(
+        id: Int
+        metering_thermistor_chain_id: Int
+        created_at: String
+        updated_at: String
+        metering_thermistor_chain: String
+    ): MeteringThermistorChainPoint @create
+
+    updateMeteringThermistorChainPoint(id: ID!,
+        id: Int
+        metering_thermistor_chain_id: Int
+        created_at: String
+        updated_at: String
+        metering_thermistor_chain: String
+    ): MeteringThermistorChainPoint @update
+
+    deleteMeteringThermistorChainPoint(id: ID!): MeteringThermistorChainPoint @delete
+}
+
+type MeteringThermistorChainPoint {
+        id: Int
+        metering_thermistor_chain_id: Int
+        created_at: String
+        updated_at: String
+        metering_thermistor_chain: String
+    id: ID!
+
+}

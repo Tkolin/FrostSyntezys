@@ -1,0 +1,9 @@
+query MeteringThermistorChainPoint($id: ID!){
+    MeteringThermistorChainPoint(id: $id){
+        id
+        metering_thermistor_chain_id
+        created_at
+        updated_at
+        metering_thermistor_chain
+    }
+}

@@ -1,0 +1,47 @@
+extend type Query {
+    Notifications: [Notification!]! @all
+    NotificationPaginated(first: Int, page: Int): [Notification!]! @paginate
+    Notification(id: ID!): Notification @find
+}
+
+extend type Mutation {
+    createNotification(
+        id: Int
+        installed_thermistor_chains_id: Int
+        description: String
+        date_start: String
+        date_end: String
+        user_id: String
+        created_at: String
+        updated_at: String
+        installed_thermistor_chain: String
+    ): Notification @create
+
+    updateNotification(id: ID!,
+        id: Int
+        installed_thermistor_chains_id: Int
+        description: String
+        date_start: String
+        date_end: String
+        user_id: String
+        created_at: String
+        updated_at: String
+        installed_thermistor_chain: String
+    ): Notification @update
+
+    deleteNotification(id: ID!): Notification @delete
+}
+
+type Notification {
+        id: Int
+        installed_thermistor_chains_id: Int
+        description: String
+        date_start: String
+        date_end: String
+        user_id: String
+        created_at: String
+        updated_at: String
+        installed_thermistor_chain: String
+    id: ID!
+
+}

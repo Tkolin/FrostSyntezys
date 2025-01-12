@@ -1,0 +1,35 @@
+extend type Query {
+    Caches: [Cache!]! @all
+    CachePaginated(first: Int, page: Int): [Cache!]! @paginate
+    Cache(id: ID!): Cache @find
+}
+
+extend type Mutation {
+    createCache(
+        key: String
+        value: String
+        expiration: Int
+        created_at: String
+        updated_at: String
+    ): Cache @create
+
+    updateCache(id: ID!,
+        key: String
+        value: String
+        expiration: Int
+        created_at: String
+        updated_at: String
+    ): Cache @update
+
+    deleteCache(id: ID!): Cache @delete
+}
+
+type Cache {
+        key: String
+        value: String
+        expiration: Int
+        created_at: String
+        updated_at: String
+    id: ID!
+
+}

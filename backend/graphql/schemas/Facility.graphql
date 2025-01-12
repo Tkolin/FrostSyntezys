@@ -1,0 +1,29 @@
+extend type Query {
+    Facilitys: [Facility!]! @all
+    FacilityPaginated(first: Int, page: Int): [Facility!]! @paginate
+    Facility(id: ID!): Facility @find
+}
+
+extend type Mutation {
+    createFacility(
+        id: Int
+        name: String
+        number: String
+    ): Facility @create
+
+    updateFacility(id: ID!,
+        id: Int
+        name: String
+        number: String
+    ): Facility @update
+
+    deleteFacility(id: ID!): Facility @delete
+}
+
+type Facility {
+        id: Int
+        name: String
+        number: String
+    id: ID!
+
+}

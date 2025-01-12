@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Breadcrumb, Layout, Menu, theme, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddDocumentIcon from "../icons/AddDocumentIcon";
@@ -51,6 +51,7 @@ const DefaultLayout = ({ children, error }) => {
       }}
     >
       <Sider
+        theme="light"
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
@@ -62,17 +63,26 @@ const DefaultLayout = ({ children, error }) => {
             justifyContent: "center",
             marginTop: "20px",
             marginBottom: "20px",
+            color: "#2764FD",
           }}
         >
           {" "}
           {!collapsed ? (
-            <img src="full_logo.svg" style={{ height: "50px" }} />
+            <img
+              src="full_logo.svg"
+              style={{
+                height: "50px",
+                color: "#2764FD",
+                fill: "#2764FD",
+                fill: "#2764FD",
+              }}
+            />
           ) : (
-            <img src="logo.svg" style={{ height: "50px" }} />
+            <img src="logo.svg" style={{ height: "50px", color: "#2764FD" }} />
           )}
         </div>
         <Menu
-          theme="dark"
+          // theme="dark"
           defaultSelectedKeys={["1"]}
           mode="inline"
           items={items}
@@ -81,24 +91,27 @@ const DefaultLayout = ({ children, error }) => {
         />
       </Sider>
       <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
         <Content
           style={{
-            margin: "0 16px",
+            margin: "0 32px",
           }}
         >
           <Breadcrumb
             style={{
-              margin: "16px 0",
+              margin: "64px 0px 0px 0px",
             }}
           >
             <Breadcrumb.Item>{breadcrumb}</Breadcrumb.Item>
+            <Breadcrumb.Item>{breadcrumb}</Breadcrumb.Item>
           </Breadcrumb>
+          <Typography.Title
+            level={1}
+            style={{
+              margin: "0px 0px 32px 0px",
+            }}
+          >
+            {breadcrumb}
+          </Typography.Title>
           <div
             style={{
               padding: 24,

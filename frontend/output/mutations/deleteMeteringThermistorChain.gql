@@ -1,0 +1,17 @@
+mutation deleteMeteringThermistorChain($id: ID!){
+    deleteMeteringThermistorChain(id: $id){
+        id
+        installed_thermistor_chains_id
+        date_metering
+        created_at
+        updated_at
+        installed_thermistor_chain
+        metering_thermistor_chain_points{
+            id
+            metering_thermistor_chain_id
+            created_at
+            updated_at
+            metering_thermistor_chain
+        }
+    }
+}

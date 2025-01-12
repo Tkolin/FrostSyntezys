@@ -1,0 +1,44 @@
+extend type Query {
+    Jobs: [Job!]! @all
+    JobPaginated(first: Int, page: Int): [Job!]! @paginate
+    Job(id: ID!): Job @find
+}
+
+extend type Mutation {
+    createJob(
+        id: Int
+        queue: String
+        payload: String
+        attempts: Int
+        reserved_at: String
+        available_at: Int
+        created_at: Int
+        updated_at: String
+    ): Job @create
+
+    updateJob(id: ID!,
+        id: Int
+        queue: String
+        payload: String
+        attempts: Int
+        reserved_at: String
+        available_at: Int
+        created_at: Int
+        updated_at: String
+    ): Job @update
+
+    deleteJob(id: ID!): Job @delete
+}
+
+type Job {
+        id: Int
+        queue: String
+        payload: String
+        attempts: Int
+        reserved_at: String
+        available_at: Int
+        created_at: Int
+        updated_at: String
+    id: ID!
+
+}

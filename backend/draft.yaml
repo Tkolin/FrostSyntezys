@@ -1,0 +1,73 @@
+models:
+  Cache:
+    id: id
+    value: string
+    expiration: string
+  CacheLock:
+    id: id
+    owner: string
+    expiration: string
+  Facility:
+    id: id
+    name: string
+    number: string
+  InstalledThermistorChain:
+    id: id
+    thermistor_chain_id: string
+    location_id: string
+  InstalledThermistorChainPoint:
+    id: id
+    installed_thermistor_chains_id: string
+    deep: string
+  Job:
+    id: id
+    queue: string
+    payload: string
+    attempts: string
+    reserved_at: string
+    available_at: string
+  JobBatch:
+    id: id
+    name: string
+    total_jobs: string
+    pending_jobs: string
+    failed_jobs: string
+    failed_job_ids: string
+    options: string
+    cancelled_at: string
+    finished_at: string
+  Location:
+    id: id
+  MeteringThermistorChain:
+    id: id
+    installed_thermistor_chains_id: string
+    date_metering: string
+  MeteringThermistorChainPoint:
+    id: id
+    metering_thermistor_chain_id: string
+    value: string
+  Notification:
+    id: id
+    installed_thermistor_chains_id: string
+    description: string
+    date_start: string
+    date_end: string
+    user_id: string
+  Session:
+    id: id
+    user_id: string
+    ip_address: string
+    user_agent: string
+    payload: string
+    last_activity: string
+  ThermistorChain:
+    id: id
+    model: string
+    name: string
+  User:
+    id: id
+    name: string
+    email: string
+    email_verified_at: string
+    password: string
+    remember_token: string

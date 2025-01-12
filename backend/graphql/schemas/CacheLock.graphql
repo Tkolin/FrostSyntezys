@@ -1,0 +1,35 @@
+extend type Query {
+    CacheLocks: [CacheLock!]! @all
+    CacheLockPaginated(first: Int, page: Int): [CacheLock!]! @paginate
+    CacheLock(id: ID!): CacheLock @find
+}
+
+extend type Mutation {
+    createCacheLock(
+        key: String
+        owner: String
+        expiration: Int
+        created_at: String
+        updated_at: String
+    ): CacheLock @create
+
+    updateCacheLock(id: ID!,
+        key: String
+        owner: String
+        expiration: Int
+        created_at: String
+        updated_at: String
+    ): CacheLock @update
+
+    deleteCacheLock(id: ID!): CacheLock @delete
+}
+
+type CacheLock {
+        key: String
+        owner: String
+        expiration: Int
+        created_at: String
+        updated_at: String
+    id: ID!
+
+}
