@@ -1,0 +1,49 @@
+import gql from 'graphql-tag';
+
+export default gql`mutation updateInstalledThermistorChain($id: Int, $thermistor_chain_id: Int, $location_id: Int, $created_at: String, $updated_at: String, $location: String, $thermistor_chain: String){
+    updateInstalledThermistorChain(id: $id, thermistor_chain_id: $thermistor_chain_id, location_id: $location_id, created_at: $created_at, updated_at: $updated_at, location: $location, thermistor_chain: $thermistor_chain){
+        id
+        thermistor_chain_id
+        location_id
+        created_at
+        updated_at
+        location
+        thermistor_chain
+        installed_thermistor_chain_points{
+            installed_thermistor_chains_id
+            id
+            deep
+            created_at
+            updated_at
+            installed_thermistor_chain
+        }
+        metering_thermistor_chains{
+            id
+            installed_thermistor_chains_id
+            date_metering
+            created_at
+            updated_at
+            installed_thermistor_chain
+            metering_thermistor_chain_points{
+                id
+                metering_thermistor_chain_id
+                created_at
+                updated_at
+                value
+                unit_id
+                metering_thermistor_chain
+            }
+        }
+        notifications{
+            id
+            installed_thermistor_chains_id
+            description
+            date_start
+            date_end
+            user_id
+            created_at
+            updated_at
+            installed_thermistor_chain
+        }
+    }
+}`;

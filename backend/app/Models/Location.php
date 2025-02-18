@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $y
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property string|null $name
  * 
  * @property Collection|InstalledThermistorChain[] $installed_thermistor_chains
  *
@@ -34,7 +35,8 @@ class Location extends Model
 
 	protected $fillable = [
 		'x',
-		'y'
+		'y',
+		'name'
 	];
 
 	public function installed_thermistor_chains()

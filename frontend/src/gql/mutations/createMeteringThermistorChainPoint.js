@@ -1,0 +1,13 @@
+import gql from 'graphql-tag';
+
+export default gql`mutation createMeteringThermistorChainPoint($id: Int, $metering_thermistor_chain_id: Int, $created_at: String, $updated_at: String, $value: String, $unit_id: String, $metering_thermistor_chain: String){
+    createMeteringThermistorChainPoint(id: $id, metering_thermistor_chain_id: $metering_thermistor_chain_id, created_at: $created_at, updated_at: $updated_at, value: $value, unit_id: $unit_id, metering_thermistor_chain: $metering_thermistor_chain){
+        id
+        metering_thermistor_chain_id
+        created_at
+        updated_at
+        value
+        unit_id
+        metering_thermistor_chain
+    }
+}`;

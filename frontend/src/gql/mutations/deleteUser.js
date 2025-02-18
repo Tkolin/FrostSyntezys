@@ -1,0 +1,14 @@
+import gql from 'graphql-tag';
+
+export default gql`mutation deleteUser($id: ID!){
+    deleteUser(id: $id){
+        id
+        name
+        email
+        email_verified_at
+        password
+        remember_token
+        created_at
+        updated_at
+    }
+}`;

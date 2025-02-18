@@ -1,0 +1,21 @@
+import gql from 'graphql-tag';
+
+export default gql`query MeteringThermistorChain($id: ID!){
+    MeteringThermistorChain(id: $id){
+        id
+        installed_thermistor_chains_id
+        date_metering
+        created_at
+        updated_at
+        installed_thermistor_chain
+        metering_thermistor_chain_points{
+            id
+            metering_thermistor_chain_id
+            created_at
+            updated_at
+            value
+            unit_id
+            metering_thermistor_chain
+        }
+    }
+}`;

@@ -10,6 +10,8 @@ extend type Mutation {
         metering_thermistor_chain_id: Int
         created_at: String
         updated_at: String
+        value: String
+        unit_id: String
         metering_thermistor_chain: String
     ): MeteringThermistorChainPoint @create
 
@@ -18,6 +20,8 @@ extend type Mutation {
         metering_thermistor_chain_id: Int
         created_at: String
         updated_at: String
+        value: String
+        unit_id: String
         metering_thermistor_chain: String
     ): MeteringThermistorChainPoint @update
 
@@ -29,6 +33,8 @@ type MeteringThermistorChainPoint {
         metering_thermistor_chain_id: Int
         created_at: String
         updated_at: String
+        value: String
+        unit_id: String
         metering_thermistor_chain: String
     id: ID!
 

@@ -1,7 +1,0 @@
-mutation createFacility($id: Int, $name: String, $number: String){
-    createFacility(id: $id, name: $name, number: $number){
-        id
-        name
-        number
-    }
-}

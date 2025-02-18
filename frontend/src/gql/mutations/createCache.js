@@ -1,0 +1,12 @@
+import gql from 'graphql-tag';
+
+export default gql`mutation createCache($key: String, $value: String, $expiration: Int, $created_at: String, $updated_at: String){
+    createCache(key: $key, value: $value, expiration: $expiration, created_at: $created_at, updated_at: $updated_at){
+        key
+        value
+        expiration
+        created_at
+        updated_at
+        id
+    }
+}`;

@@ -1,0 +1,14 @@
+import gql from 'graphql-tag';
+
+export default gql`query Job($id: ID!){
+    Job(id: $id){
+        id
+        queue
+        payload
+        attempts
+        reserved_at
+        available_at
+        created_at
+        updated_at
+    }
+}`;

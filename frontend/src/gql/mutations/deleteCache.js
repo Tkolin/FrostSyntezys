@@ -1,0 +1,12 @@
+import gql from 'graphql-tag';
+
+export default gql`mutation deleteCache($id: ID!){
+    deleteCache(id: $id){
+        key
+        value
+        expiration
+        created_at
+        updated_at
+        id
+    }
+}`;

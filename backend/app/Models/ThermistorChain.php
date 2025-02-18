@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property int|null $point_count
+ * @property float|null $point_step
  * 
  * @property Collection|InstalledThermistorChain[] $installed_thermistor_chains
  *
@@ -29,12 +31,16 @@ class ThermistorChain extends Model
 	public $incrementing = false;
 
 	protected $casts = [
-		'id' => 'int'
+		'id' => 'int',
+		'point_count' => 'int',
+		'point_step' => 'float'
 	];
 
 	protected $fillable = [
 		'number',
-		'name'
+		'name',
+		'point_count',
+		'point_step'
 	];
 
 	public function installed_thermistor_chains()

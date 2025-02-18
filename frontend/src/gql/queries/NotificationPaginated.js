@@ -1,0 +1,27 @@
+import gql from 'graphql-tag';
+
+export default gql`query NotificationPaginated($first: Int!, $page: Int){
+    NotificationPaginated(first: $first, page: $page){
+        paginatorInfo{
+            count
+            currentPage
+            firstItem
+            hasMorePages
+            lastItem
+            lastPage
+            perPage
+            total
+        }
+        data{
+            id
+            installed_thermistor_chains_id
+            description
+            date_start
+            date_end
+            user_id
+            created_at
+            updated_at
+            installed_thermistor_chain
+        }
+    }
+}`;

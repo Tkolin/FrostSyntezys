@@ -1,7 +1,0 @@
-mutation deleteFacility($id: ID!){
-    deleteFacility(id: $id){
-        id
-        name
-        number
-    }
-}

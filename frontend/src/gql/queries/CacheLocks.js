@@ -1,0 +1,12 @@
+import gql from 'graphql-tag';
+
+export default gql`query CacheLocks{
+    CacheLocks{
+        key
+        owner
+        expiration
+        created_at
+        updated_at
+        id
+    }
+}`;

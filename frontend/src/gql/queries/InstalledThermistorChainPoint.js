@@ -1,0 +1,12 @@
+import gql from 'graphql-tag';
+
+export default gql`query InstalledThermistorChainPoint($id: ID!){
+    InstalledThermistorChainPoint(id: $id){
+        installed_thermistor_chains_id
+        id
+        deep
+        created_at
+        updated_at
+        installed_thermistor_chain
+    }
+}`;

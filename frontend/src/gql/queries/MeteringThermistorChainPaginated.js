@@ -1,0 +1,33 @@
+import gql from 'graphql-tag';
+
+export default gql`query MeteringThermistorChainPaginated($first: Int!, $page: Int){
+    MeteringThermistorChainPaginated(first: $first, page: $page){
+        paginatorInfo{
+            count
+            currentPage
+            firstItem
+            hasMorePages
+            lastItem
+            lastPage
+            perPage
+            total
+        }
+        data{
+            id
+            installed_thermistor_chains_id
+            date_metering
+            created_at
+            updated_at
+            installed_thermistor_chain
+            metering_thermistor_chain_points{
+                id
+                metering_thermistor_chain_id
+                created_at
+                updated_at
+                value
+                unit_id
+                metering_thermistor_chain
+            }
+        }
+    }
+}`;

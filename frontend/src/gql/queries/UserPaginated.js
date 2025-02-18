@@ -1,0 +1,26 @@
+import gql from 'graphql-tag';
+
+export default gql`query UserPaginated($first: Int!, $page: Int){
+    UserPaginated(first: $first, page: $page){
+        paginatorInfo{
+            count
+            currentPage
+            firstItem
+            hasMorePages
+            lastItem
+            lastPage
+            perPage
+            total
+        }
+        data{
+            id
+            name
+            email
+            email_verified_at
+            password
+            remember_token
+            created_at
+            updated_at
+        }
+    }
+}`;

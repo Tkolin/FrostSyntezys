@@ -11,6 +11,8 @@ extend type Mutation {
         name: String
         created_at: String
         updated_at: String
+        point_count: String
+        point_step: String
     ): ThermistorChain @create
 
     updateThermistorChain(id: ID!,
@@ -19,6 +21,8 @@ extend type Mutation {
         name: String
         created_at: String
         updated_at: String
+        point_count: String
+        point_step: String
     ): ThermistorChain @update
 
     deleteThermistorChain(id: ID!): ThermistorChain @delete
@@ -30,6 +34,8 @@ type ThermistorChain {
         name: String
         created_at: String
         updated_at: String
+        point_count: String
+        point_step: String
     id: ID!
         installed_thermistor_chains: [InstalledThermistorChain!]! @hasMany
 

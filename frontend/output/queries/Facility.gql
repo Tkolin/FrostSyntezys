@@ -1,7 +1,0 @@
-query Facility($id: ID!){
-    Facility(id: $id){
-        id
-        name
-        number
-    }
-}
