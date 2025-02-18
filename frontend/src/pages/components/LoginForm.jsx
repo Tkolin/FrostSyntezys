@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { Form, Input, message } from "antd";
+import { Button, Checkbox, Form, Input, message, Typography } from "antd";
 import React, { useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -49,20 +49,33 @@ const LoginForm = ({}) => {
       onFinish={onFinish}
       initialValues={{ remember: true }}
     >
+      <Typography.Title>Вход</Typography.Title>
+      <Typography.Text>Введите свой логин и пароль</Typography.Text>
       <Form.Item
         name="email"
+        label="e-Mail"
         rules={[{ required: true, message: "Пожалуйста введите email!" }]}
       >
         <Input placeholder="Email" />
       </Form.Item>
 
       <Form.Item
-        name="password"
+        name="password"        label="Пароль"
+
         rules={[{ required: true, message: "Пожалуйста введите пароль!" }]}
       >
         <Input.Password placeholder="Password" />
       </Form.Item>
-
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 15 }}>
+     
+            <Checkbox placeholder="Password" title="Не выходить">Не выходить</Checkbox>
+        <Typography.Link>Напомнить пароль?</Typography.Link>
+      </div>
+      <Button type={"primary"} style={{ width: "100%", marginBottom: 15 }}>Sign In</Button>
+            <div style={{ display: "flex", }}>
+     
+        Нет аккаунта? <Typography.Link>{" " }Создать аккаунт</Typography.Link>
+      </div>
       {error && <p>Error: {error.message}</p>}
     </Form>
   );

@@ -4,7 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 
 import DefaultLayout from "./layouts/DefaultLayout";
-import Home from "./pages/Home";
+import AuthPage from "./pages/AuthPage";
 import JournalPage from "./pages/JournalPage";
 import StatisticPage from "./pages/StatisticPage";
 import AntdConfigProvider from "./providers/AntdConfigProvider";
@@ -23,9 +23,9 @@ const App = () => {
         <AntdConfigProvider>
           <DefaultLayout>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="1" element={<StatisticPage />} />
-              <Route path="2" element={<JournalPage />} />
+              <Route path="/login" element={<AuthPage />} />
+              <Route path="/static" element={<StatisticPage />} />
+              <Route path="/journal" element={<JournalPage />} />
             </Routes>
           </DefaultLayout>
         </AntdConfigProvider>

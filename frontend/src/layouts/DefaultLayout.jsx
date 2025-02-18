@@ -20,12 +20,13 @@ function getItem(label, key, icon, disabled, children) {
 const items = [
   getItem("Карта", "-1", <MapIcon />, true),
   getItem("Импорт", "-2", <ExportIcon />, true),
-  getItem("Статистика", "1", <StaticIcon />, false),
+  getItem("Статистика", "/static/", <StaticIcon />, false),
   getItem("Визуализация", "-4", <ImageIcon />, true),
-  getItem("Журнал", "2", <ListIcon />, false),
+  getItem("Журнал", "/journal/", <ListIcon />, false),
   getItem("Документация", "-6", <AddDocumentIcon />, true),
   getItem("Настройки", "-7", <ImageIcon />, true),
   getItem("Личный кабинет", "", <ImageIcon />, false),
+  getItem("Вход", "/login/", <ImageIcon />, false),
 ];
 const DefaultLayout = ({ children, error }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -73,7 +74,6 @@ const DefaultLayout = ({ children, error }) => {
               style={{
                 height: "50px",
                 color: "#2764FD",
-                fill: "#2764FD",
                 fill: "#2764FD",
               }}
             />
