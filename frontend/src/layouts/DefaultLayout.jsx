@@ -1,12 +1,7 @@
+import { BarChartOutlined, CompassOutlined, ExportOutlined, FileTextOutlined, ImportOutlined, InboxOutlined, LoginOutlined, LogoutOutlined, PieChartOutlined, SettingOutlined, UnorderedListOutlined, UserOutlined } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import AddDocumentIcon from "../icons/AddDocumentIcon";
-import ExportIcon from "../icons/ExportIcon";
-import ImageIcon from "../icons/ImageIcon";
-import ListIcon from "../icons/ListIcon";
-import MapIcon from "../icons/MapIcon";
-import StaticIcon from "../icons/StaticIcon";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, disabled, children) {
   return {
@@ -18,15 +13,20 @@ function getItem(label, key, icon, disabled, children) {
   };
 }
 const items = [
-  getItem("Карта", "-1", <MapIcon />, true),
-  getItem("Импорт", "-2", <ExportIcon />, true),
-  getItem("Статистика", "/static/", <StaticIcon />, false),
-  getItem("Визуализация", "-4", <ImageIcon />, true),
-  getItem("Журнал", "/journal/", <ListIcon />, false),
-  getItem("Документация", "-6", <AddDocumentIcon />, true),
-  getItem("Настройки", "-7", <ImageIcon />, true),
-  getItem("Личный кабинет", "", <ImageIcon />, false),
-  getItem("Вход", "/login/", <ImageIcon />, false),
+  getItem("Карта", "-1", <CompassOutlined />, true),
+  getItem("Импорт", "-2", <ImportOutlined />, true),
+  getItem("Экспорт", "-2", <ExportOutlined />, true),
+  getItem("Список оборудования", "thermistor_chains", <InboxOutlined />, false),
+  getItem("Список пользователей", "user_list", <InboxOutlined />, false),
+  getItem("Список объектов", "object_list", <InboxOutlined />, false),
+  getItem("Статистика", "static",  <BarChartOutlined />, false),
+  getItem("Визуализация", "-4", <PieChartOutlined />, true),
+  getItem("Журнал", "journal", <UnorderedListOutlined />, false),
+  getItem("Документация", "-6", <FileTextOutlined />, true),
+  getItem("Настройки", "-7", <SettingOutlined />, true),
+  getItem("Личный кабинет", "account", <UserOutlined />, false),
+  getItem("Вход", "login", <LoginOutlined />, false),
+  getItem("Выход", "exit", <LogoutOutlined />, false),
 ];
 const DefaultLayout = ({ children, error }) => {
   const [collapsed, setCollapsed] = useState(false);

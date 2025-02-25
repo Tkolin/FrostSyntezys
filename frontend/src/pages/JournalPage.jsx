@@ -1,5 +1,5 @@
 import { Alert, Card } from "antd";
-import RequestTable from "./components/RequestTable";
+import RequestTable from "./components/tables/RequestTable";
 
 const JournalPage = () => {
   return (

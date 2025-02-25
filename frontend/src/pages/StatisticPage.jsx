@@ -1,60 +1,66 @@
-import { Alert, Button, Card, Modal, Typography } from "antd";
-import { useState } from "react";
-import RegisterThermalKosaInGroup from "./components/RegisterThermalKosaInGroup";
-import ThermalKosaGroupTable from "./components/ThermalKosaGroupTable";
-import ThermalKosaTable from "./components/ThermalKosaTable";
+import { AppstoreAddOutlined } from '@ant-design/icons'
+import { Alert, Button, Card, Modal, Space, Typography } from 'antd'
+import { useState } from 'react'
+import RegisterThermalChainInGroup from './components/forms/RegisterThermalChainInGroupForm'
+import MeteringThermalChainTable from './components/MeteringThermalChainTable'
+import ThermalChainGroupTable from './components/tables/ThermalChainGroupTable'
 
 const StatisticPage = () => {
-  const [thermalKosaGroupSelected, setThermalKosaGroupSelected] = useState([]);
-  const [modalAddThermalKosa, setModalAddThermalKosa] = useState(false);
+  const [thermalChainGroupSelected, setThermalChainGroupSelected] = useState([])
+  const [modalAddThermalChain, setModalAddThermalChain] = useState(false)
 
   return (
     <div
       style={{
-        height: "100%",
-        gap: "5px",
-        display: "flex",
+        height: '100%',
+        gap: '5px',
+        display: 'flex'
       }}
     >
-      <Card style={{ width: "100%", maxWidth: "500px" }}>
-        <Alert message="Список термакос"></Alert>
+      <Card style={{ width: '100%', maxWidth: '500px' }}>
+        <Alert message='Список термакос'></Alert>
 
-        <ThermalKosaGroupTable
-          changeSelectedThermalKos={setThermalKosaGroupSelected}
+        <ThermalChainGroupTable
+          changeSelectedThermalKos={setThermalChainGroupSelected}
         />
         <Button
-          style={{ width: "100%" }}
-          onClick={() => setModalAddThermalKosa(true)}
+          style={{ width: '100%' }}
+          onClick={() => setModalAddThermalChain(true)}
         >
           +
         </Button>
         <Modal
-          open={modalAddThermalKosa}
-          onClose={() => setModalAddThermalKosa(false)}
-          onCancel={() => setModalAddThermalKosa(false)}
-          title={"Регистрация термокосы"}
+          open={modalAddThermalChain}
+          onClose={() => setModalAddThermalChain(false)}
+          onCancel={() => setModalAddThermalChain(false)}
+          title={'Регистрация термокосы'}
         >
-          <RegisterThermalKosaInGroup />
+          <RegisterThermalChainInGroup />
         </Modal>
-        {thermalKosaGroupSelected}
+        {thermalChainGroupSelected}
       </Card>
 
-      <div style={{ width: "100%" }}>
-        <Card style={{ width: "100%" }}>
-          <Alert message="Настройка отображения датчиков"></Alert>
+      <div style={{ width: '100%' }}>
+        <Card style={{ width: '100%' }}>
+          <Alert message='Настройка отображения датчиков'></Alert>
           <Typography.Title level={5} style={{ marginTop: 0 }}>
             Настройки отображения
           </Typography.Title>
           {/* <Calendar fullscreen={false} /> */}
         </Card>
-        {thermalKosaGroupSelected?.map((row) => (
-          <Card style={{ width: "100%" }}>
-            <Alert message={"Замеры по термокосе " + row}></Alert>
-            <ThermalKosaTable thermalKosaId={row} />
+        {thermalChainGroupSelected?.map(row => (
+          <Card style={{ width: '100%' }}>
+            <Alert message={'Замеры по термокосе ' + row}></Alert>
+            <Space>
+              <MeteringThermalChainTable thermalChainId={row} />
+              <Button icon={<AppstoreAddOutlined />} style={{ heigth: '100%' }}>
+                Внести данные вручную
+              </Button>
+            </Space>
           </Card>
         ))}
       </div>
     </div>
-  );
-};
-export default StatisticPage;
+  )
+}
+export default StatisticPage
