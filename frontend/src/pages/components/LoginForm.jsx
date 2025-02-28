@@ -3,18 +3,13 @@ import { Button, Checkbox, Form, Input, message, Typography } from "antd";
 import React, { useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import createCache from "../../gql/mutations/createCache";
-
+ 
 const LoginForm = ({}) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [loadingSecond, setLoadingSecond] = useState(false);
   // const { openNotification } = useContext(NotificationContext);
-  const [login, { loading, error }] = useMutation(createCache, {
-    onCompleted: () => {
-      // openNotification("topRight", "success", "Вход выполнен!");
-    },
-  });
+  const [login, { loading, error }] ={};
 
   const onFinish = async (values) => {
     const { email, password } = form.getFieldsValue(); // Извлекаем значения email и password из формы
