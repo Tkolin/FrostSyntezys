@@ -5,6 +5,10 @@ query InstalledThermistorChainPoints{
         deep
         created_at
         updated_at
+        min_warning_temperature
+        max_warning_temperature
+        min_critical_temperature
+        max_critical_temperature
         installed_thermistor_chain
     }
 }

@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property string $key
  * @property string $owner
- * @property int $expiration
+ * @property Carbon $expiration
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
@@ -27,7 +27,7 @@ class CacheLock extends Model
 	public $incrementing = false;
 
 	protected $casts = [
-		'expiration' => 'int'
+		'expiration' => 'datetime'
 	];
 
 	protected $fillable = [

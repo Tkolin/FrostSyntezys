@@ -17,6 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $deep
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property float|null $min_warning_temperature
+ * @property float|null $max_warning_temperature
+ * @property float|null $min_critical_temperature
+ * @property float|null $max_critical_temperature
  * 
  * @property InstalledThermistorChain $installed_thermistor_chain
  *
@@ -28,12 +32,20 @@ class InstalledThermistorChainPoint extends Model
 
 	protected $casts = [
 		'installed_thermistor_chains_id' => 'int',
-		'deep' => 'float'
+		'deep' => 'float',
+		'min_warning_temperature' => 'float',
+		'max_warning_temperature' => 'float',
+		'min_critical_temperature' => 'float',
+		'max_critical_temperature' => 'float'
 	];
 
 	protected $fillable = [
 		'installed_thermistor_chains_id',
-		'deep'
+		'deep',
+		'min_warning_temperature',
+		'max_warning_temperature',
+		'min_critical_temperature',
+		'max_critical_temperature'
 	];
 
 	public function installed_thermistor_chain()

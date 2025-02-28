@@ -11,8 +11,8 @@ extend type Mutation {
         payload: String
         attempts: Int
         reserved_at: String
-        available_at: Int
-        created_at: Int
+        available_at: String
+        created_at: String
         updated_at: String
     ): Job @create
 
@@ -22,8 +22,8 @@ extend type Mutation {
         payload: String
         attempts: Int
         reserved_at: String
-        available_at: Int
-        created_at: Int
+        available_at: String
+        created_at: String
         updated_at: String
     ): Job @update
 
@@ -36,8 +36,8 @@ type Job {
         payload: String
         attempts: Int
         reserved_at: String
-        available_at: Int
-        created_at: Int
+        available_at: String
+        created_at: String
         updated_at: String
     id: ID!
 

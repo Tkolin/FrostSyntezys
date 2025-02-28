@@ -1,18 +1,26 @@
-mutation updateInstalledThermistorChain($id: Int, $thermistor_chain_id: Int, $location_id: Int, $created_at: String, $updated_at: String, $location: String, $thermistor_chain: String){
-    updateInstalledThermistorChain(id: $id, thermistor_chain_id: $thermistor_chain_id, location_id: $location_id, created_at: $created_at, updated_at: $updated_at, location: $location, thermistor_chain: $thermistor_chain){
+mutation updateInstalledThermistorChain($id: Int, $thermistor_chain_id: Int, $location_id: Int, $created_at: String, $updated_at: String, $min_warning_temperature: String, $max_warning_temperature: String, $min_critical_temperature: String, $max_critical_temperature: String, $thermistor_chain: String, $location: String){
+    updateInstalledThermistorChain(id: $id, thermistor_chain_id: $thermistor_chain_id, location_id: $location_id, created_at: $created_at, updated_at: $updated_at, min_warning_temperature: $min_warning_temperature, max_warning_temperature: $max_warning_temperature, min_critical_temperature: $min_critical_temperature, max_critical_temperature: $max_critical_temperature, thermistor_chain: $thermistor_chain, location: $location){
         id
         thermistor_chain_id
         location_id
         created_at
         updated_at
-        location
+        min_warning_temperature
+        max_warning_temperature
+        min_critical_temperature
+        max_critical_temperature
         thermistor_chain
+        location
         installed_thermistor_chain_points{
             installed_thermistor_chains_id
             id
             deep
             created_at
             updated_at
+            min_warning_temperature
+            max_warning_temperature
+            min_critical_temperature
+            max_critical_temperature
             installed_thermistor_chain
         }
         metering_thermistor_chains{

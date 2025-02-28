@@ -19,9 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $failed_jobs
  * @property string $failed_job_ids
  * @property string|null $options
- * @property int|null $cancelled_at
- * @property int $created_at
- * @property int|null $finished_at
+ * @property Carbon|null $cancelled_at
+ * @property Carbon $created_at
+ * @property Carbon|null $finished_at
  * @property Carbon|null $updated_at
  *
  * @package App\Models
@@ -35,8 +35,8 @@ class JobBatch extends Model
 		'total_jobs' => 'int',
 		'pending_jobs' => 'int',
 		'failed_jobs' => 'int',
-		'cancelled_at' => 'int',
-		'finished_at' => 'int'
+		'cancelled_at' => 'datetime',
+		'finished_at' => 'datetime'
 	];
 
 	protected $fillable = [

@@ -18,9 +18,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $location_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property float|null $min_warning_temperature
+ * @property float|null $max_warning_temperature
+ * @property float|null $min_critical_temperature
+ * @property float|null $max_critical_temperature
  * 
- * @property Location $location
  * @property ThermistorChain $thermistor_chain
+ * @property Location $location
  * @property Collection|InstalledThermistorChainPoint[] $installed_thermistor_chain_points
  * @property Collection|MeteringThermistorChain[] $metering_thermistor_chains
  * @property Collection|Notification[] $notifications
@@ -35,22 +39,30 @@ class InstalledThermistorChain extends Model
 	protected $casts = [
 		'id' => 'int',
 		'thermistor_chain_id' => 'int',
-		'location_id' => 'int'
+		'location_id' => 'int',
+		'min_warning_temperature' => 'float',
+		'max_warning_temperature' => 'float',
+		'min_critical_temperature' => 'float',
+		'max_critical_temperature' => 'float'
 	];
 
 	protected $fillable = [
 		'thermistor_chain_id',
-		'location_id'
+		'location_id',
+		'min_warning_temperature',
+		'max_warning_temperature',
+		'min_critical_temperature',
+		'max_critical_temperature'
 	];
-
-	public function location()
-	{
-		return $this->belongsTo(Location::class);
-	}
 
 	public function thermistor_chain()
 	{
 		return $this->belongsTo(ThermistorChain::class);
+	}
+
+	public function location()
+	{
+		return $this->belongsTo(Location::class);
 	}
 
 	public function installed_thermistor_chain_points()

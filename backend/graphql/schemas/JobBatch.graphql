@@ -14,7 +14,7 @@ extend type Mutation {
         failed_job_ids: String
         options: String
         cancelled_at: String
-        created_at: Int
+        created_at: String
         finished_at: String
         updated_at: String
     ): JobBatch @create
@@ -28,7 +28,7 @@ extend type Mutation {
         failed_job_ids: String
         options: String
         cancelled_at: String
-        created_at: Int
+        created_at: String
         finished_at: String
         updated_at: String
     ): JobBatch @update
@@ -45,7 +45,7 @@ type JobBatch {
         failed_job_ids: String
         options: String
         cancelled_at: String
-        created_at: Int
+        created_at: String
         finished_at: String
         updated_at: String
     id: ID!

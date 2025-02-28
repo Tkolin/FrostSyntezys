@@ -20,6 +20,18 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  * @property int|null $point_count
  * @property float|null $point_step
+ * @property int|null $measurement_range
+ * @property float|null $error_margin
+ * @property float|null $measurement_discreteness
+ * @property int|null $sensor_count
+ * @property float|null $sensor_distance
+ * @property string|null $external_interfaces
+ * @property string|null $additional_interfaces
+ * @property string|null $memory_type
+ * @property string|null $antenna_type
+ * @property string|null $battery_type
+ * @property int|null $battery_count
+ * @property string|null $dimensions
  * 
  * @property Collection|InstalledThermistorChain[] $installed_thermistor_chains
  *
@@ -33,14 +45,32 @@ class ThermistorChain extends Model
 	protected $casts = [
 		'id' => 'int',
 		'point_count' => 'int',
-		'point_step' => 'float'
+		'point_step' => 'float',
+		'measurement_range' => 'int',
+		'error_margin' => 'float',
+		'measurement_discreteness' => 'float',
+		'sensor_count' => 'int',
+		'sensor_distance' => 'float',
+		'battery_count' => 'int'
 	];
 
 	protected $fillable = [
 		'number',
 		'name',
 		'point_count',
-		'point_step'
+		'point_step',
+		'measurement_range',
+		'error_margin',
+		'measurement_discreteness',
+		'sensor_count',
+		'sensor_distance',
+		'external_interfaces',
+		'additional_interfaces',
+		'memory_type',
+		'antenna_type',
+		'battery_type',
+		'battery_count',
+		'dimensions'
 	];
 
 	public function installed_thermistor_chains()

@@ -16,14 +16,22 @@ query InstalledThermistorChainPaginated($first: Int!, $page: Int){
             location_id
             created_at
             updated_at
-            location
+            min_warning_temperature
+            max_warning_temperature
+            min_critical_temperature
+            max_critical_temperature
             thermistor_chain
+            location
             installed_thermistor_chain_points{
                 installed_thermistor_chains_id
                 id
                 deep
                 created_at
                 updated_at
+                min_warning_temperature
+                max_warning_temperature
+                min_critical_temperature
+                max_critical_temperature
                 installed_thermistor_chain
             }
             metering_thermistor_chains{

@@ -8,7 +8,7 @@ extend type Mutation {
     createCacheLock(
         key: String
         owner: String
-        expiration: Int
+        expiration: String
         created_at: String
         updated_at: String
     ): CacheLock @create
@@ -16,7 +16,7 @@ extend type Mutation {
     updateCacheLock(id: ID!,
         key: String
         owner: String
-        expiration: Int
+        expiration: String
         created_at: String
         updated_at: String
     ): CacheLock @update
@@ -27,7 +27,7 @@ extend type Mutation {
 type CacheLock {
         key: String
         owner: String
-        expiration: Int
+        expiration: String
         created_at: String
         updated_at: String
     id: ID!

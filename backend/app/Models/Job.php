@@ -16,9 +16,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $queue
  * @property string $payload
  * @property int $attempts
- * @property int|null $reserved_at
- * @property int $available_at
- * @property int $created_at
+ * @property Carbon|null $reserved_at
+ * @property Carbon $available_at
+ * @property Carbon $created_at
  * @property Carbon|null $updated_at
  *
  * @package App\Models
@@ -29,8 +29,8 @@ class Job extends Model
 
 	protected $casts = [
 		'attempts' => 'int',
-		'reserved_at' => 'int',
-		'available_at' => 'int'
+		'reserved_at' => 'datetime',
+		'available_at' => 'datetime'
 	];
 
 	protected $fillable = [
