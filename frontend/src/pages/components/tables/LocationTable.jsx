@@ -2,19 +2,17 @@ import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
 import React, { useState } from 'react'
-import {
-  DELETE_THERMISTOR_CHAIN,
-  GET_THERMISTOR_CHAINS_PAGINATE
-} from '../../../gql/thermistorChain'
-import ThermalChainForm from './../forms/ThermalChainForm'
+import { GET_LOCATIONS_PAGINATE } from '../../../gql/location'
+import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
+import LocationForm from '../forms/LocationForm'
 
-const ThermalChainTable = ({ ...props }) => {
+const LocationTable = ({ ...props }) => {
   const [first] = useState(20) // например, 10 записей на страницу
   const [page, setPage] = useState(1) // текущая страница
 
   const [modalEditId, setModalEditId] = useState(null)
   const [modalStatic, setModalStatic] = useState(null)
-  const { data, loading, error } = useQuery(GET_THERMISTOR_CHAINS_PAGINATE, {
+  const { data, loading, error } = useQuery(GET_LOCATIONS_PAGINATE, {
     variables: { first, page },
     onCompleted: resultData => {
       console.log('data11', resultData)
@@ -30,53 +28,28 @@ const ThermalChainTable = ({ ...props }) => {
 
   const columns = [
     {
-      title: 'Номер',
-      dataIndex: 'number'
+      title: 'ID',
+      dataIndex: 'id'
     },
     {
       title: 'Наименование',
       dataIndex: 'name'
     },
     {
-      title: 'Характеристики',
+      title: 'Координаты',
       key: 'characteristics',
       render: record => (
         <div>
           <div>
-            <strong>Тип антенны:</strong> {record.antenna_type}
+            <strong>x:</strong> {record.x}
           </div>
           <div>
-            <strong>Тип батареи:</strong> {record.battery_type}
-          </div>
-          <div>
-            <strong>Кол-во батарей:</strong> {record.battery_count}
+            <strong>y:</strong> {record.y}
           </div>
         </div>
       )
     },
-    {
-      title: 'Дополнительно',
-      key: 'additional',
-      render: record => (
-        <div>
-          <div>
-            <strong>Доп. интерфейсы:</strong> {record.additional_interfaces}
-          </div>
-          <div>
-            <strong>Внешние интерфейсы:</strong> {record.external_interfaces}
-          </div>
-          <div>
-            <strong>Дата создания:</strong> {record.created_at}
-          </div>
-          <div>
-            <strong>Размеры:</strong> {record.dimensions}
-          </div>
-          <div>
-            <strong>Погрешность:</strong> {record.error_margin}
-          </div>
-        </div>
-      )
-    },
+
     {
       title: 'Действия',
       dataIndex: 'activity',
@@ -102,13 +75,13 @@ const ThermalChainTable = ({ ...props }) => {
       <Table
         size={'small'}
         columns={columns}
-        dataSource={data?.ThermistorChainPaginated?.data}
+        dataSource={data?.LocationPaginated?.data}
         loading={loading}
         error={error}
         rowKey='id'
         pagination={{
           current: page,
-          total: data?.ThermistorChainPaginated?.paginatorInfo?.total,
+          total: data?.LocationPaginated?.paginatorInfo?.total,
           pageSize: first,
           onChange: handlePageChange
         }}
@@ -119,9 +92,9 @@ const ThermalChainTable = ({ ...props }) => {
         onCancel={() => setModalEditId(null)}
         title={'Управление термокосой'}
       >
-        <ThermalChainForm id={modalEditId} />
+        <LocationForm id={modalEditId} />
       </Modal>
     </Space>
   )
 }
-export default ThermalChainTable
+export default LocationTable

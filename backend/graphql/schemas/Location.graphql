@@ -6,7 +6,7 @@ extend type Query {
 
 extend type Mutation {
     createLocation(
-        id: Int
+        id: ID
         x: String
         y: String
         created_at: String
@@ -15,7 +15,7 @@ extend type Mutation {
     ): Location @create
 
     updateLocation(id: ID!,
-        id: Int
+        id: ID
         x: String
         y: String
         created_at: String
@@ -27,7 +27,7 @@ extend type Mutation {
 }
 
 type Location {
-        id: Int
+        id: ID
         x: String
         y: String
         created_at: String

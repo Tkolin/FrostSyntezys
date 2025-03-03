@@ -18,7 +18,7 @@ const items = [
   getItem("Экспорт", "-2", <ExportOutlined />, true),
   getItem("Список оборудования", "thermistor_chains", <InboxOutlined />, false),
   getItem("Список пользователей", "user_list", <InboxOutlined />, false),
-  getItem("Список объектов", "object_list", <InboxOutlined />, false),
+  getItem("Список объектов", "location_list", <InboxOutlined />, false),
   getItem("Статистика", "static",  <BarChartOutlined />, false),
   getItem("Визуализация", "-4", <PieChartOutlined />, true),
   getItem("Журнал", "journal", <UnorderedListOutlined />, false),

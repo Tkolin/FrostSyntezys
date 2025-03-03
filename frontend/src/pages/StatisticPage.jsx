@@ -1,5 +1,6 @@
 import { Alert, Button, Card, Space, Typography } from 'antd'
 import { useState } from 'react'
+import InstalledThermalChainTable from './components/tables/InstalledThermalChainTable'
 
 const StatisticPage = () => {
   const [thermalChainGroupSelected, setThermalChainGroupSelected] = useState([])
@@ -16,9 +17,10 @@ const StatisticPage = () => {
     >
       <Card style={{ width: '100%', maxWidth: '500px' }}>
         <Alert message='Список термакос'></Alert>
-        {/* <InstalledThermalChainTable
+        <InstalledThermalChainTable
           selectedRow={setThermalChainGroupSelected}
-        /> */}
+        />
+        <Button>Зарегестрировать термокосу</Button>
       </Card>
 
       <div style={{ width: '100%' }}>

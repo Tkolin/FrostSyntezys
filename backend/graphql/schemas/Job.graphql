@@ -6,7 +6,7 @@ extend type Query {
 
 extend type Mutation {
     createJob(
-        id: Int
+        id: ID
         queue: String
         payload: String
         attempts: Int
@@ -17,7 +17,7 @@ extend type Mutation {
     ): Job @create
 
     updateJob(id: ID!,
-        id: Int
+        id: ID
         queue: String
         payload: String
         attempts: Int
@@ -31,7 +31,7 @@ extend type Mutation {
 }
 
 type Job {
-        id: Int
+        id: ID
         queue: String
         payload: String
         attempts: Int

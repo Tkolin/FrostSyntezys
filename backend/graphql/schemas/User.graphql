@@ -6,7 +6,7 @@ extend type Query {
 
 extend type Mutation {
     createUser(
-        id: Int
+        id: ID
         name: String
         email: String
         email_verified_at: String
@@ -17,7 +17,7 @@ extend type Mutation {
     ): User @create
 
     updateUser(id: ID!,
-        id: Int
+        id: ID
         name: String
         email: String
         email_verified_at: String
@@ -31,7 +31,7 @@ extend type Mutation {
 }
 
 type User {
-        id: Int
+        id: ID
         name: String
         email: String
         email_verified_at: String

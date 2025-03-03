@@ -2,24 +2,26 @@ import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
 import React, { useState } from 'react'
-import {
-  DELETE_THERMISTOR_CHAIN,
-  GET_THERMISTOR_CHAINS_PAGINATE
-} from '../../../gql/thermistorChain'
-import ThermalChainForm from './../forms/ThermalChainForm'
 
-const ThermalChainTable = ({ ...props }) => {
+import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
+import ThermalChainForm from '../forms/ThermalChainForm'
+import { GET_INSTALLED_THERMISTOR_CHAINS_PAGINATE } from './../../../gql/installedThermistorChain'
+
+const InstalledThermalChainTable = ({ ...props }) => {
   const [first] = useState(20) // например, 10 записей на страницу
   const [page, setPage] = useState(1) // текущая страница
 
   const [modalEditId, setModalEditId] = useState(null)
   const [modalStatic, setModalStatic] = useState(null)
-  const { data, loading, error } = useQuery(GET_THERMISTOR_CHAINS_PAGINATE, {
-    variables: { first, page },
-    onCompleted: resultData => {
-      console.log('data11', resultData)
+  const { data, loading, error } = useQuery(
+    GET_INSTALLED_THERMISTOR_CHAINS_PAGINATE,
+    {
+      variables: { first, page },
+      onCompleted: resultData => {
+        console.log('data11', resultData)
+      }
     }
-  })
+  )
   const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
   const handleDelete = () => {
     console.log('delete')
@@ -124,4 +126,4 @@ const ThermalChainTable = ({ ...props }) => {
     </Space>
   )
 }
-export default ThermalChainTable
+export default InstalledThermalChainTable

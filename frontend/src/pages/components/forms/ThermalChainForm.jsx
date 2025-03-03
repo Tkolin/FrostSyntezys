@@ -1,16 +1,32 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, Form, Input, InputNumber, Select, Slider, Spin } from 'antd'
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Slider,
+  Spin,
+  notification
+} from 'antd'
 import React from 'react'
 import {
   CREATE_THERMISTOR_CHAIN,
   GET_THERMISTOR_CHAIN,
   UPDATE_THERMISTOR_CHAIN
-} from '../../../gql/thermistorChainQueries'
+} from '../../../gql/thermistorChain'
 
 const { Option } = Select
 
 const ThermalChainForm = ({ id, ...props }) => {
   const [form] = Form.useForm()
+
+  const openNotification = (type, message, description) => {
+    notification[type]({
+      message,
+      description
+    })
+  }
 
   // Если id передан, загружаем данные для редактирования
   const {
@@ -24,45 +40,49 @@ const ThermalChainForm = ({ id, ...props }) => {
       if (resultData && resultData.ThermistorChain) {
         form.setFieldsValue(resultData.ThermistorChain)
       }
+    },
+    onError: error => {
+      openNotification('error', 'Ошибка загрузки', error.message)
     }
   })
 
   // Мутация для создания новой записи
-  const [
-    createThermistorChain,
-    { loading: createLoading, error: createError }
-  ] = useMutation(CREATE_THERMISTOR_CHAIN, {
-    onCompleted: resultData => {
-      console.log('Создана запись:', resultData)
-      form.resetFields()
+  const [createThermistorChain, { loading: createLoading }] = useMutation(
+    CREATE_THERMISTOR_CHAIN,
+    {
+      onCompleted: resultData => {
+        openNotification('success', 'Успешно', 'Термисторная цепь создана')
+        form.resetFields()
+      },
+      onError: error => {
+        openNotification('error', 'Ошибка создания', error.message)
+      }
     }
-  })
+  )
 
   // Мутация для обновления существующей записи
-  const [
-    updateThermistorChain,
-    { loading: updateLoading, error: updateError }
-  ] = useMutation(UPDATE_THERMISTOR_CHAIN, {
-    onCompleted: resultData => {
-      console.log('Запись обновлена:', resultData)
+  const [updateThermistorChain, { loading: updateLoading }] = useMutation(
+    UPDATE_THERMISTOR_CHAIN,
+    {
+      onCompleted: resultData => {
+        openNotification('success', 'Успешно', 'Термисторная цепь обновлена')
+      },
+      onError: error => {
+        openNotification('error', 'Ошибка обновления', error.message)
+      }
     }
-  })
+  )
 
   const onFinish = values => {
     console.log('Значения формы:', values)
     if (!id) {
-      // Если id не передан, вызываем мутацию создания
       createThermistorChain({ variables: { ...values } })
     } else {
-      // Если id передан, вызываем мутацию обновления
       updateThermistorChain({ variables: { id, ...values } })
     }
   }
 
   if (queryLoading) return <Spin />
-  if (queryError) return <p>Ошибка загрузки: {queryError.message}</p>
-  if (createError) return <p>Ошибка создания: {createError.message}</p>
-  if (updateError) return <p>Ошибка обновления: {updateError.message}</p>
 
   return (
     <Form
@@ -142,6 +162,7 @@ const ThermalChainForm = ({ id, ...props }) => {
         <Button
           type='primary'
           htmlType='submit'
+          size='large'
           loading={createLoading || updateLoading}
         >
           {id ? 'Обновить' : 'Создать'}

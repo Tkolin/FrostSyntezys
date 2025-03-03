@@ -1,14 +1,14 @@
 extend type Query {
     InstalledThermistorChains: [InstalledThermistorChain!]! @all
     InstalledThermistorChainPaginated(first: Int, page: Int): [InstalledThermistorChain!]! @paginate
-    InstalledThermistorChain(id: ID!): InstalledThermistorChain @find
+    InstalledThermistorChain(id: ID! @eq): InstalledThermistorChain @find
 }
 
 extend type Mutation {
     createInstalledThermistorChain(
-        id: Int
-        thermistor_chain_id: Int
-        location_id: Int
+        id: ID
+        thermistor_chain_id: ID
+        location_id: ID
         created_at: String
         updated_at: String
         min_warning_temperature: String
@@ -20,9 +20,9 @@ extend type Mutation {
     ): InstalledThermistorChain @create
 
     updateInstalledThermistorChain(id: ID!,
-        id: Int
-        thermistor_chain_id: Int
-        location_id: Int
+        id: ID
+        thermistor_chain_id: ID
+        location_id: ID
         created_at: String
         updated_at: String
         min_warning_temperature: String
@@ -37,9 +37,9 @@ extend type Mutation {
 }
 
 type InstalledThermistorChain {
-        id: Int
-        thermistor_chain_id: Int
-        location_id: Int
+        id: ID
+        thermistor_chain_id: ID
+        location_id: ID
         created_at: String
         updated_at: String
         min_warning_temperature: String
@@ -48,7 +48,7 @@ type InstalledThermistorChain {
         max_critical_temperature: String
         thermistor_chain: String
         location: String
-    id: ID!
+        id: ID!
         installed_thermistor_chain_points: [InstalledThermistorChainPoint!]! @hasMany
         metering_thermistor_chains: [MeteringThermistorChain!]! @hasMany
         notifications: [Notification!]! @hasMany

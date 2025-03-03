@@ -6,8 +6,8 @@ extend type Query {
 
 extend type Mutation {
     createNotification(
-        id: Int
-        installed_thermistor_chains_id: Int
+        id: ID
+        installed_thermistor_chains_id: ID
         description: String
         date_start: String
         date_end: String
@@ -18,8 +18,8 @@ extend type Mutation {
     ): Notification @create
 
     updateNotification(id: ID!,
-        id: Int
-        installed_thermistor_chains_id: Int
+        id: ID
+        installed_thermistor_chains_id: ID
         description: String
         date_start: String
         date_end: String
@@ -33,8 +33,8 @@ extend type Mutation {
 }
 
 type Notification {
-        id: Int
-        installed_thermistor_chains_id: Int
+        id: ID
+        installed_thermistor_chains_id: ID
         description: String
         date_start: String
         date_end: String

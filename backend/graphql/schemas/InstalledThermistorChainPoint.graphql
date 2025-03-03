@@ -6,8 +6,8 @@ extend type Query {
 
 extend type Mutation {
     createInstalledThermistorChainPoint(
-        installed_thermistor_chains_id: Int
-        id: Int
+        installed_thermistor_chains_id: ID
+        id: ID
         deep: String
         created_at: String
         updated_at: String
@@ -19,8 +19,8 @@ extend type Mutation {
     ): InstalledThermistorChainPoint @create
 
     updateInstalledThermistorChainPoint(id: ID!,
-        installed_thermistor_chains_id: Int
-        id: Int
+        installed_thermistor_chains_id: ID
+        id: ID
         deep: String
         created_at: String
         updated_at: String
@@ -35,8 +35,8 @@ extend type Mutation {
 }
 
 type InstalledThermistorChainPoint {
-        installed_thermistor_chains_id: Int
-        id: Int
+        installed_thermistor_chains_id: ID
+        id: ID
         deep: String
         created_at: String
         updated_at: String

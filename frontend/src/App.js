@@ -7,6 +7,7 @@ import DefaultLayout from './layouts/DefaultLayout'
 import AccountPage from './pages/AccountPage'
 import AuthPage from './pages/AuthPage'
 import JournalPage from './pages/JournalPage'
+import LocationsListPage from './pages/LocationsListPage'
 import StatisticPage from './pages/StatisticPage'
 import ThermistorChainsPage from './pages/ThermistorChainsPage'
 import UserListPage from './pages/UserListPage'
@@ -34,6 +35,7 @@ const App = () => {
                 path='/thermistor_chains'
                 element={<ThermistorChainsPage />}
               />
+              <Route path='/location_list' element={<LocationsListPage />} />
               <Route path='/account' element={<AccountPage />} />
             </Routes>
           </DefaultLayout>
