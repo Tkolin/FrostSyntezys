@@ -1,9 +1,5 @@
-import { AppstoreAddOutlined } from '@ant-design/icons'
-import { Alert, Button, Card, Modal, Space, Typography } from 'antd'
+import { Alert, Button, Card, Space, Typography } from 'antd'
 import { useState } from 'react'
-import RegisterThermalChainInGroup from './components/forms/RegisterThermalChainInGroupForm'
-import ManagerTPoint from './components/ManagerTPoint'
-import ThermalChainGroupTable from './components/tables/ThermalChainGroupTable'
 
 const StatisticPage = () => {
   const [thermalChainGroupSelected, setThermalChainGroupSelected] = useState([])
@@ -20,25 +16,9 @@ const StatisticPage = () => {
     >
       <Card style={{ width: '100%', maxWidth: '500px' }}>
         <Alert message='Список термакос'></Alert>
-
-        <ThermalChainGroupTable
-          changeSelectedThermalKos={setThermalChainGroupSelected}
-        />
-        <Button
-          style={{ width: '100%' }}
-          onClick={() => setModalAddThermalChain(true)}
-        >
-          +
-        </Button>
-        <Modal
-          open={modalAddThermalChain}
-          onClose={() => setModalAddThermalChain(false)}
-          onCancel={() => setModalAddThermalChain(false)}
-          title={'Регистрация термокосы'}
-        >
-          <RegisterThermalChainInGroup />
-        </Modal>
-        {thermalChainGroupSelected}
+        {/* <InstalledThermalChainTable
+          selectedRow={setThermalChainGroupSelected}
+        /> */}
       </Card>
 
       <div style={{ width: '100%' }}>
@@ -66,12 +46,7 @@ const StatisticPage = () => {
         {thermalChainGroupSelected?.map(row => (
           <Card style={{ width: '100%' }}>
             <Alert message={'Замеры по термокосе ' + row}></Alert>
-            <div style={{ width: '100%' }}>
-              <ManagerTPoint isCharsMode={true} style={{ width: '100%' }} />
-              <Button icon={<AppstoreAddOutlined />} style={{ heigth: '100%' }}>
-                Внести данные вручную
-              </Button>
-            </div>
+            {/* <MeteringThermistorChainsTable InstalledThermistorChainsId={row} /> */}
           </Card>
         ))}
       </div>

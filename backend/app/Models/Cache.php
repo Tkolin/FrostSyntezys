@@ -34,4 +34,14 @@ class Cache extends Model
 		'value',
 		'expiration'
 	];
+	// В App\Models\ThermistorChain.php
+public function scopeApplyFilters(Builder $query, array $filters)
+{
+    if (!empty($filters['name'])) {
+        $query->where('name', 'like', '%' . $filters['name'] . '%');
+    }
+    // Добавьте другие условия фильтрации по необходимости
+    return $query;
+}
+
 }

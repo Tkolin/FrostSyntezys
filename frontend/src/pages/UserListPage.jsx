@@ -1,5 +1,4 @@
-import { Alert, Card } from 'antd'
-import UserListTable from './components/tables/UserListTable'
+import { Alert, Button, Card } from 'antd'
 
 const UserListPage = () => {
   return (
@@ -11,7 +10,8 @@ const UserListPage = () => {
     >
       <Card style={{ width: '100%' }}>
         <Alert message='Список существующих термакос (моделей)'></Alert>
-        <UserListTable style={{ width: '100%' }}></UserListTable>
+        <Button>Создать запись</Button>
+        {/* <UserListTable style={{ width: '100%' }}></UserListTable> */}
       </Card>
     </div>
   )

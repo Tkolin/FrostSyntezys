@@ -79,4 +79,5 @@ class InstalledThermistorChain extends Model
 	{
 		return $this->hasMany(Notification::class, 'installed_thermistor_chains_id');
 	}
+ 
 }

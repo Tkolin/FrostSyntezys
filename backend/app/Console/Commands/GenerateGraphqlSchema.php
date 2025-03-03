@@ -85,7 +85,7 @@ class GenerateGraphqlSchema extends Command
 extend type Query {
     {$modelName}s: [{$modelName}!]! @all
     {$modelName}Paginated(first: Int, page: Int): [{$modelName}!]! @paginate
-    {$modelName}(id: ID!): {$modelName} @find
+    {$modelName}(id: ID! @eq): {$modelName} @find
 }
 
 extend type Mutation {

@@ -1,109 +1,150 @@
-import { Button, Form, Input, InputNumber, Select, Slider } from 'antd'
+import { useMutation, useQuery } from '@apollo/client'
+import { Button, Form, Input, InputNumber, Select, Slider, Spin } from 'antd'
 import React from 'react'
+import {
+  CREATE_THERMISTOR_CHAIN,
+  GET_THERMISTOR_CHAIN,
+  UPDATE_THERMISTOR_CHAIN
+} from '../../../gql/thermistorChainQueries'
 
 const { Option } = Select
 
-const ThermalChainForm = () => {
+const ThermalChainForm = ({ id, ...props }) => {
+  const [form] = Form.useForm()
+
+  // Если id передан, загружаем данные для редактирования
+  const {
+    data,
+    loading: queryLoading,
+    error: queryError
+  } = useQuery(GET_THERMISTOR_CHAIN, {
+    variables: { id },
+    skip: !id, // Не выполняем запрос, если id не передан (создание новой записи)
+    onCompleted: resultData => {
+      if (resultData && resultData.ThermistorChain) {
+        form.setFieldsValue(resultData.ThermistorChain)
+      }
+    }
+  })
+
+  // Мутация для создания новой записи
+  const [
+    createThermistorChain,
+    { loading: createLoading, error: createError }
+  ] = useMutation(CREATE_THERMISTOR_CHAIN, {
+    onCompleted: resultData => {
+      console.log('Создана запись:', resultData)
+      form.resetFields()
+    }
+  })
+
+  // Мутация для обновления существующей записи
+  const [
+    updateThermistorChain,
+    { loading: updateLoading, error: updateError }
+  ] = useMutation(UPDATE_THERMISTOR_CHAIN, {
+    onCompleted: resultData => {
+      console.log('Запись обновлена:', resultData)
+    }
+  })
+
   const onFinish = values => {
-    console.log('Form Values:', values)
-  }
-  const marks = {
-    0: '0°C',
-    26: '26°C',
-    37: '37°C',
-    100: {
-      style: {
-        color: '#f50'
-      },
-      label: <strong>100°C</strong>
+    console.log('Значения формы:', values)
+    if (!id) {
+      // Если id не передан, вызываем мутацию создания
+      createThermistorChain({ variables: { ...values } })
+    } else {
+      // Если id передан, вызываем мутацию обновления
+      updateThermistorChain({ variables: { id, ...values } })
     }
   }
+
+  if (queryLoading) return <Spin />
+  if (queryError) return <p>Ошибка загрузки: {queryError.message}</p>
+  if (createError) return <p>Ошибка создания: {createError.message}</p>
+  if (updateError) return <p>Ошибка обновления: {updateError.message}</p>
+
   return (
     <Form
+      form={form}
       layout='horizontal'
       onFinish={onFinish}
       size='small'
-      labelCol={{
-        span: 12
-      }}
-      wrapperCol={{
-        span: 12
-      }}
+      labelCol={{ span: 12 }}
+      wrapperCol={{ span: 12 }}
+      initialValues={{ measurement_range: 37 }}
     >
-      <Form.Item label='Диапазон измерений (°C)' name='measurement_range'>
-        <Slider marks={marks} included={false} defaultValue={37} />
+      <Form.Item label='Номер' name='number'>
+        <Input />
       </Form.Item>
 
-      <Form.Item label='Погрешность измерений (°C)' name='error_margin'>
-        <Select>
-          <Option value='0.1'>0.1 (-30°C до +10°C)</Option>
-          <Option value='0.2'>0.2 (-40°C до -10°C; +10°C до +85°C)</Option>
-          <Option value='0.3'>0.3 (-50°C до -40°C)</Option>
-        </Select>
+      <Form.Item label='Наименование' name='name'>
+        <Input />
       </Form.Item>
 
-      <Form.Item
-        label='Дискретность измерений (°C)'
-        name='measurement_discreteness'
-      >
-        <InputNumber min={0.01} step={0.01} placeholder={0.01} />
+      <Form.Item label='Количество точек' name='point_count'>
+        <InputNumber min={1} />
       </Form.Item>
 
-      <Form.Item
-        label='Количество датчиков'
-        name='sensor_count'
-        rules={[{ required: true }]}
-      >
-        <InputNumber min={1} max={256} placeholder='до 256' />
+      <Form.Item label='Шаг точек' name='point_step'>
+        <InputNumber step={0.1} />
       </Form.Item>
 
-      <Form.Item
-        label='Расстояние между датчиками (м)'
-        name='sensor_distance'
-        rules={[{ required: true }]}
-      >
-        <Select>
-          <Option value='0.5'>0.5</Option>
-          <Option value='1'>1</Option>
-          <Option value='2'>2</Option>
-        </Select>
+      <Form.Item label='Диапазон измерений' name='measurement_range'>
+        <Slider min={0} max={100} marks={{ 0: '0°C', 100: '100°C' }} />
+      </Form.Item>
+
+      <Form.Item label='Погрешность измерений' name='error_margin'>
+        <InputNumber step={0.01} />
+      </Form.Item>
+
+      <Form.Item label='Дискретность измерений' name='measurement_discreteness'>
+        <InputNumber step={0.01} />
+      </Form.Item>
+
+      <Form.Item label='Количество сенсоров' name='sensor_count'>
+        <InputNumber min={1} />
+      </Form.Item>
+
+      <Form.Item label='Расстояние между сенсорами' name='sensor_distance'>
+        <InputNumber step={0.1} />
       </Form.Item>
 
       <Form.Item label='Внешние интерфейсы' name='external_interfaces'>
-        <Select mode='multiple' placeholder={'LoRaWAN'}>
-          <Option value='LoRaWAN'>LoRaWAN</Option>
-          <Option value='NBIoT'>NBIoT</Option>
-          <Option value='GPRS'>GPRS</Option>
-        </Select>
+        <Input />
       </Form.Item>
 
-      <Form.Item label='Дополнительные интерфейсы' name='additional_interfaces'>
-        <Input placeholder='USB' />
+      <Form.Item label='Доп. интерфейсы' name='additional_interfaces'>
+        <Input />
       </Form.Item>
 
-      <Form.Item label='Тип памяти данных' name='memory_type'>
-        <Input placeholder='Flash' />
+      <Form.Item label='Тип памяти' name='memory_type'>
+        <Input />
       </Form.Item>
 
       <Form.Item label='Тип антенны' name='antenna_type'>
-        <Input placeholder='Внешняя' />
+        <Input />
       </Form.Item>
 
       <Form.Item label='Тип батареи' name='battery_type'>
-        <Input placeholder='Тип D Li-SOCl2' />
+        <Input />
       </Form.Item>
 
       <Form.Item label='Количество батарей' name='battery_count'>
-        <InputNumber min={1} max={10} placeholder={2} />
+        <InputNumber min={1} />
       </Form.Item>
 
-      <Form.Item label='Габариты (мм)' name='dimensions'>
-        <Input placeholder='D42x320' />
+      <Form.Item label='Габариты' name='dimensions'>
+        <Input />
       </Form.Item>
 
-      <Form.Item>
-        <Button type='primary' htmlType='submit'>
-          Отправить
+      <Form.Item wrapperCol={{ span: 24 }}>
+        <Button
+          type='primary'
+          htmlType='submit'
+          loading={createLoading || updateLoading}
+        >
+          {id ? 'Обновить' : 'Создать'}
         </Button>
       </Form.Item>
     </Form>

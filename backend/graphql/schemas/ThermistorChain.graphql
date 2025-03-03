@@ -1,7 +1,7 @@
 extend type Query {
     ThermistorChains: [ThermistorChain!]! @all
     ThermistorChainPaginated(first: Int, page: Int): [ThermistorChain!]! @paginate
-    ThermistorChain(id: ID!): ThermistorChain @find
+    ThermistorChain(id: ID! @eq): ThermistorChain @find
 }
 
 extend type Mutation {
