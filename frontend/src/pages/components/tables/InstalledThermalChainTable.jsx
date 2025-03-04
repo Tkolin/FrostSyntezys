@@ -1,13 +1,12 @@
-import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
+import { SettingOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
 import React, { useState } from 'react'
-
+import { GET_INSTALLED_THERMISTOR_CHAINS_PAGINATE } from '../../../gql/installedThermistorChain'
 import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
-import ThermalChainForm from '../forms/ThermalChainForm'
-import { GET_INSTALLED_THERMISTOR_CHAINS_PAGINATE } from './../../../gql/installedThermistorChain'
+import InstalledThermalChainForm from '../forms/InstalledThermalChainForm'
 
-const InstalledThermalChainTable = ({ ...props }) => {
+const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
   const [first] = useState(20) // например, 10 записей на страницу
   const [page, setPage] = useState(1) // текущая страница
 
@@ -32,52 +31,20 @@ const InstalledThermalChainTable = ({ ...props }) => {
 
   const columns = [
     {
-      title: 'Номер',
-      dataIndex: 'number'
+      title: 'Термокоса',
+      render: (_, record) => JSON.parse(record.thermistor_chain).name
     },
     {
-      title: 'Наименование',
-      dataIndex: 'name'
+      title: 'Локация',
+      render: (_, record) => JSON.parse(record.location).name
     },
     {
-      title: 'Характеристики',
-      key: 'characteristics',
-      render: record => (
-        <div>
-          <div>
-            <strong>Тип антенны:</strong> {record.antenna_type}
-          </div>
-          <div>
-            <strong>Тип батареи:</strong> {record.battery_type}
-          </div>
-          <div>
-            <strong>Кол-во батарей:</strong> {record.battery_count}
-          </div>
-        </div>
-      )
+      title: 'Min',
+      dataIndex: 'min_critical_temperature'
     },
     {
-      title: 'Дополнительно',
-      key: 'additional',
-      render: record => (
-        <div>
-          <div>
-            <strong>Доп. интерфейсы:</strong> {record.additional_interfaces}
-          </div>
-          <div>
-            <strong>Внешние интерфейсы:</strong> {record.external_interfaces}
-          </div>
-          <div>
-            <strong>Дата создания:</strong> {record.created_at}
-          </div>
-          <div>
-            <strong>Размеры:</strong> {record.dimensions}
-          </div>
-          <div>
-            <strong>Погрешность:</strong> {record.error_margin}
-          </div>
-        </div>
-      )
+      title: 'Max',
+      dataIndex: 'max_critical_temperature'
     },
     {
       title: 'Действия',
@@ -89,28 +56,35 @@ const InstalledThermalChainTable = ({ ...props }) => {
             icon={<SettingOutlined />}
             onClick={() => setModalEditId(record.id)}
           ></Button>
-          <Button
-            danger
-            type='link'
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record.id)}
-          ></Button>
         </Space.Compact>
       )
     }
   ]
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      onSelectedRowKeys && onSelectedRowKeys(selectedRowKeys)
+    },
+    getCheckboxProps: record => ({
+      disabled: record.name === 'Disabled User',
+      name: record.name
+    })
+  }
+
   return (
     <Space direction='vertical' style={{ width: '100%' }}>
       <Table
         size={'small'}
         columns={columns}
-        dataSource={data?.ThermistorChainPaginated?.data}
+        dataSource={data?.InstalledThermistorChainPaginated?.data}
         loading={loading}
         error={error}
         rowKey='id'
+        rowSelection={{
+          ...rowSelection
+        }}
         pagination={{
           current: page,
-          total: data?.ThermistorChainPaginated?.paginatorInfo?.total,
+          total: data?.InstalledThermistorChainPaginated?.paginatorInfo?.total,
           pageSize: first,
           onChange: handlePageChange
         }}
@@ -121,7 +95,7 @@ const InstalledThermalChainTable = ({ ...props }) => {
         onCancel={() => setModalEditId(null)}
         title={'Управление термокосой'}
       >
-        <ThermalChainForm id={modalEditId} />
+        <InstalledThermalChainForm id={modalEditId} />
       </Modal>
     </Space>
   )

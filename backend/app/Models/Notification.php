@@ -36,7 +36,7 @@ class Notification extends Model
 		'user_id' => 'int'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'installed_thermistor_chains_id',
 		'description',
 		'date_start',

@@ -1,10 +1,15 @@
-import { Alert, Button, Card, Space, Typography } from 'antd'
+import { Alert, Button, Card, Modal, Space, Typography } from 'antd'
 import { useState } from 'react'
+import InstalledThermalChainForm from './components/forms/InstalledThermalChainForm'
 import InstalledThermalChainTable from './components/tables/InstalledThermalChainTable'
+import MeteringThermistorChainsTable from './components/tables/MeteringThermistorChainsTable'
 
 const StatisticPage = () => {
   const [thermalChainGroupSelected, setThermalChainGroupSelected] = useState([])
-  const [modalAddThermalChain, setModalAddThermalChain] = useState(false)
+  const [
+    installedThermalChainModalStatus,
+    setInstalledThermalChainModalStatus
+  ] = useState(false)
   const [isGraphMode, setIsGraphMode] = useState(false)
 
   return (
@@ -17,10 +22,21 @@ const StatisticPage = () => {
     >
       <Card style={{ width: '100%', maxWidth: '500px' }}>
         <Alert message='Список термакос'></Alert>
+        {thermalChainGroupSelected}
         <InstalledThermalChainTable
-          selectedRow={setThermalChainGroupSelected}
+          onSelectedRowKeys={setThermalChainGroupSelected}
         />
-        <Button>Зарегестрировать термокосу</Button>
+        <Button onClick={() => setInstalledThermalChainModalStatus(true)}>
+          Зарегестрировать термокосу
+        </Button>
+        <Modal
+          open={installedThermalChainModalStatus}
+          onClose={() => setInstalledThermalChainModalStatus(null)}
+          onCancel={() => setInstalledThermalChainModalStatus(null)}
+          title={'Создание термокосы'}
+        >
+          <InstalledThermalChainForm />
+        </Modal>
       </Card>
 
       <div style={{ width: '100%' }}>
@@ -48,7 +64,7 @@ const StatisticPage = () => {
         {thermalChainGroupSelected?.map(row => (
           <Card style={{ width: '100%' }}>
             <Alert message={'Замеры по термокосе ' + row}></Alert>
-            {/* <MeteringThermistorChainsTable InstalledThermistorChainsId={row} /> */}
+            <MeteringThermistorChainsTable InstalledThermistorChainsId={row} />
           </Card>
         ))}
       </div>

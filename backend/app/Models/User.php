@@ -36,7 +36,7 @@ class User extends Model
 		'remember_token'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'name',
 		'email',
 		'email_verified_at',

@@ -33,7 +33,7 @@ class Location extends Model
 		'y' => 'float'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'x',
 		'y',
 		'name'

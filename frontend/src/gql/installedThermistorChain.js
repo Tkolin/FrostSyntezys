@@ -32,7 +32,25 @@ export const GET_INSTALLED_THERMISTOR_CHAIN = gql`
       max_warning_temperature
       min_critical_temperature
       max_critical_temperature
-      thermistor_chain
+      metering_thermistor_chains {
+        id
+        date_metering
+        metering_thermistor_chain_points {
+          id
+          value
+          installed_thermistor_chain_point_id
+        }
+      }
+      installed_thermistor_chain_points {
+        id
+        deep
+        created_at
+        updated_at
+        min_warning_temperature
+        max_warning_temperature
+        min_critical_temperature
+        max_critical_temperature
+      }
       location
     }
   }
@@ -74,12 +92,10 @@ export const CREATE_INSTALLED_THERMISTOR_CHAIN = gql`
   mutation CreateInstalledThermistorChain(
     $thermistor_chain_id: ID
     $location_id: ID
-    $min_warning_temperature: String
-    $max_warning_temperature: String
-    $min_critical_temperature: String
-    $max_critical_temperature: String
-    $thermistor_chain: String
-    $location: String
+    $min_warning_temperature: Float
+    $max_warning_temperature: Float
+    $min_critical_temperature: Float
+    $max_critical_temperature: Float
   ) {
     createInstalledThermistorChain(
       thermistor_chain_id: $thermistor_chain_id
@@ -88,8 +104,6 @@ export const CREATE_INSTALLED_THERMISTOR_CHAIN = gql`
       max_warning_temperature: $max_warning_temperature
       min_critical_temperature: $min_critical_temperature
       max_critical_temperature: $max_critical_temperature
-      thermistor_chain: $thermistor_chain
-      location: $location
     ) {
       id
     }
@@ -102,12 +116,10 @@ export const UPDATE_INSTALLED_THERMISTOR_CHAIN = gql`
     $id: ID!
     $thermistor_chain_id: ID
     $location_id: ID
-    $min_warning_temperature: String
-    $max_warning_temperature: String
-    $min_critical_temperature: String
-    $max_critical_temperature: String
-    $thermistor_chain: String
-    $location: String
+    $min_warning_temperature: Float
+    $max_warning_temperature: Float
+    $min_critical_temperature: Float
+    $max_critical_temperature: Float
   ) {
     updateInstalledThermistorChain(
       id: $id
@@ -117,8 +129,6 @@ export const UPDATE_INSTALLED_THERMISTOR_CHAIN = gql`
       max_warning_temperature: $max_warning_temperature
       min_critical_temperature: $min_critical_temperature
       max_critical_temperature: $max_critical_temperature
-      thermistor_chain: $thermistor_chain
-      location: $location
     ) {
       id
     }

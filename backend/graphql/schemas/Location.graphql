@@ -9,8 +9,6 @@ extend type Mutation {
         id: ID
         x: String
         y: String
-        created_at: String
-        updated_at: String
         name: String
     ): Location @create
 
@@ -18,8 +16,6 @@ extend type Mutation {
         id: ID
         x: String
         y: String
-        created_at: String
-        updated_at: String
         name: String
     ): Location @update
 

@@ -31,11 +31,11 @@ extend type Mutation {
 type MeteringThermistorChainPoint {
         id: ID
         metering_thermistor_chain_id: ID
+        installed_thermistor_chain_point_id: ID
         created_at: String
         updated_at: String
         value: String
         unit_id: String
-        metering_thermistor_chain: String
-    id: ID!
+        id: ID!
 
 }

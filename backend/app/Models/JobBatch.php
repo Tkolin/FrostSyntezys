@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Model;
 class JobBatch extends Model
 {
 	protected $table = 'job_batches';
-	public $incrementing = false;
 
 	protected $casts = [
 		'total_jobs' => 'int',
@@ -39,7 +38,7 @@ class JobBatch extends Model
 		'finished_at' => 'datetime'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'name',
 		'total_jobs',
 		'pending_jobs',

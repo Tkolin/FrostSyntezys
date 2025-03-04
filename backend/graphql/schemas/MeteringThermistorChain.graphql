@@ -2,6 +2,7 @@ extend type Query {
     MeteringThermistorChains: [MeteringThermistorChain!]! @all
     MeteringThermistorChainPaginated(first: Int, page: Int): [MeteringThermistorChain!]! @paginate
     MeteringThermistorChain(id: ID!): MeteringThermistorChain @find
+    # MeteringThermistorChainsByInstalled(installed_thermistor_chains_id: ID!): InstalledThermistorChain 
 }
 
 extend type Mutation {
@@ -33,7 +34,6 @@ type MeteringThermistorChain {
         created_at: String
         updated_at: String
         installed_thermistor_chain: String
-    id: ID!
+        id: ID!
         metering_thermistor_chain_points: [MeteringThermistorChainPoint!]! @hasMany
-
 }

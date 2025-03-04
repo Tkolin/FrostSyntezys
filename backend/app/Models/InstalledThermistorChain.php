@@ -34,19 +34,10 @@ use Illuminate\Database\Eloquent\Model;
 class InstalledThermistorChain extends Model
 {
 	protected $table = 'installed_thermistor_chains';
-	public $incrementing = false;
 
-	protected $casts = [
-		'id' => 'int',
-		'thermistor_chain_id' => 'int',
-		'location_id' => 'int',
-		'min_warning_temperature' => 'float',
-		'max_warning_temperature' => 'float',
-		'min_critical_temperature' => 'float',
-		'max_critical_temperature' => 'float'
-	];
-
+ 
 	protected $fillable = [
+		'id',
 		'thermistor_chain_id',
 		'location_id',
 		'min_warning_temperature',

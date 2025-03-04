@@ -11,10 +11,10 @@ extend type Mutation {
         deep: String
         created_at: String
         updated_at: String
-        min_warning_temperature: String
-        max_warning_temperature: String
-        min_critical_temperature: String
-        max_critical_temperature: String
+        min_warning_temperature: Float
+        max_warning_temperature: Float
+        min_critical_temperature: Float
+        max_critical_temperature: Float
         installed_thermistor_chain: String
     ): InstalledThermistorChainPoint @create
 
@@ -24,10 +24,10 @@ extend type Mutation {
         deep: String
         created_at: String
         updated_at: String
-        min_warning_temperature: String
-        max_warning_temperature: String
-        min_critical_temperature: String
-        max_critical_temperature: String
+        min_warning_temperature: Float
+        max_warning_temperature: Float
+        min_critical_temperature: Float
+        max_critical_temperature: Float
         installed_thermistor_chain: String
     ): InstalledThermistorChainPoint @update
 
@@ -40,11 +40,11 @@ type InstalledThermistorChainPoint {
         deep: String
         created_at: String
         updated_at: String
-        min_warning_temperature: String
-        max_warning_temperature: String
-        min_critical_temperature: String
-        max_critical_temperature: String
+        min_warning_temperature: Float
+        max_warning_temperature: Float
+        min_critical_temperature: Float
+        max_critical_temperature: Float
         installed_thermistor_chain: String
-    id: ID!
+        id: ID!
 
 }

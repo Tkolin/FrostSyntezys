@@ -30,16 +30,9 @@ class InstalledThermistorChainPoint extends Model
 {
 	protected $table = 'installed_thermistor_chain_points';
 
-	protected $casts = [
-		'installed_thermistor_chains_id' => 'int',
-		'deep' => 'float',
-		'min_warning_temperature' => 'float',
-		'max_warning_temperature' => 'float',
-		'min_critical_temperature' => 'float',
-		'max_critical_temperature' => 'float'
-	];
+ 
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'installed_thermistor_chains_id',
 		'deep',
 		'min_warning_temperature',

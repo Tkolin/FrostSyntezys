@@ -33,7 +33,7 @@ class MeteringThermistorChain extends Model
 		'date_metering' => 'datetime'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'installed_thermistor_chains_id',
 		'date_metering'
 	];

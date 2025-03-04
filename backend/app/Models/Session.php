@@ -26,14 +26,13 @@ use Illuminate\Database\Eloquent\Model;
 class Session extends Model
 {
 	protected $table = 'sessions';
-	public $incrementing = false;
 
 	protected $casts = [
 		'user_id' => 'int',
 		'last_activity' => 'int'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'user_id',
 		'ip_address',
 		'user_agent',

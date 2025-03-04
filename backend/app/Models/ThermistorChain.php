@@ -40,7 +40,6 @@ use Illuminate\Database\Eloquent\Model;
 class ThermistorChain extends Model
 {
 	protected $table = 'thermistor_chains';
-	public $incrementing = false;
 
 	protected $casts = [
 		'id' => 'int',
@@ -54,7 +53,7 @@ class ThermistorChain extends Model
 		'battery_count' => 'int'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'number',
 		'name',
 		'point_count',

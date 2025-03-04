@@ -7,22 +7,6 @@ export const GET_THERMISTOR_CHAINS = gql`
       id
       number
       name
-      created_at
-      updated_at
-      point_count
-      point_step
-      measurement_range
-      error_margin
-      measurement_discreteness
-      sensor_count
-      sensor_distance
-      external_interfaces
-      additional_interfaces
-      memory_type
-      antenna_type
-      battery_type
-      battery_count
-      dimensions
     }
   }
 `

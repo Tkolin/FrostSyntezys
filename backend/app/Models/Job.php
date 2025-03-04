@@ -33,7 +33,7 @@ class Job extends Model
 		'available_at' => 'datetime'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'queue',
 		'payload',
 		'attempts',

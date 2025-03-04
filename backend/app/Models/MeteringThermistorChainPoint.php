@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $unit_id
  * 
  * @property MeteringThermistorChain $metering_thermistor_chain
+ * @property InstalledThermistorChain $installed_thermistor_chain
  *
  * @package App\Models
  */
@@ -29,12 +30,14 @@ class MeteringThermistorChainPoint extends Model
 
 	protected $casts = [
 		'metering_thermistor_chain_id' => 'int',
+		'installed_thermistor_chain_point_id' => 'int',
 		'value' => 'float',
 		'unit_id' => 'int'
 	];
 
-	protected $fillable = [
+	protected $fillable = [	'id',
 		'metering_thermistor_chain_id',
+		'installed_thermistor_chain_point_id',
 		'value',
 		'unit_id'
 	];
@@ -42,5 +45,9 @@ class MeteringThermistorChainPoint extends Model
 	public function metering_thermistor_chain()
 	{
 		return $this->belongsTo(MeteringThermistorChain::class);
+	}
+	public function installed_thermistor_chain()
+	{
+		return $this->belongsTo(InstalledThermistorChain::class);
 	}
 }
