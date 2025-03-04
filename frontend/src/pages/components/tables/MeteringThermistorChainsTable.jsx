@@ -4,9 +4,18 @@ import { Button, Modal, Space, Table } from 'antd'
 import React, { useMemo, useState } from 'react'
 import { GET_INSTALLED_THERMISTOR_CHAIN } from '../../../gql/installedThermistorChain'
 import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
+import {
+  cutMeteringData,
+  getColumnsMetering,
+  transformMeteringData
+} from '../../../utils/dataUtils'
 
 const MeteringThermistorChainsForm = ({
   InstalledThermistorChainsId,
+  dateStart,
+  dateEnd,
+  forecastDays,
+  forecastMethod,
   ...props
 }) => {
   const [page, setPage] = useState(1)
@@ -20,8 +29,6 @@ const MeteringThermistorChainsForm = ({
 
   const handleDelete = id => {
     console.log('delete', id)
-    // Вызывайте мутацию удаления, если требуется:
-    // mutate({ variables: { id } });
   }
 
   const handlePageChange = currentPage => {
@@ -29,78 +36,47 @@ const MeteringThermistorChainsForm = ({
   }
 
   // Формирование колонок таблицы:
-  const columns = useMemo(() => {
-    if (!data || !data.InstalledThermistorChain) return []
-
-    // Первая колонка – дата
-    const baseColumns = [
+  const columns = useMemo(
+    () => [
+      ...getColumnsMetering(data),
       {
-        title: 'Дата',
-        dataIndex: 'date_metering',
-        key: 'date_metering'
+        title: 'Действия',
+        key: 'actions',
+        render: (_, record) => (
+          <Space>
+            <Button
+              type='link'
+              icon={<SettingOutlined />}
+              onClick={() => setModalEditId(record.id)}
+            />
+            <Button
+              danger
+              type='link'
+              icon={<DeleteOutlined />}
+              onClick={() => handleDelete(record.id)}
+            />
+          </Space>
+        )
       }
-    ]
-
-    // Добавляем колонки для каждой точки по глубине
-    data.InstalledThermistorChain.installed_thermistor_chain_points.forEach(
-      point => {
-        baseColumns.push({
-          title: point.deep,
-          dataIndex: `dp_${point.id}`, // ключ, по которому будут записаны значения измерений
-          key: `dp_${point.id}`
-        })
-      }
-    )
-
-    // Колонка для действий
-    baseColumns.push({
-      title: 'Действия',
-      key: 'actions',
-      render: (_, record) => (
-        <Space>
-          <Button
-            type='link'
-            icon={<SettingOutlined />}
-            onClick={() => setModalEditId(record.id)}
-          />
-          <Button
-            danger
-            type='link'
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record.id)}
-          />
-        </Space>
-      )
-    })
-
-    return baseColumns
-  }, [data])
+    ],
+    [data, setModalEditId, handleDelete]
+  )
 
   // Трансформация исходных данных для таблицы
-  const dataSource = useMemo(() => {
-    if (!data || !data.InstalledThermistorChain) return []
-
-    return data.InstalledThermistorChain.metering_thermistor_chains.map(
-      measurement => {
-        // Для каждой записи измерения создаём объект, где в свойстве date_metering хранится дата измерения
-        const row = {
-          id: measurement.id,
-          date_metering: measurement.date_metering
-        }
-
-        // По каждой точке измерения заполняем соответствующее поле.
-        // Ключ формируется как `dp_` + id установленной точки.
-        measurement.metering_thermistor_chain_points.forEach(mp => {
-          row[`dp_${mp.installed_thermistor_chain_point_id}`] = mp.value
-        })
-
-        return row
-      }
-    )
-  }, [data])
+  const dataSource = useMemo(
+    () =>
+      cutMeteringData(
+        transformMeteringData(data, forecastMethod, forecastDays),
+        dateStart,
+        dateEnd
+      ),
+    [data, forecastMethod, forecastDays, dateStart, dateEnd]
+  )
 
   return (
     <Space direction='vertical' style={{ width: '100%' }}>
+      {forecastDays}
+      {forecastMethod}
       <Table
         size='small'
         columns={columns}
@@ -115,7 +91,6 @@ const MeteringThermistorChainsForm = ({
         title='Управление термокосой'
         footer={null}
       >
-        {/* Здесь можно разместить форму редактирования */}
         <MeteringThermistorChainsForm id={modalEditId} />
       </Modal>
     </Space>
