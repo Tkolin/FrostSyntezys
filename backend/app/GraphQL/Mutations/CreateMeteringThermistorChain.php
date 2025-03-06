@@ -13,12 +13,6 @@ final readonly class CreateMeteringThermistorChain
      */
     public function __invoke($_, array $args)
     {
-        // Ожидаемые входные данные:
-        // installed_thermistor_chains_id: ID
-        // date_metering: String
-        // metering_thermistor_chain_points: [MeteringThermistorChainPointInput!]!
-        //      installed_thermistor_chains_point_id: ID
-        //      value: Float
 
         // Формируем данные для создания цепи замеров
         $chainData = [

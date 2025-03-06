@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class MeteringThermistorChainPoint extends Model
 {
@@ -35,29 +36,55 @@ class MeteringThermistorChainPoint extends Model
         return $this->belongsTo(InstalledThermistorChain::class);
     }
 
+    public function installed_thermistor_chain_point()
+    {
+        return $this->belongsTo(InstalledThermistorChainPoint::class);
+    }
+
     protected static function booted()
     {
         static::created(function ($point) {
+            Log::info("Новая точка замера создана", [
+                'point' => $point,
+                'point_id' => $point->id,
+                'value'    => $point->value,
+            ]);
+
             // Получаем связанную модель, где хранятся пороговые значения.
-            // Если пороги находятся в другой модели (например, InstalledThermistorChainPoint), то измените отношение и вызов соответственно.
-            $installedChain = $point->installed_thermistor_chain;
+            $installedChain = $point->installed_thermistor_chain_point ?? $point->installed_thermistor_chain;
 
             if ($installedChain) {
+                Log::info("Связанная цепь найдена", [
+                    'installed_chain_id'       => $installedChain->id,
+                    'min_warning_temperature'  => $installedChain->min_warning_temperature,
+                    'max_warning_temperature'  => $installedChain->max_warning_temperature,
+                ]);
+
                 // Проверяем, выходит ли значение за установленные пределы.
-                // Здесь предполагается, что в модели InstalledThermistorChain (или другой нужной) определены
-                // свойства min_warning_temperature и max_warning_temperature.
                 if ($point->value < $installedChain->min_warning_temperature ||
                     $point->value > $installedChain->max_warning_temperature) {
+
+                    Log::warning("Значение точки выходит за пределы допустимого диапазона", [
+                        'point_value'              => $point->value,
+                        'min_warning_temperature'  => $installedChain->min_warning_temperature,
+                        'max_warning_temperature'  => $installedChain->max_warning_temperature,
+                    ]);
 
                     \App\Models\Notification::create([
                         'metering_thermistor_chain_point_id' => $point->id,
                         'description' => "Замер {$point->value} выходит за пределы допустимого диапазона ({$installedChain->min_warning_temperature} - {$installedChain->max_warning_temperature})",
-                        'type_notification_key' => now(),
+                        'type_notification_key' => 'WARRING',
                         'date_start' => now(),
                         'date_end' => null,
-                        'user_id' => null, // При необходимости можно указать пользователя
+                        'user_id' => null,
                     ]);
+
+                    Log::info("Уведомление создано для точки замера", ['point_id' => $point->id]);
+                } else {
+                    Log::info("Значение точки в пределах допустимого диапазона", ['point_value' => $point->value]);
                 }
+            } else {
+                Log::error("Связанная цепь не найдена для точки замера", ['point_id' => $point->id]);
             }
         });
     }
