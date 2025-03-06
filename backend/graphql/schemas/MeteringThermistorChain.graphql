@@ -7,23 +7,10 @@ extend type Query {
 
 extend type Mutation {
     createMeteringThermistorChain(
-        id: ID
         installed_thermistor_chains_id: ID
         date_metering: String
-        created_at: String
-        updated_at: String
-        installed_thermistor_chain: String
-    ): MeteringThermistorChain @create
-
-    updateMeteringThermistorChain(id: ID!,
-        id: ID
-        installed_thermistor_chains_id: ID
-        date_metering: String
-        created_at: String
-        updated_at: String
-        installed_thermistor_chain: String
-    ): MeteringThermistorChain @update
-
+        metering_thermistor_chain_points: [MeteringThermistorChainPointInput!]!
+    ): MeteringThermistorChain 
     deleteMeteringThermistorChain(id: ID!): MeteringThermistorChain @delete
 }
 
@@ -36,4 +23,8 @@ type MeteringThermistorChain {
         installed_thermistor_chain: String
         id: ID!
         metering_thermistor_chain_points: [MeteringThermistorChainPoint!]! @hasMany
+}
+input MeteringThermistorChainPointInput {
+        installed_thermistor_chains_point_id: ID
+        value: Float
 }

@@ -99,23 +99,16 @@ export const CREATE_METERING_THERMISTOR_CHAIN = gql`
   mutation CreateMeteringThermistorChain(
     $installed_thermistor_chains_id: ID
     $date_metering: String
-    $created_at: String
-    $updated_at: String
-    $installed_thermistor_chain: String
+    $metering_thermistor_chain_points: [MeteringThermistorChainPointInput!]!
   ) {
     createMeteringThermistorChain(
-      installed_thermistor_chains_id: $installed_thermistor_chains_id
-      date_metering: $date_metering
-      created_at: $created_at
-      updated_at: $updated_at
-      installed_thermistor_chain: $installed_thermistor_chain
+        installed_thermistor_chains_id:  $installed_thermistor_chains_id
+        date_metering: $date_metering
+        metering_thermistor_chain_points: $metering_thermistor_chain_points
     ) {
       id
       installed_thermistor_chains_id
       date_metering
-      created_at
-      updated_at
-      installed_thermistor_chain
     }
   }
 `

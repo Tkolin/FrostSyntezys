@@ -132,12 +132,12 @@ const StatisticPage = () => {
             {!isGraphMode ? (
               <MeteringThermistorChainsTable
                 {...dateSourceParams}
-                InstalledThermistorChainsId={row}
+                installedThermistorChainsId={row}
               />
             ) : (
               <MeteringThermistorChainsChart
                 {...dateSourceParams}
-                InstalledThermistorChainsId={row}
+                installedThermistorChainsId={row}
               />
             )}
           </Card>

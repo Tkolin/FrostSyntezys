@@ -1,4 +1,8 @@
-import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  SettingOutlined
+} from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
 import React, { useMemo, useState } from 'react'
@@ -9,9 +13,10 @@ import {
   getColumnsMetering,
   transformMeteringData
 } from '../../../utils/dataUtils'
+import MeteringThermistorChainsForm from '../forms/MeteringThermistorChainsForm'
 
-const MeteringThermistorChainsForm = ({
-  InstalledThermistorChainsId,
+const MeteringThermistorChainsTable = ({
+  installedThermistorChainsId,
   dateStart,
   dateEnd,
   forecastDays,
@@ -19,26 +24,32 @@ const MeteringThermistorChainsForm = ({
   ...props
 }) => {
   const [page, setPage] = useState(1)
+  // modalEditId используется для редактирования записи, а modalVisible для создания новой
   const [modalEditId, setModalEditId] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false)
 
   const { data, loading, error } = useQuery(GET_INSTALLED_THERMISTOR_CHAIN, {
-    variables: { id: InstalledThermistorChainsId }
+    variables: { id: installedThermistorChainsId }
   })
 
   const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
 
   const handleDelete = id => {
     console.log('delete', id)
+    // Здесь можно вызвать мутацию DELETE_THERMISTOR_CHAIN:
+    // mutate({ variables: { id } });
   }
 
   const handlePageChange = currentPage => {
     setPage(currentPage)
   }
 
-  // Формирование колонок таблицы:
+  // Формирование колонок таблицы: получаем колонки на основе точек
   const columns = useMemo(
     () => [
-      ...getColumnsMetering(data),
+      ...getColumnsMetering(
+        data?.InstalledThermistorChain?.installed_thermistor_chain_points
+      ),
       {
         title: 'Действия',
         key: 'actions',
@@ -47,7 +58,10 @@ const MeteringThermistorChainsForm = ({
             <Button
               type='link'
               icon={<SettingOutlined />}
-              onClick={() => setModalEditId(record.id)}
+              onClick={() => {
+                setModalEditId(record.id)
+                setModalVisible(true)
+              }}
             />
             <Button
               danger
@@ -63,20 +77,46 @@ const MeteringThermistorChainsForm = ({
   )
 
   // Трансформация исходных данных для таблицы
-  const dataSource = useMemo(
-    () =>
-      cutMeteringData(
-        transformMeteringData(data, forecastMethod, forecastDays),
-        dateStart,
-        dateEnd
+  const dataSource = useMemo(() => {
+    if (!data) return []
+    return cutMeteringData(
+      transformMeteringData(
+        data?.InstalledThermistorChain?.metering_thermistor_chains,
+        forecastMethod,
+        forecastDays
       ),
-    [data, forecastMethod, forecastDays, dateStart, dateEnd]
-  )
+      dateStart,
+      dateEnd
+    )
+  }, [data, forecastMethod, forecastDays, dateStart, dateEnd])
 
   return (
     <Space direction='vertical' style={{ width: '100%' }}>
-      {forecastDays}
-      {forecastMethod}
+      {/* Кнопка для создания новой записи */}
+      <Button
+        type='primary'
+        icon={<PlusOutlined />}
+        onClick={() => {
+          setModalEditId(null)
+          setModalVisible(true)
+        }}
+      >
+        Добавить запись
+      </Button>
+
+      <Modal
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        title='Управление термокосой'
+        footer={null}
+      >
+        <MeteringThermistorChainsForm
+          installedThermistorChainsId={installedThermistorChainsId}
+          onCompleted={() => {
+            setModalVisible(false)
+          }}
+        />
+      </Modal>
       <Table
         size='small'
         columns={columns}
@@ -85,16 +125,8 @@ const MeteringThermistorChainsForm = ({
         rowKey='id'
         pagination={{ current: page, pageSize: 20, onChange: handlePageChange }}
       />
-      <Modal
-        open={!!modalEditId}
-        onCancel={() => setModalEditId(null)}
-        title='Управление термокосой'
-        footer={null}
-      >
-        <MeteringThermistorChainsForm id={modalEditId} />
-      </Modal>
     </Space>
   )
 }
 
-export default MeteringThermistorChainsForm
+export default MeteringThermistorChainsTable

@@ -23,22 +23,19 @@ export const transformMeteringData = (
   mode = 'linear',
   forecastDays = 0
 ) => {
-  if (!data || !data.InstalledThermistorChain) return []
+  if (!data || data.length <= 0) return []
 
   // Преобразование исходных данных
-  let transformedData =
-    data.InstalledThermistorChain.metering_thermistor_chains.map(
-      measurement => {
-        const row = {
-          id: measurement.id,
-          date_metering: measurement.date_metering
-        }
-        measurement.metering_thermistor_chain_points.forEach(mp => {
-          row[`dp_${mp.installed_thermistor_chain_point_id}`] = mp.value
-        })
-        return row
-      }
-    )
+  let transformedData = data?.map(measurement => {
+    const row = {
+      id: measurement.id,
+      date_metering: measurement.date_metering
+    }
+    measurement.metering_thermistor_chain_points.forEach(mp => {
+      row[`dp_${mp.installed_thermistor_chain_point_id}`] = mp.value
+    })
+    return row
+  })
 
   // Если указан метод прогнозирования и задано количество прогнозных дней,
   // добавляем прогнозные строки к данным
@@ -114,7 +111,7 @@ export const transformMeteringData = (
 }
 
 export const getColumnsMetering = data => {
-  if (!data || !data.InstalledThermistorChain) return []
+  if (!data || data.length <= 0) return []
 
   // Первая колонка – дата
   const baseColumns = [
@@ -126,15 +123,13 @@ export const getColumnsMetering = data => {
   ]
 
   // Добавляем колонки для каждой точки по глубине
-  data.InstalledThermistorChain.installed_thermistor_chain_points.forEach(
-    point => {
-      baseColumns.push({
-        title: point.deep,
-        dataIndex: `dp_${point.id}`, // ключ, по которому будут записаны значения измерений
-        key: `dp_${point.id}`
-      })
-    }
-  )
+  data?.forEach(point => {
+    baseColumns.push({
+      title: point.deep,
+      dataIndex: `dp_${point.id}`, // ключ, по которому будут записаны значения измерений
+      key: `dp_${point.id}`
+    })
+  })
 
   return baseColumns
 }

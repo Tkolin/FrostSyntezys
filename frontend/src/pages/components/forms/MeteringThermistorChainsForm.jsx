@@ -1,15 +1,27 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, Divider, Form, Input, Select, Spin, notification } from 'antd'
-import React from 'react'
 import {
-  CREATE_LOCATION,
-  GET_LOCATION,
-  UPDATE_LOCATION
-} from '../../../gql/location'
+  Button,
+  DatePicker,
+  Divider,
+  Form,
+  InputNumber,
+  Select,
+  Spin,
+  notification
+} from 'antd'
+import dayjs from 'dayjs'
+import React, { useMemo } from 'react'
+import { GET_INSTALLED_THERMISTOR_CHAIN } from '../../../gql/installedThermistorChain'
+import { UPDATE_LOCATION } from '../../../gql/location'
+import { CREATE_METERING_THERMISTOR_CHAIN } from '../../../gql/MeteringThermistorChain'
 
 const { Option } = Select
 
-const MeteringThermistorChainsForm = ({ id, ...props }) => {
+const MeteringThermistorChainsForm = ({
+  id,
+  installedThermistorChainsId,
+  ...props
+}) => {
   const [form] = Form.useForm()
 
   const openNotification = (type, message, description) => {
@@ -19,27 +31,33 @@ const MeteringThermistorChainsForm = ({ id, ...props }) => {
     })
   }
 
-  // Если id передан, загружаем данные для редактирования
+  // Получаем данные термисторной цепи по переданному id
   const {
-    data,
-    loading: queryLoading,
-    error: queryError
-  } = useQuery(GET_LOCATION, {
-    variables: { id },
-    skip: !id, // Не выполняем запрос, если id не передан (создание новой записи)
+    data: dataInstalledThermistorChains,
+    loading,
+    error
+  } = useQuery(GET_INSTALLED_THERMISTOR_CHAIN, {
+    variables: { id: installedThermistorChainsId },
     onCompleted: resultData => {
-      if (resultData && resultData.MeteringThermistorChains) {
-        form.setFieldsValue(resultData.MeteringThermistorChains)
-      }
-    },
-    onError: error => {
-      openNotification('error', 'Ошибка загрузки', error.message)
+      console.log('resultData', resultData)
     }
   })
 
+  // Формируем элементы формы на основе точек, установленных в цепи
+  const formItems = useMemo(() => {
+    if (!dataInstalledThermistorChains) return []
+    return dataInstalledThermistorChains?.InstalledThermistorChain?.installed_thermistor_chain_points.map(
+      row => ({
+        name: row.id,
+        label: row.deep
+      })
+    )
+  }, [dataInstalledThermistorChains])
+
   // Мутация для создания новой записи
-  const [createMeteringThermistorChains, { loading: createLoading }] =
-    useMutation(CREATE_LOCATION, {
+  const [createLocation, { loading: createLoading }] = useMutation(
+    CREATE_METERING_THERMISTOR_CHAIN,
+    {
       onCompleted: resultData => {
         openNotification('success', 'Успешно', 'Термисторная цепь создана')
         form.resetFields()
@@ -47,29 +65,44 @@ const MeteringThermistorChainsForm = ({ id, ...props }) => {
       onError: error => {
         openNotification('error', 'Ошибка создания', error.message)
       }
-    })
+    }
+  )
 
   // Мутация для обновления существующей записи
-  const [updateMeteringThermistorChains, { loading: updateLoading }] =
-    useMutation(UPDATE_LOCATION, {
+  const [updateLocation, { loading: updateLoading }] = useMutation(
+    UPDATE_LOCATION,
+    {
       onCompleted: resultData => {
         openNotification('success', 'Успешно', 'Термисторная цепь обновлена')
       },
       onError: error => {
         openNotification('error', 'Ошибка обновления', error.message)
       }
-    })
+    }
+  )
 
   const onFinish = values => {
-    console.log('Значения формы:', values)
+    const payload = {
+      installed_thermistor_chains_id: installedThermistorChainsId,
+      date_metering: dayjs(values.date_metering).format('DD-MM-YYYY'),
+      metering_thermistor_chain_points: Object.entries(values.points).map(
+        ([key, row]) => ({
+          installed_thermistor_chains_point_id: key, // Ключ объекта (аналог row["name"])
+          value: row // Получаем значение по этому ключу
+        })
+      )
+    }
+    console.log('Значения формы:', payload)
+
     if (!id) {
-      createMeteringThermistorChains({ variables: { ...values } })
+      createLocation({ variables: { ...payload } })
     } else {
-      updateMeteringThermistorChains({ variables: { id, ...values } })
+      updateLocation({ variables: { id, ...payload } })
     }
   }
 
-  if (queryLoading) return <Spin />
+  if (loading) return <Spin />
+  if (error) return <div>Ошибка загрузки данных</div>
 
   return (
     <Form
@@ -81,17 +114,22 @@ const MeteringThermistorChainsForm = ({ id, ...props }) => {
       wrapperCol={{ span: 12 }}
       initialValues={{ measurement_range: 37 }}
     >
-      <Form.Item label='Наименование' name='number'>
-        <Input />
+      <Form.Item label='Дата измерения' name='date_metering'>
+        <DatePicker />
       </Form.Item>
-      <Divider>Координаты</Divider>
-      <Form.Item label='X' name='x'>
-        <Input />
-      </Form.Item>
-      <Form.Item label='Y' name='y'>
-        <Input />
-      </Form.Item>
+      <Divider>Точки</Divider>
 
+      {formItems.map(row => {
+        return (
+          <Form.Item
+            key={row.name}
+            label={row.label}
+            name={['points', row.name]}
+          >
+            <InputNumber />
+          </Form.Item>
+        )
+      })}
       <Form.Item wrapperCol={{ span: 24 }}>
         <Button
           type='primary'
