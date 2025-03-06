@@ -30,6 +30,7 @@ class Notification extends Model
 	protected $table = 'notifications';
 
 	protected $casts = [
+        'id' => 'int',
 		'metering_thermistor_chain_point_id' => 'int',
 		'date_start' => 'datetime',
 		'date_end' => 'datetime',
@@ -37,7 +38,8 @@ class Notification extends Model
 		'user_id' => 'int'
 	];
 
-	protected $fillable = [	'id',
+	protected $fillable = [
+        'id',
 		'metering_thermistor_chain_point_id',
 		'description',
 		'date_start',

@@ -1,4 +1,5 @@
 import { Alert, Card } from 'antd'
+import NotificationTable from './components/tables/NotificationTable'
 
 const JournalPage = () => {
   return (
@@ -10,7 +11,7 @@ const JournalPage = () => {
     >
       <Card style={{ width: '100%' }}>
         <Alert message='Журнал событий'></Alert>
-        {/* <RequestTable  style={{ width: "100%" }}></RequestTable> */}
+        <NotificationTable style={{ width: '100%' }} />
       </Card>
     </div>
   )
