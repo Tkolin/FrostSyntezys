@@ -1,7 +1,7 @@
 extend type Query {
-    Notifications: [Notification!]! @all
-    NotificationPaginated(first: Int, page: Int): [Notification!]! @paginate
-    Notification(id: ID!): Notification @find
+    Notifications: [Notification!]! @all @guard
+    NotificationPaginated(first: Int, page: Int): [Notification!]! @paginate @guard
+    Notification(id: ID!): Notification @find @guard
 }
 
 extend type Mutation {
@@ -15,7 +15,7 @@ extend type Mutation {
         created_at: String
         updated_at: String
         metering_thermistor_chain_points: String
-    ): Notification @create
+    ): Notification @create @guard
 
     updateNotification(id: ID!,
         id: ID
@@ -27,9 +27,9 @@ extend type Mutation {
         created_at: String
         updated_at: String
         metering_thermistor_chain_points: String
-    ): Notification @update
+    ): Notification @update @guard
 
-    deleteNotification(id: ID!): Notification @delete
+    deleteNotification(id: ID!): Notification @delete @guard
 }
 
 type Notification {

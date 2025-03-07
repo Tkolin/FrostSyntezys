@@ -64,6 +64,14 @@ export const GET_NOTIFICATIONS_PAGINATED = gql`
 `
 
 // Создание уведомления
+export const NOTIFICATION_CHECKED = gql`
+  mutation CreateNotification($id: ID) {
+    createNotification(id: $id) {
+      id
+    }
+  }
+`
+// Создание уведомления
 export const CREATE_NOTIFICATION = gql`
   mutation CreateNotification(
     $id: ID
