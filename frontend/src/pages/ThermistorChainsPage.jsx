@@ -19,7 +19,7 @@ const ThermistorChainsPage = () => {
           Создать запись
         </Button>
         <ThermalChainTable style={{ width: '100%' }}></ThermalChainTable>
-        <Modal
+        <Modal footer={null}
           open={createThermalChainModalStatus}
           onClose={() => setCreateThermalChainModalStatus(null)}
           onCancel={() => setCreateThermalChainModalStatus(null)}

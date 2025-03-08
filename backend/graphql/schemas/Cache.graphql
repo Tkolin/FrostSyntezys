@@ -21,7 +21,7 @@ extend type Mutation {
         updated_at: String
     ): Cache @update
 
-    deleteCache(id: ID!): Cache @delete
+    deleteCache(id: ID!@eq): Cache @delete
 }
 
 type Cache {

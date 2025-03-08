@@ -89,18 +89,11 @@ const InstalledThermalChainForm = ({ id, ...props }) => {
   if (queryLoading) return <Spin />
 
   return (
-    <Form
-      form={form}
-      layout='horizontal'
-      onFinish={onFinish}
-      size='small'
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-    >
+    <Form form={form} layout='horizontal' onFinish={onFinish} size='small'>
       <Form.Item
-        label='ID цепи'
+        label='Термокоса'
         name='thermistor_chain_id'
-        rules={[{ required: true, message: 'Пожалуйста, введите ID цепи' }]}
+        rules={[{ required: true, message: 'Пожалуйста, выберите Термокосу' }]}
       >
         <Select
           options={dataThermistorChain?.ThermistorChains?.map(row => ({
@@ -110,9 +103,9 @@ const InstalledThermalChainForm = ({ id, ...props }) => {
         />
       </Form.Item>
       <Form.Item
-        label='ID локации'
+        label='Локация'
         name='location_id'
-        rules={[{ required: true, message: 'Пожалуйста, введите ID локации' }]}
+        rules={[{ required: true, message: 'Пожалуйста, выберите локацию' }]}
       >
         <Select
           options={dataLocation?.Locations?.map(row => ({

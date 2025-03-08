@@ -25,7 +25,6 @@ const ThermalChainTable = ({ ...props }) => {
   )
   const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
   const handleDelete = id => {
-    console.log('delete')
     mutate({ variables: { id: id } })
   }
   const handlePageChange = pagination => {
@@ -118,6 +117,7 @@ const ThermalChainTable = ({ ...props }) => {
         }}
       />
       <Modal
+        footer={null}
         open={modalEditId}
         onClose={() => setModalEditId(null)}
         onCancel={() => setModalEditId(null)}

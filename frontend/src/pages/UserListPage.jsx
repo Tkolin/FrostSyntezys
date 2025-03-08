@@ -9,7 +9,7 @@ const UserListPage = () => {
       }}
     >
       <Card style={{ width: '100%' }}>
-        <Alert message='Список существующих термакос (моделей)'></Alert>
+        <Alert message='Список пользователей'></Alert>
         <Button>Создать запись</Button>
         {/* <UserListTable style={{ width: '100%' }}></UserListTable> */}
       </Card>

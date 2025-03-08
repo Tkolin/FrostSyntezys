@@ -104,7 +104,7 @@ const MeteringThermistorChainsTable = ({
         Добавить запись
       </Button>
 
-      <Modal
+      <Modal footer={null}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         title='Управление термокосой'

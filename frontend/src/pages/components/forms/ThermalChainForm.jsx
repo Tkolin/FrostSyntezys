@@ -35,7 +35,7 @@ const ThermalChainForm = ({ id, onCompleted, ...props }) => {
     error: queryError
   } = useQuery(GET_THERMISTOR_CHAIN, {
     variables: { id },
-    skip: !id, // Не выполняем запрос, если id не передан (создание новой записи)
+    skip: !id,
     onCompleted: resultData => {
       if (resultData && resultData.ThermistorChain) {
         form.setFieldsValue(resultData.ThermistorChain)
@@ -75,7 +75,6 @@ const ThermalChainForm = ({ id, onCompleted, ...props }) => {
   )
 
   const onFinish = values => {
-    console.log('Значения формы:', values)
     if (!id) {
       createThermistorChain({ variables: { ...values } })
     } else {
@@ -91,39 +90,95 @@ const ThermalChainForm = ({ id, onCompleted, ...props }) => {
       layout='horizontal'
       onFinish={onFinish}
       size='small'
-      labelCol={{ span: 12 }}
-      wrapperCol={{ span: 12 }}
       initialValues={{ measurement_range: 37 }}
     >
-      <Form.Item label='Номер' name='number'>
+      <Form.Item
+        label='Номер'
+        name='number'
+        rules={[
+          { required: true, message: 'Введите номер!' },
+          {
+            pattern: /^[A-Za-z0-9-]+$/,
+            message: 'Допустимы только буквы, цифры и тире'
+          }
+        ]}
+      >
         <Input />
       </Form.Item>
 
-      <Form.Item label='Наименование' name='name'>
+      <Form.Item
+        label='Наименование'
+        name='name'
+        rules={[{ required: true, message: 'Введите наименование!' }]}
+      >
         <Input />
       </Form.Item>
 
-      <Form.Item label='Диапазон измерений' name='measurement_range'>
+      <Form.Item
+        label='Диапазон измерений'
+        name='measurement_range'
+        rules={[{ required: true, message: 'Выберите диапазон измерений!' }]}
+      >
         <Slider min={0} max={100} marks={{ 0: '0°C', 100: '100°C' }} />
       </Form.Item>
 
-      <Form.Item label='Погрешность измерений' name='error_margin'>
+      <Form.Item
+        label='Погрешность измерений'
+        name='error_margin'
+        rules={[
+          { required: true, message: 'Введите погрешность!' },
+          {
+            type: 'number',
+            min: 0,
+            message: 'Значение должно быть неотрицательным!'
+          }
+        ]}
+      >
         <InputNumber step={0.01} />
       </Form.Item>
 
-      <Form.Item label='Дискретность измерений' name='measurement_discreteness'>
+      <Form.Item
+        label='Дискретность измерений'
+        name='measurement_discreteness'
+        rules={[
+          { required: true, message: 'Введите дискретность измерений!' },
+          {
+            type: 'number',
+            min: 0,
+            message: 'Значение должно быть положительным!'
+          }
+        ]}
+      >
         <InputNumber step={0.01} />
       </Form.Item>
 
-      <Form.Item label='Количество сенсоров' name='sensor_count'>
+      <Form.Item
+        label='Количество сенсоров'
+        name='sensor_count'
+        rules={[
+          { required: true, message: 'Введите количество сенсоров!' },
+          { type: 'number', min: 1, message: 'Минимальное значение 1!' }
+        ]}
+      >
         <InputNumber min={1} />
       </Form.Item>
 
-      <Form.Item label='Расстояние между сенсорами' name='sensor_distance'>
+      <Form.Item
+        label='Расстояние между сенсорами'
+        name='sensor_distance'
+        rules={[
+          { required: true, message: 'Введите расстояние между сенсорами!' },
+          { type: 'number', min: 0.1, message: 'Минимальное значение 0.1!' }
+        ]}
+      >
         <InputNumber step={0.1} />
       </Form.Item>
 
-      <Form.Item label='Внешние интерфейсы' name='external_interfaces'>
+      <Form.Item
+        label='Внешние интерфейсы'
+        name='external_interfaces'
+        rules={[{ required: true, message: 'Введите внешние интерфейсы!' }]}
+      >
         <Input />
       </Form.Item>
 
@@ -131,23 +186,46 @@ const ThermalChainForm = ({ id, onCompleted, ...props }) => {
         <Input />
       </Form.Item>
 
-      <Form.Item label='Тип памяти' name='memory_type'>
+      <Form.Item
+        label='Тип памяти'
+        name='memory_type'
+        rules={[{ required: true, message: 'Введите тип памяти!' }]}
+      >
         <Input />
       </Form.Item>
 
-      <Form.Item label='Тип антенны' name='antenna_type'>
+      <Form.Item
+        label='Тип антенны'
+        name='antenna_type'
+        rules={[{ required: true, message: 'Введите тип антенны!' }]}
+      >
         <Input />
       </Form.Item>
 
-      <Form.Item label='Тип батареи' name='battery_type'>
+      <Form.Item
+        label='Тип батареи'
+        name='battery_type'
+        rules={[{ required: true, message: 'Введите тип батареи!' }]}
+      >
         <Input />
       </Form.Item>
 
-      <Form.Item label='Количество батарей' name='battery_count'>
+      <Form.Item
+        label='Количество батарей'
+        name='battery_count'
+        rules={[
+          { required: true, message: 'Введите количество батарей!' },
+          { type: 'number', min: 1, message: 'Минимальное значение 1!' }
+        ]}
+      >
         <InputNumber min={1} />
       </Form.Item>
 
-      <Form.Item label='Габариты' name='dimensions'>
+      <Form.Item
+        label='Габариты'
+        name='dimensions'
+        rules={[{ required: true, message: 'Введите габариты!' }]}
+      >
         <Input />
       </Form.Item>
 

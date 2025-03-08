@@ -2,8 +2,7 @@ import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
 import React, { useState } from 'react'
-import { GET_LOCATIONS_PAGINATE } from '../../../gql/location'
-import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
+import { DELETE_LOCATION, GET_LOCATIONS_PAGINATE } from '../../../gql/location'
 import LocationForm from '../forms/LocationForm'
 
 const LocationTable = ({ ...props }) => {
@@ -12,15 +11,16 @@ const LocationTable = ({ ...props }) => {
 
   const [modalEditId, setModalEditId] = useState(null)
   const [modalStatic, setModalStatic] = useState(null)
-  const { data, loading, error } = useQuery(GET_LOCATIONS_PAGINATE, {
+  const { data, loading, error, refetch } = useQuery(GET_LOCATIONS_PAGINATE, {
     variables: { first, page },
     onCompleted: resultData => {
       console.log('data11', resultData)
     }
   })
-  const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
-  const handleDelete = () => {
-    console.log('delete')
+  const [mutate] = useMutation(DELETE_LOCATION)
+  const handleDelete = id => {
+    mutate({ variables: { id: id } })
+    refetch()
   }
   const handlePageChange = pagination => {
     setPage(pagination)
@@ -87,6 +87,7 @@ const LocationTable = ({ ...props }) => {
         }}
       />
       <Modal
+        footer={null}
         open={modalEditId}
         onClose={() => setModalEditId(null)}
         onCancel={() => setModalEditId(null)}

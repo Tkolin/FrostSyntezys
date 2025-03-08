@@ -52,10 +52,11 @@ const StatisticPage = () => {
           Зарегестрировать термокосу
         </Button>
         <Modal
+          footer={null}
           open={installedThermalChainModalStatus}
           onClose={() => setInstalledThermalChainModalStatus(null)}
           onCancel={() => setInstalledThermalChainModalStatus(null)}
-          title={'Создание термокосы'}
+          title={'Регистрация термокосы на объекте'}
         >
           <InstalledThermalChainForm />
         </Modal>

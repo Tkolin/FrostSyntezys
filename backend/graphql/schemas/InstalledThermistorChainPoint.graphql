@@ -31,7 +31,7 @@ extend type Mutation {
         installed_thermistor_chain: String
     ): InstalledThermistorChainPoint @update
 
-    deleteInstalledThermistorChainPoint(id: ID!): InstalledThermistorChainPoint @delete
+    deleteInstalledThermistorChainPoint(id: ID! @eq): InstalledThermistorChainPoint @delete
 }
 
 type InstalledThermistorChainPoint {

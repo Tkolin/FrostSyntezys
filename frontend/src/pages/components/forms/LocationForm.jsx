@@ -81,8 +81,6 @@ const LocationForm = ({ id, ...props }) => {
       layout='horizontal'
       onFinish={onFinish}
       size='small'
-      labelCol={{ span: 12 }}
-      wrapperCol={{ span: 12 }}
       initialValues={{ measurement_range: 37 }}
     >
       <Form.Item label='Наименование' name='number'>

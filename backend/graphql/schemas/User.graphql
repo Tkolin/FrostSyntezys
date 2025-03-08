@@ -27,7 +27,7 @@ extend type Mutation {
         updated_at: String
     ): User @update
 
-    deleteUser(id: ID!): User @delete
+    deleteUser(id: ID! @eq): User @delete
 }
 
 type User {

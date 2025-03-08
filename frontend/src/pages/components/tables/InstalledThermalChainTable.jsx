@@ -89,7 +89,7 @@ const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
           onChange: handlePageChange
         }}
       />
-      <Modal
+      <Modal footer={null}
         open={modalEditId}
         onClose={() => setModalEditId(null)}
         onCancel={() => setModalEditId(null)}

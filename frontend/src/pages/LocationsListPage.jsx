@@ -13,7 +13,7 @@ const LocationsListPage = () => {
       }}
     >
       <Card style={{ width: '100%' }}>
-        <Alert message='Список существующих термакос (моделей)'></Alert>
+        <Alert message='Список объектов (скважин)'></Alert>
         <Button onClick={() => setLocationModalStatus(true)}>
           Создать запись
         </Button>
@@ -22,7 +22,7 @@ const LocationsListPage = () => {
           open={createLocationStatus}
           onClose={() => setLocationModalStatus(null)}
           onCancel={() => setLocationModalStatus(null)}
-          title={'Создание термокосы'}
+          title={'Создание объекта'}
         >
           <LocationForm />
         </Modal>

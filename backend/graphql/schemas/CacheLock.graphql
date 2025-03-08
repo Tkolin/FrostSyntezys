@@ -21,7 +21,7 @@ extend type Mutation {
         updated_at: String
     ): CacheLock @update
 
-    deleteCacheLock(id: ID!): CacheLock @delete
+    deleteCacheLock(id: ID! @eq): CacheLock @delete
 }
 
 type CacheLock {

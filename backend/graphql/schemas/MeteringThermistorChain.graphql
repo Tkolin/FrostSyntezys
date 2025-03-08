@@ -11,7 +11,7 @@ extend type Mutation {
         date_metering: String
         metering_thermistor_chain_points: [MeteringThermistorChainPointInput!]!
     ): MeteringThermistorChain
-    deleteMeteringThermistorChain(id: ID!): MeteringThermistorChain @delete
+    deleteMeteringThermistorChain(id: ID! @eq): MeteringThermistorChain @delete
 }
 
 type MeteringThermistorChain {

@@ -25,7 +25,7 @@ extend type Mutation {
         max_critical_temperature: Float
     ): InstalledThermistorChain @update
 
-    deleteInstalledThermistorChain(id: ID!): InstalledThermistorChain @delete
+    deleteInstalledThermistorChain(id: ID! @eq): InstalledThermistorChain @delete
 }
 
 type InstalledThermistorChain {

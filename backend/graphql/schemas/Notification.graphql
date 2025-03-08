@@ -29,7 +29,7 @@ extend type Mutation {
         metering_thermistor_chain_points: String
     ): Notification @update @guard
 
-    deleteNotification(id: ID!): Notification @delete @guard
+    deleteNotification(id: ID! @eq): Notification @delete @guard
     setUserInNotification(id: ID!, user_id: ID!, date_end: String!): Notification  @guard
 }
 

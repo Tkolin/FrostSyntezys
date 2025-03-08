@@ -19,7 +19,7 @@ extend type Mutation {
         name: String
     ): Location @update
 
-    deleteLocation(id: ID!): Location @delete
+    deleteLocation(id: ID! @eq): Location @delete
 }
 
 type Location {

@@ -33,7 +33,7 @@ extend type Mutation {
         updated_at: String
     ): JobBatch @update
 
-    deleteJobBatch(id: ID!): JobBatch @delete
+    deleteJobBatch(id: ID! @eq): JobBatch @delete
 }
 
 type JobBatch {

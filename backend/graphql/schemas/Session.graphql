@@ -27,7 +27,7 @@ extend type Mutation {
         updated_at: String
     ): Session @update
 
-    deleteSession(id: ID!): Session @delete
+    deleteSession(id: ID! @eq): Session @delete
 }
 
 type Session {
