@@ -14,15 +14,19 @@ const ThermalChainTable = ({ ...props }) => {
 
   const [modalEditId, setModalEditId] = useState(null)
   const [modalStatic, setModalStatic] = useState(null)
-  const { data, loading, error } = useQuery(GET_THERMISTOR_CHAINS_PAGINATE, {
-    variables: { first, page },
-    onCompleted: resultData => {
-      console.log('data11', resultData)
+  const { data, loading, error, refetch } = useQuery(
+    GET_THERMISTOR_CHAINS_PAGINATE,
+    {
+      variables: { first, page },
+      onCompleted: resultData => {
+        console.log('data11', resultData)
+      }
     }
-  })
+  )
   const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
-  const handleDelete = () => {
+  const handleDelete = id => {
     console.log('delete')
+    mutate({ variables: { id: id } })
   }
   const handlePageChange = pagination => {
     setPage(pagination)
@@ -119,7 +123,7 @@ const ThermalChainTable = ({ ...props }) => {
         onCancel={() => setModalEditId(null)}
         title={'Управление термокосой'}
       >
-        <ThermalChainForm id={modalEditId} />
+        <ThermalChainForm id={modalEditId} onCompleted={refetch()} />
       </Modal>
     </Space>
   )

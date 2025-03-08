@@ -1,19 +1,18 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 /**
  * Class Notification
  *
  * @property int $id
- * @property int $installed_thermistor_chains_id
+ * @property int $metering_thermistor_chain_point_id
+ * @property string $type_notification_key
  * @property string $description
  * @property Carbon $date_start
  * @property Carbon|null $date_end
@@ -21,35 +20,68 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
- * @property InstalledThermistorChain $installed_thermistor_chain
- *
- * @package App\Models
+ * @property MeteringThermistorChainPoint|null $metering_thermistor_chain_point
+ * @property Location|null $location
+ * @property ThermistorChain|null $thermistor_chain
  */
 class Notification extends Model
 {
-	protected $table = 'notifications';
+    protected $table = 'notifications';
 
-	protected $casts = [
+    protected $casts = [
         'id' => 'int',
-		'metering_thermistor_chain_point_id' => 'int',
-		'date_start' => 'datetime',
-		'date_end' => 'datetime',
-		'type_notification_key' => 'string',
-		'user_id' => 'int'
-	];
+        'metering_thermistor_chain_point_id' => 'int',
+        'type_notification_key' => 'string',
+        'date_start' => 'datetime',
+        'date_end' => 'datetime',
+        'user_id' => 'int',
+    ];
 
-	protected $fillable = [
+    protected $fillable = [
         'id',
-		'metering_thermistor_chain_point_id',
-		'description',
-		'date_start',
-		'date_end',
-		'type_notification_key',
-		'user_id'
-	];
+        'metering_thermistor_chain_point_id',
+        'type_notification_key',
+        'description',
+        'date_start',
+        'date_end',
+        'user_id'
+    ];
 
-	public function metering_thermistor_chain_points()
-	{
-		return $this->belongsTo(MeteringThermistorChainPoint::class, 'metering_thermistor_chain_point_id');
-	}
+    /**
+     * Отношение к точке измерения термокосы
+     */
+    public function metering_thermistor_chain_point(): BelongsTo
+    {
+        return $this->belongsTo(MeteringThermistorChainPoint::class, 'metering_thermistor_chain_point_id');
+    }
+
+    /**
+     * Получение локации через точку измерения термокосы
+     */
+    public function location(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            Location::class,
+            InstalledThermistorChain::class,
+            'id', // ID термокосы
+            'id', // ID локации
+            'metering_thermistor_chain_point_id', // внешний ключ в таблице точек измерения
+            'location_id' // внешний ключ в таблице термокос
+        );
+    }
+
+    /**
+     * Получение термокосы через точку измерения термокосы
+     */
+    public function thermistor_chain(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            ThermistorChain::class,
+            InstalledThermistorChain::class,
+            'id', // ID термокосы
+            'id', // ID термисторной цепи
+            'metering_thermistor_chain_point_id', // внешний ключ в таблице точек измерения
+            'thermistor_chain_id' // внешний ключ в таблице термокос
+        );
+    }
 }

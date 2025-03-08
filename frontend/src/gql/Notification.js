@@ -6,6 +6,9 @@ export const GET_NOTIFICATIONS = gql`
     Notifications {
       id
       metering_thermistor_chain_point_id
+      type_notification_key
+      thermistor_chain
+      location
       description
       date_start
       date_end
@@ -23,6 +26,10 @@ export const GET_NOTIFICATION = gql`
     Notification(id: $id) {
       id
       metering_thermistor_chain_point_id
+      type_notification_key
+      thermistor_chain
+      location
+
       description
       date_start
       date_end
@@ -47,18 +54,40 @@ export const GET_NOTIFICATIONS_PAGINATED = gql`
         lastPage
         perPage
         total
+        __typename
       }
       data {
         id
         metering_thermistor_chain_point_id
+        type_notification_key
+
         description
         date_start
         date_end
         user_id
         created_at
         updated_at
-        metering_thermistor_chain_points
+        metering_thermistor_chain_point {
+          id
+          installed_thermistor_chain_point {
+            id
+            installed_thermistor_chain {
+              location {
+                id
+                name
+              }
+              thermistor_chain {
+                id
+                name
+              }
+            }
+          }
+
+          __typename
+        }
+        __typename
       }
+      __typename
     }
   }
 `
@@ -68,6 +97,15 @@ export const NOTIFICATION_CHECKED = gql`
   mutation CreateNotification($id: ID) {
     createNotification(id: $id) {
       id
+    }
+  }
+`
+export const SET_USER_IN_NOTIFICATION = gql`
+  mutation SetUserInNotification($id: ID!, $user_id: ID!, $date_end: String!) {
+    setUserInNotification(id: $id, user_id: $user_id, date_end: $date_end) {
+      id
+      date_end
+      user_id
     }
   }
 `

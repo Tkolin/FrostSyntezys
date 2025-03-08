@@ -1,16 +1,15 @@
 <?php declare(strict_types=1);
 
 namespace App\GraphQL\Mutations;
-
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-
-final class RegisterUser
+final readonly class Register
 {
+    /** @param  array{}  $args */
     public function __invoke(null $_, array $args)
     {
-        // Валидация данных
+             // Валидация данных
         $validated = validator($args, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',

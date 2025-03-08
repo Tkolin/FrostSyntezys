@@ -13,7 +13,7 @@ extend type Mutation {
         max_warning_temperature: Float
         min_critical_temperature: Float
         max_critical_temperature: Float
-    ): InstalledThermistorChain  
+    ): InstalledThermistorChain
 
     updateInstalledThermistorChain(id: ID!,
         id: ID
@@ -38,8 +38,8 @@ type InstalledThermistorChain {
         max_warning_temperature: String
         min_critical_temperature: String
         max_critical_temperature: String
-        thermistor_chain: String
-        location: String
+        thermistor_chain: ThermistorChain
+        location: Location
         installed_thermistor_chain_points: [InstalledThermistorChainPoint!]! @hasMany
         metering_thermistor_chains: [MeteringThermistorChain!]! @hasMany
         notifications: [Notification!]! @hasMany

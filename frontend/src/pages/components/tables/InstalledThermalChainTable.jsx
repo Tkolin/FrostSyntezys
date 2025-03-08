@@ -32,11 +32,11 @@ const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
   const columns = [
     {
       title: 'Термокоса',
-      render: (_, record) => JSON.parse(record.thermistor_chain).name
+      render: (_, record) => record.thermistor_chain.name
     },
     {
       title: 'Локация',
-      render: (_, record) => JSON.parse(record.location).name
+      render: (_, record) => record.location.name
     },
     {
       title: 'Min',

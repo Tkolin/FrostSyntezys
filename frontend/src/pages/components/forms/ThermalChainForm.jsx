@@ -18,7 +18,7 @@ import {
 
 const { Option } = Select
 
-const ThermalChainForm = ({ id, ...props }) => {
+const ThermalChainForm = ({ id, onCompleted, ...props }) => {
   const [form] = Form.useForm()
 
   const openNotification = (type, message, description) => {
@@ -52,6 +52,7 @@ const ThermalChainForm = ({ id, ...props }) => {
     {
       onCompleted: resultData => {
         openNotification('success', 'Успешно', 'Термисторная цепь создана')
+        onCompleted && onCompleted()
         form.resetFields()
       },
       onError: error => {
@@ -100,14 +101,6 @@ const ThermalChainForm = ({ id, ...props }) => {
 
       <Form.Item label='Наименование' name='name'>
         <Input />
-      </Form.Item>
-
-      <Form.Item label='Количество точек' name='point_count'>
-        <InputNumber min={1} />
-      </Form.Item>
-
-      <Form.Item label='Шаг точек' name='point_step'>
-        <InputNumber step={0.1} />
       </Form.Item>
 
       <Form.Item label='Диапазон измерений' name='measurement_range'>

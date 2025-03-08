@@ -23,8 +23,7 @@ extend type Mutation {
 }
 
 type Location {
-        id: ID
-        x: String
+         x: String
         y: String
         created_at: String
         updated_at: String

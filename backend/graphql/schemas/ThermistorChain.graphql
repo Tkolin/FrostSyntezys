@@ -9,19 +9,17 @@ extend type Mutation {
         id: ID
         number: String
         name: String
-        point_count: String
-        point_step: String
-        measurement_range: String
-        error_margin: String
-        measurement_discreteness: String
-        sensor_count: String
-        sensor_distance: String
+        measurement_range: Int
+        error_margin: Float
+        measurement_discreteness: Float
+        sensor_count: Int
+        sensor_distance: Float
         external_interfaces: String
         additional_interfaces: String
         memory_type: String
         antenna_type: String
         battery_type: String
-        battery_count: String
+        battery_count: Int
         dimensions: String
     ): ThermistorChain @create
 
@@ -29,23 +27,22 @@ extend type Mutation {
         id: ID
         number: String
         name: String
-        point_count: String
-        point_step: String
-        measurement_range: String
-        error_margin: String
-        measurement_discreteness: String
-        sensor_count: String
-        sensor_distance: String
+
+        measurement_range: Int
+        error_margin: Float
+        measurement_discreteness: Float
+        sensor_count: Int
+        sensor_distance: Float
         external_interfaces: String
         additional_interfaces: String
         memory_type: String
         antenna_type: String
         battery_type: String
-        battery_count: String
+        battery_count: Int
         dimensions: String
     ): ThermistorChain @update
 
-    deleteThermistorChain(id: ID!): ThermistorChain @delete
+    deleteThermistorChain(id: ID! @eq): ThermistorChain @delete
 }
 
 type ThermistorChain {
@@ -54,21 +51,20 @@ type ThermistorChain {
         name: String
         created_at: String
         updated_at: String
-        point_count: String
-        point_step: String
-        measurement_range: String
-        error_margin: String
-        measurement_discreteness: String
-        sensor_count: String
-        sensor_distance: String
+
+        measurement_range: Int
+        error_margin: Float
+        measurement_discreteness: Float
+        sensor_count: Int
+        sensor_distance: Float
         external_interfaces: String
         additional_interfaces: String
         memory_type: String
         antenna_type: String
         battery_type: String
-        battery_count: String
+        battery_count: Int
         dimensions: String
-    id: ID!
+        id: ID!
         installed_thermistor_chains: [InstalledThermistorChain!]! @hasMany
 
 }

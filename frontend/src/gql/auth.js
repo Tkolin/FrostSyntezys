@@ -24,8 +24,8 @@ export const REGISTER_MUTATION = gql`
 `
 
 export const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation Login($name: String!, $password: String!) {
+    login(name: $name, password: $password) {
       access_token
       user {
         id

@@ -12,25 +12,25 @@ final readonly class CreateInstalledThermistorChain
     public function __invoke(null $_, array $args)
     {
         // Логируем ID цепи термисторов
- 
+
         // Ищем термисторную цепь по переданному ID
         $thermistor_chain = ThermistorChain::find($args["thermistor_chain_id"]);
         if (!$thermistor_chain) {
             throw new \Exception("ThermistorChain not found");
         }
- 
+
         // Создаем запись установленной термисторной цепи
         $chain = InstalledThermistorChain::create($args);
-        
- 
+
+
         // Получаем шаг глубины и количество точек из найденной термисторной цепи
-        $deep_step = $thermistor_chain->point_step;
-        $point_count = $thermistor_chain->point_count;
+        $sensor_distance = $thermistor_chain->sensor_distance;
+        $sensor_count = $thermistor_chain->sensor_count;
 
         // Создаем точки цепи с вычислением глубины для каждой точки
-        for ($i = 1; $i <= $point_count; $i++) {
+        for ($i = 1; $i <= $sensor_count; $i++) {
             $chain_point_data = [
-                'deep' => (($i - 1) * $deep_step),
+                'deep' => (($i - 1) * $sensor_distance),
                 'min_warning_temperature'  => $args["min_warning_temperature"],
                 'max_warning_temperature'  => $args["max_warning_temperature"],
                 'min_critical_temperature' => $args["min_critical_temperature"],
@@ -40,7 +40,7 @@ final readonly class CreateInstalledThermistorChain
              InstalledThermistorChainPoint::create($chain_point_data);
         }
 
- 
+
         // Возвращаем созданную цепь (можно вернуть и объект, и true, в зависимости от требований)
         return $chain;
     }

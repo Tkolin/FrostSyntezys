@@ -51,7 +51,10 @@ export const GET_INSTALLED_THERMISTOR_CHAIN = gql`
         min_critical_temperature
         max_critical_temperature
       }
-      location
+      location {
+        id
+        name
+      }
     }
   }
 `
@@ -80,8 +83,14 @@ export const GET_INSTALLED_THERMISTOR_CHAINS_PAGINATE = gql`
         max_warning_temperature
         min_critical_temperature
         max_critical_temperature
-        thermistor_chain
-        location
+        thermistor_chain {
+          id
+          name
+        }
+        location {
+          id
+          name
+        }
       }
     }
   }

@@ -2,8 +2,8 @@ type Query {
     me: User @guard
 }
 type Mutation {
-    register(name: String!, email: String!, password: String!, password_confirmation: String!): AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\RegisterUser")
-    login(email: String!, password: String!): AuthPayload! @field(resolver: "App\\GraphQL\\Mutations\\LoginUser")
+    register(name: String!, email: String!, password: String!, password_confirmation: String!): AuthPayload!
+    login(name: String!, password: String!): AuthPayload!
     logout: Boolean! @guard
 }
 

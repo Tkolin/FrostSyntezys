@@ -1,6 +1,6 @@
 import { Card } from 'antd'
 import React from 'react'
-import RegisterForm from './components/forms/RegisterForm'
+import LoginForm from './components/forms/LoginForm'
 
 const AuthPage = () => {
   return (
@@ -13,13 +13,10 @@ const AuthPage = () => {
           justifyContent: 'center'
         }}
       >
-        <Card style={{ minWidth: '410px' }}>{/* <LoginForm /> */}</Card>
+        <Card style={{ minWidth: '410px' }}>
+          <LoginForm />
+        </Card>
       </div>
-      <RegisterForm />
-      {/* <div  style={{height: "100vh"}}>
-        
-        <img src="/login_holst.svg" style={{height: "100%"}}></img>
-  </div> */}
     </div>
   )
 }
