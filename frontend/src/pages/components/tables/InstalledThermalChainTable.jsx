@@ -1,7 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GET_INSTALLED_THERMISTOR_CHAINS_PAGINATE } from '../../../gql/installedThermistorChain'
 import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
 import InstalledThermalChainForm from '../forms/InstalledThermalChainForm'
@@ -12,7 +12,7 @@ const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
 
   const [modalEditId, setModalEditId] = useState(null)
   const [modalStatic, setModalStatic] = useState(null)
-  const { data, loading, error } = useQuery(
+  const { data, loading, error, refetch } = useQuery(
     GET_INSTALLED_THERMISTOR_CHAINS_PAGINATE,
     {
       variables: { first, page },
@@ -21,6 +21,10 @@ const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
       }
     }
   )
+  useEffect(() => {
+    refetch()
+  }, [])
+
   const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
   const handleDelete = () => {
     console.log('delete')
@@ -89,13 +93,14 @@ const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
           onChange: handlePageChange
         }}
       />
-      <Modal footer={null}
+      <Modal
+        footer={null}
         open={modalEditId}
         onClose={() => setModalEditId(null)}
         onCancel={() => setModalEditId(null)}
         title={'Управление термокосой'}
       >
-        <InstalledThermalChainForm id={modalEditId} />
+        <InstalledThermalChainForm id={modalEditId} onCompleted={refetch()} />
       </Modal>
     </Space>
   )

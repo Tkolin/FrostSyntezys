@@ -110,8 +110,6 @@ const MeteringThermistorChainsForm = ({
       layout='horizontal'
       onFinish={onFinish}
       size='small'
-      labelCol={{ span: 12 }}
-      wrapperCol={{ span: 12 }}
       initialValues={{ measurement_range: 37 }}
     >
       <Form.Item label='Дата измерения' name='date_metering'>
@@ -130,7 +128,7 @@ const MeteringThermistorChainsForm = ({
           </Form.Item>
         )
       })}
-      <Form.Item wrapperCol={{ span: 24 }}>
+      <Form.Item>
         <Button
           type='primary'
           htmlType='submit'

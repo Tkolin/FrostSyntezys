@@ -52,16 +52,19 @@ export const GET_LOCATIONS_PAGINATE = gql`
 
 // Создание новой локации
 export const CREATE_LOCATION = gql`
-  mutation CreateLocation($x: String, $y: String, $name: String) {
+  mutation CreateLocation($x: Float!, $y: Float!, $name: String!) {
     createLocation(x: $x, y: $y, name: $name) {
       id
+      name
+      x
+      y
     }
   }
 `
 
 // Обновление локации
 export const UPDATE_LOCATION = gql`
-  mutation UpdateLocation($id: ID!, $x: String, $y: String, $name: String) {
+  mutation UpdateLocation($id: ID!, $x: Float!, $y: Float!, $name: String!) {
     updateLocation(id: $id, x: $x, y: $y, name: $name) {
       id
     }

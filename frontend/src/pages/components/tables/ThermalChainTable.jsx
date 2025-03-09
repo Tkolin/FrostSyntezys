@@ -1,7 +1,7 @@
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   DELETE_THERMISTOR_CHAIN,
   GET_THERMISTOR_CHAINS_PAGINATE
@@ -23,6 +23,10 @@ const ThermalChainTable = ({ ...props }) => {
       }
     }
   )
+  useEffect(() => {
+  refetch()
+}, [])
+
   const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
   const handleDelete = id => {
     mutate({ variables: { id: id } })

@@ -17,7 +17,7 @@ import {
 import { GET_LOCATIONS } from '../../../gql/location'
 import { GET_THERMISTOR_CHAINS } from '../../../gql/thermistorChain'
 
-const InstalledThermalChainForm = ({ id, ...props }) => {
+const InstalledThermalChainForm = ({ id, onCompleted,...props }) => {
   const [form] = Form.useForm()
 
   const openNotification = (type, message, description) => {

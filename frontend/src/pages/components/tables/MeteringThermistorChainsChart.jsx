@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { Space } from 'antd'
 import ReactECharts from 'echarts-for-react' // Импорт компонента для ECharts
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { GET_INSTALLED_THERMISTOR_CHAIN } from '../../../gql/installedThermistorChain'
 import {
   cutMeteringData,
@@ -16,11 +16,14 @@ const MeteringThermistorChainsChart = ({
   forecastMethod,
   ...props
 }) => {
-  const { data, loading, error } = useQuery(GET_INSTALLED_THERMISTOR_CHAIN, {
+  const { data, loading, error , refetch
+} = useQuery(GET_INSTALLED_THERMISTOR_CHAIN, {
     variables: { id: installedThermistorChainsId }
   })
-
-  // Использование утилиты для трансформации данных
+  useEffect(() => {
+    refetch()
+  }, [])
+  // Преобразование данных замеров
   const dataSource = useMemo(() => {
     if (!data) return []
     const result = cutMeteringData(
@@ -69,34 +72,81 @@ const MeteringThermistorChainsChart = ({
       data: dataSource.map(row => row[key])
     }))
 
-    // Отдельная серия для линии "Опасно (выше 0)"
+    // Получаем пороговые значения из данных
+    const installedChain = data?.InstalledThermistorChain
+    const maxWarning = installedChain
+      ? parseFloat(installedChain.max_warning_temperature)
+      : 0
+    const maxCritical = installedChain
+      ? parseFloat(installedChain.max_critical_temperature)
+      : 2
+    const minWarning = installedChain
+      ? parseFloat(installedChain.min_warning_temperature)
+      : 0
+    const minCritical = installedChain
+      ? parseFloat(installedChain.min_critical_temperature)
+      : 0
+
+    // Линия для верхнего предупреждающего порога
     const dangerousLineSeries = {
-      name: 'Опасно (выше 0)',
+      name: `Опасно (выше ${maxWarning})`,
       type: 'line',
-      data: dataSource.map(() => 0),
+      data: dataSource.map(() => maxWarning),
       markLine: {
         silent: true,
         lineStyle: {
           color: 'orange',
           type: 'dashed'
         },
-        data: [{ yAxis: 0 }]
+        data: [{ yAxis: maxWarning }]
       },
       symbol: 'none'
     }
 
-    // Отдельная серия для линии "Критическое (выше 2)"
+    // Линия для верхнего критического порога
     const criticalLineSeries = {
-      name: 'Критическое (выше 2)',
+      name: `Критическое (выше ${maxCritical})`,
       type: 'line',
-      data: dataSource.map(() => 2),
+      data: dataSource.map(() => maxCritical),
       markLine: {
         silent: true,
         lineStyle: {
           color: 'red',
           type: 'dashed'
         },
-        data: [{ yAxis: 2 }]
+        data: [{ yAxis: maxCritical }]
+      },
+      symbol: 'none'
+    }
+
+    // Линия для нижнего предупреждающего порога
+    const lowerDangerousLineSeries = {
+      name: `Опасно (ниже ${minWarning})`,
+      type: 'line',
+      data: dataSource.map(() => minWarning),
+      markLine: {
+        silent: true,
+        lineStyle: {
+          color: 'orange',
+          type: 'dashed'
+        },
+        data: [{ yAxis: minWarning }]
+      },
+      symbol: 'none'
+    }
+
+    // Линия для нижнего критического порога
+    const lowerCriticalLineSeries = {
+      name: `Критическое (ниже ${minCritical})`,
+      type: 'line',
+      data: dataSource.map(() => minCritical),
+      markLine: {
+        silent: true,
+        lineStyle: {
+          color: 'red',
+          type: 'dashed'
+        },
+        data: [{ yAxis: minCritical }]
       },
       symbol: 'none'
     }
@@ -133,12 +183,21 @@ const MeteringThermistorChainsChart = ({
         right: 10,
         pieces: [
           {
-            gt: 2,
+            lt: minCritical,
             color: '#FD0100'
           },
           {
-            gt: 0,
-            lte: 2,
+            gte: minCritical,
+            lt: minWarning,
+            color: '#FBDB0F'
+          },
+          {
+            gt: maxCritical,
+            color: '#FD0100'
+          },
+          {
+            gte: maxWarning,
+            lte: maxCritical,
             color: '#FBDB0F'
           }
         ],
@@ -150,10 +209,18 @@ const MeteringThermistorChainsChart = ({
         data: [
           ...seriesKeys.map(key => depthMapping[key] || key),
           dangerousLineSeries.name,
-          criticalLineSeries.name
+          criticalLineSeries.name,
+          lowerDangerousLineSeries.name,
+          lowerCriticalLineSeries.name
         ]
       },
-      series: [...dataSeries, dangerousLineSeries, criticalLineSeries]
+      series: [
+        ...dataSeries,
+        dangerousLineSeries,
+        criticalLineSeries,
+        lowerDangerousLineSeries,
+        lowerCriticalLineSeries
+      ]
     }
   }, [dataSource, data])
   console.log('Chart dataSource:', dataSource)

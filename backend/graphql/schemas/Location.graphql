@@ -6,29 +6,28 @@ extend type Query {
 
 extend type Mutation {
     createLocation(
-        id: ID
-        x: String
-        y: String
-        name: String
+        x: Float!
+        y: Float!
+        name: String!
     ): Location @create
 
-    updateLocation(id: ID!,
+    updateLocation(
         id: ID
-        x: String
-        y: String
-        name: String
+        x: Float!
+        y: Float!
+        name: String!
     ): Location @update
 
     deleteLocation(id: ID! @eq): Location @delete
 }
 
 type Location {
-         x: String
-        y: String
+    id: ID!
+         x: Float
+        y: Float
         created_at: String
         updated_at: String
         name: String
-    id: ID!
         installed_thermistor_chains: [InstalledThermistorChain!]! @hasMany
 
 }

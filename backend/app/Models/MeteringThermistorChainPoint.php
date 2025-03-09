@@ -41,51 +41,68 @@ class MeteringThermistorChainPoint extends Model
         return $this->belongsTo(InstalledThermistorChainPoint::class);
     }
 
-    protected static function booted()
-    {
-        static::created(function ($point) {
-            Log::info("Новая точка замера создана", [
-                'point' => $point,
-                'point_id' => $point->id,
-                'value'    => $point->value,
+protected static function booted()
+{
+    static::created(function ($point) {
+        Log::info("Новая точка замера создана", [
+            'point'    => $point,
+            'point_id' => $point->id,
+            'value'    => $point->value,
+        ]);
+
+        // Получаем связанную модель, где хранятся пороговые значения.
+        $installedChain = $point->installed_thermistor_chain_point ?? $point->installed_thermistor_chain;
+
+        if ($installedChain) {
+            Log::info("Связанная цепь найдена", [
+                'installed_chain_id'        => $installedChain->id,
+                'min_warning_temperature'   => $installedChain->min_warning_temperature,
+                'max_warning_temperature'   => $installedChain->max_warning_temperature,
+                'min_critical_temperature'  => $installedChain->min_critical_temperature,
+                'max_critical_temperature'  => $installedChain->max_critical_temperature,
             ]);
 
-            // Получаем связанную модель, где хранятся пороговые значения.
-            $installedChain = $point->installed_thermistor_chain_point ?? $point->installed_thermistor_chain;
+            $type_notification_key = null;
+            $description = null;
 
-            if ($installedChain) {
-                Log::info("Связанная цепь найдена", [
-                    'installed_chain_id'       => $installedChain->id,
-                    'min_warning_temperature'  => $installedChain->min_warning_temperature,
-                    'max_warning_temperature'  => $installedChain->max_warning_temperature,
+            // Сначала проверяем критические пороги.
+            if ($point->value < $installedChain->min_critical_temperature) {
+                $type_notification_key = 'DANGER';
+                $description = "Температура в точке ({$point->value}) опустилась ниже критического порога ({$installedChain->min_critical_temperature}).";
+            } elseif ($point->value > $installedChain->max_critical_temperature) {
+                $type_notification_key = 'DANGER';
+                $description = "Температура в точке ({$point->value}) поднялась выше критического порога ({$installedChain->max_critical_temperature}).";
+            }
+            // Затем проверяем предупреждающие пороги.
+            elseif ($point->value < $installedChain->min_warning_temperature) {
+                $type_notification_key = 'WARNING';
+                $description = "Температура в точке ({$point->value}) опустилась ниже предупреждающего порога ({$installedChain->min_warning_temperature}).";
+            } elseif ($point->value > $installedChain->max_warning_temperature) {
+                $type_notification_key = 'WARNING';
+                $description = "Температура в точке ({$point->value}) поднялась выше предупреждающего порога ({$installedChain->max_warning_temperature}).";
+            }
+
+            // Если есть уведомление, создаём его.
+            if (isset($type_notification_key) && isset($description)) {
+                Log::info("Уведомление создано для точки замера", ['type_notification_key' => $type_notification_key,'description'=> $description ]);
+                \App\Models\Notification::create([
+                    'metering_thermistor_chain_point_id' => $point->id,
+                    'description'                        => $description,
+                    'type_notification_key'              => $type_notification_key,
+                    'date_start'                         => now(),
+                    'date_end'                           => null,
+                    'user_id'                            => null,
                 ]);
 
-                // Проверяем, выходит ли значение за установленные пределы.
-                if ($point->value < $installedChain->min_warning_temperature ||
-                    $point->value > $installedChain->max_warning_temperature) {
-
-                    Log::warning("Значение точки выходит за пределы допустимого диапазона", [
-                        'point_value'              => $point->value,
-                        'min_warning_temperature'  => $installedChain->min_warning_temperature,
-                        'max_warning_temperature'  => $installedChain->max_warning_temperature,
-                    ]);
-
-                    \App\Models\Notification::create([
-                        'metering_thermistor_chain_point_id' => $point->id,
-                        'description' => "Замер {$point->value} выходит за пределы допустимого диапазона ({$installedChain->min_warning_temperature} - {$installedChain->max_warning_temperature})",
-                        'type_notification_key' => 'WARRING',
-                        'date_start' => now(),
-                        'date_end' => null,
-                        'user_id' => null,
-                    ]);
-
-                    Log::info("Уведомление создано для точки замера", ['point_id' => $point->id]);
-                } else {
-                    Log::info("Значение точки в пределах допустимого диапазона", ['point_value' => $point->value]);
-                }
+                Log::info("Уведомление создано для точки замера", ['point_id' => $point->id]);
             } else {
-                Log::error("Связанная цепь не найдена для точки замера", ['point_id' => $point->id]);
+                Log::info("Значение точки в пределах допустимого диапазона", ['point_value' => $point->value]);
             }
-        });
+        } else {
+            Log::error("Связанная цепь не найдена для точки замера", ['point_id' => $point->id]);
+        }
+    });
+
+
     }
 }

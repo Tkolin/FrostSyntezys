@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { GET_INSTALLED_THERMISTOR_CHAIN } from '../../../gql/installedThermistorChain'
 import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
 import {
@@ -14,6 +14,7 @@ import {
   transformMeteringData
 } from '../../../utils/dataUtils'
 import MeteringThermistorChainsForm from '../forms/MeteringThermistorChainsForm'
+import { DELETE_METERING_THERMISTOR_CHAIN } from '../../../gql/MeteringThermistorChain'
 
 const MeteringThermistorChainsTable = ({
   installedThermistorChainsId,
@@ -28,16 +29,19 @@ const MeteringThermistorChainsTable = ({
   const [modalEditId, setModalEditId] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
 
-  const { data, loading, error } = useQuery(GET_INSTALLED_THERMISTOR_CHAIN, {
-    variables: { id: installedThermistorChainsId }
-  })
-
-  const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
+  const { data, loading, error, refetch } = useQuery(
+    GET_INSTALLED_THERMISTOR_CHAIN,
+    {
+      variables: { id: installedThermistorChainsId }
+    }
+  )
+  useEffect(() => {
+    refetch()
+  }, [])
+  const [deleteMutate] = useMutation(DELETE_METERING_THERMISTOR_CHAIN)
 
   const handleDelete = id => {
-    console.log('delete', id)
-    // Здесь можно вызвать мутацию DELETE_THERMISTOR_CHAIN:
-    // mutate({ variables: { id } });
+     deleteMutate({variables: { id:id}})
   }
 
   const handlePageChange = currentPage => {
@@ -104,17 +108,15 @@ const MeteringThermistorChainsTable = ({
         Добавить запись
       </Button>
 
-      <Modal footer={null}
+      <Modal
+        footer={null}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         title='Управление термокосой'
-        footer={null}
       >
         <MeteringThermistorChainsForm
           installedThermistorChainsId={installedThermistorChainsId}
-          onCompleted={() => {
-            setModalVisible(false)
-          }}
+          onCompleted={refetch()}
         />
       </Modal>
       <Table

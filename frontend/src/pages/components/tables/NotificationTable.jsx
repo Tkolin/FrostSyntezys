@@ -7,7 +7,7 @@ import {
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
 import dayjs from 'dayjs'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   GET_NOTIFICATIONS_PAGINATED,
   SET_USER_IN_NOTIFICATION
@@ -16,7 +16,7 @@ import LocationForm from '../forms/LocationForm'
 
 const NotificationStatusComponent = type => {
   switch (type.type) {
-    case 'WARRING':
+    case 'WARNING':
       return (
         <Space.Compact>
           <WarningFilled style={{ color: '#FFCE20' }} />
@@ -50,15 +50,20 @@ const NotificationStatusComponent = type => {
 const NotificationTable = ({ ...props }) => {
   const [first] = useState(20) // например, 10 записей на страницу
   const [page, setPage] = useState(1) // текущая страница
-
   const [modalEditId, setModalEditId] = useState(null)
   const [modalStatic, setModalStatic] = useState(null)
-  const { data, loading, error } = useQuery(GET_NOTIFICATIONS_PAGINATED, {
-    variables: { first, page },
-    onCompleted: resultData => {
-      console.log('data11', resultData)
+  const { data, loading, error, refetch } = useQuery(
+    GET_NOTIFICATIONS_PAGINATED,
+    {
+      variables: { first, page },
+      onCompleted: resultData => {
+        console.log('data11', resultData)
+      }
     }
-  })
+  )
+  useEffect(() => {
+    refetch()
+  }, [])
   const [setUserNotificatin] = useMutation(SET_USER_IN_NOTIFICATION)
   const handleDelete = () => {
     console.log('delete')
@@ -153,7 +158,8 @@ const NotificationTable = ({ ...props }) => {
           onChange: handlePageChange
         }}
       />
-      <Modal footer={null}
+      <Modal
+        footer={null}
         open={modalEditId}
         onClose={() => setModalEditId(null)}
         onCancel={() => setModalEditId(null)}

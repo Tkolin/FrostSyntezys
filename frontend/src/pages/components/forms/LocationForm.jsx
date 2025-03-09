@@ -1,5 +1,14 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, Divider, Form, Input, Select, Spin, notification } from 'antd'
+import {
+  Button,
+  Divider,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Spin,
+  notification
+} from 'antd'
 import React from 'react'
 import {
   CREATE_LOCATION,
@@ -9,7 +18,7 @@ import {
 
 const { Option } = Select
 
-const LocationForm = ({ id, ...props }) => {
+const LocationForm = ({ id, onCompleted, ...props }) => {
   const [form] = Form.useForm()
 
   const openNotification = (type, message, description) => {
@@ -44,6 +53,7 @@ const LocationForm = ({ id, ...props }) => {
       onCompleted: resultData => {
         openNotification('success', 'Успешно', 'Термисторная цепь создана')
         form.resetFields()
+        onCompleted && onCompleted()
       },
       onError: error => {
         openNotification('error', 'Ошибка создания', error.message)
@@ -83,15 +93,15 @@ const LocationForm = ({ id, ...props }) => {
       size='small'
       initialValues={{ measurement_range: 37 }}
     >
-      <Form.Item label='Наименование' name='number'>
+      <Form.Item label='Наименование' name='name'>
         <Input />
       </Form.Item>
       <Divider>Координаты</Divider>
       <Form.Item label='X' name='x'>
-        <Input />
+        <InputNumber />
       </Form.Item>
       <Form.Item label='Y' name='y'>
-        <Input />
+        <InputNumber />
       </Form.Item>
 
       <Form.Item wrapperCol={{ span: 24 }}>

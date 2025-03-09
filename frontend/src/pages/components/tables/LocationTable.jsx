@@ -1,7 +1,7 @@
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DELETE_LOCATION, GET_LOCATIONS_PAGINATE } from '../../../gql/location'
 import LocationForm from '../forms/LocationForm'
 
@@ -17,6 +17,10 @@ const LocationTable = ({ ...props }) => {
       console.log('data11', resultData)
     }
   })
+  useEffect(() => {
+    refetch()
+  }, [])
+
   const [mutate] = useMutation(DELETE_LOCATION)
   const handleDelete = id => {
     mutate({ variables: { id: id } })
@@ -93,7 +97,7 @@ const LocationTable = ({ ...props }) => {
         onCancel={() => setModalEditId(null)}
         title={'Управление термокосой'}
       >
-        <LocationForm id={modalEditId} />
+        <LocationForm id={modalEditId} onCompleted={refetch()} />
       </Modal>
     </Space>
   )
