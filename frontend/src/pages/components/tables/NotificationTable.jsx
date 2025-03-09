@@ -71,12 +71,12 @@ const NotificationTable = ({ ...props }) => {
   const handlePageChange = pagination => {
     setPage(pagination)
   }
-  const handleAcknowledge = () => {
+  const handleAcknowledge = id => {
     setUserNotificatin({
       variables: {
-        id: 4,
-        date_end: dayjs().format('DD-MM-YYYY'),
-        user_id: 1
+        id: id,
+        date_end: dayjs().format('DD-MM-YYYY HH:mm:ss'),
+        user_id: -1
       }
     })
   }
@@ -134,7 +134,7 @@ const NotificationTable = ({ ...props }) => {
           {record.user_id ? (
             <Button type='link'>{record.user_id}</Button>
           ) : (
-            <Button type='primary' onClick={() => handleAcknowledge()}>
+            <Button type='primary' onClick={() => handleAcknowledge(record.id)}>
               Квитировать
             </Button>
           )}
