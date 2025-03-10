@@ -1,11 +1,15 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { Button, Form, Input, notification } from 'antd'
 import React from 'react'
 import { Cookies } from 'react-cookie'
-import { GET_ME, LOGIN_MUTATION } from '../../../gql/auth'
+import { useNavigate } from 'react-router-dom'
+import { LOGIN_MUTATION } from '../../../gql/auth'
+import { useUser } from '../../../providers/UserProvider'
 
 const LoginForm = ({ onLoginSuccess }) => {
   const [form] = Form.useForm()
+  const user = useUser()
+  const navigate = useNavigate()
   const cookies = new Cookies()
   const openNotification = (type, message, description) => {
     notification[type]({
@@ -14,9 +18,6 @@ const LoginForm = ({ onLoginSuccess }) => {
     })
   }
 
-  // Запрос для получения текущего пользователя
-  const { data, loading: loadingMe, refetch } = useQuery(GET_ME)
-
   // Мутация для логина
   const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
     onCompleted: data => {
@@ -24,6 +25,7 @@ const LoginForm = ({ onLoginSuccess }) => {
         cookies.set('accessToken', data.login.access_token, { path: '/' })
         openNotification('success', 'Успешно', 'Вход выполнен')
         onLoginSuccess && onLoginSuccess(data.login.user)
+        window.location.reload()
       }
     },
     onError: error => {
@@ -42,6 +44,7 @@ const LoginForm = ({ onLoginSuccess }) => {
 
   return (
     <Form form={form} layout='vertical' onFinish={handleSubmit}>
+      {user.role_keys ? user.role_keys : ''}
       <Form.Item
         name='name'
         label='Логин'

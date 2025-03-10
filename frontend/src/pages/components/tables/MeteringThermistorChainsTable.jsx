@@ -101,16 +101,18 @@ const MeteringThermistorChainsTable = ({
   return (
     <Space direction='vertical' style={{ width: '100%' }}>
       {/* Кнопка для создания новой записи */}
-      <Button
-        type='primary'
-        icon={<PlusOutlined />}
-        onClick={() => {
-          setModalEditId(null)
-          setModalVisible(true)
-        }}
-      >
-        Добавить запись
-      </Button>
+      <HasRole roles={['CHIEF_ENGINEER', 'FIELD_TECH']}>
+        <Button
+          type='primary'
+          icon={<PlusOutlined />}
+          onClick={() => {
+            setModalEditId(null)
+            setModalVisible(true)
+          }}
+        >
+          Добавить запись
+        </Button>
+      </HasRole>
 
       <Modal
         footer={null}

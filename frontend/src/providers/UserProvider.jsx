@@ -7,10 +7,6 @@ const UserContext = createContext(null)
 export const UserProvider = ({ children }) => {
   const { data, loading, error, refetch } = useQuery(GET_ME)
 
-  //   if (loading) return <div>Загрузка данных пользователя...</div>
-  //   if (error) return <div>Ошибка при загрузке данных пользователя</div>
-
-  // Извлекаем пользователя из ответа
   const user = data?.me
 
   return (

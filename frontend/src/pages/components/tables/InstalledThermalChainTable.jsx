@@ -56,7 +56,7 @@ const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
       dataIndex: 'activity',
       render: (_, record) => (
         <Space.Compact>
-          <HasRole roles={['FIELD_TECH', 'CHIEF_ENGINEER']}>
+          <HasRole roles={[  'CHIEF_ENGINEER']}>
             <Button
               type='link'
               icon={<SettingOutlined />}

@@ -12,7 +12,7 @@ import {
   UnorderedListOutlined
 } from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu, theme, Typography } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useUser } from '../providers/UserProvider'
 const { Header, Content, Footer, Sider } = Layout
@@ -42,17 +42,28 @@ const items = [
   getItem('Список объектов', 'location_list', <InboxOutlined />, false, [
     'ADMIN'
   ]),
-  getItem('Статистика', 'static', <BarChartOutlined />, false, ['ADMIN']),
+  getItem('Статистика', 'static', <BarChartOutlined />, false, [
+    'ADMIN',
+    'FIELD_TECH'
+  ]),
   getItem('Визуализация', 'analytics', <PieChartOutlined />, false, [
+    'FIELD_TECH',
+    'CHIEF_ENGINEER',
     'ADMIN',
     'ANALYST'
   ]),
-  getItem('Журнал', 'journal', <UnorderedListOutlined />, false, ['AD1MIN']),
+  getItem('Журнал', 'journal', <UnorderedListOutlined />, false, [
+    'AD1MIN',
+    'FIELD_TECH'
+  ]),
   getItem('Документация', '-6', <FileTextOutlined />, true, ['ADMIN']),
-  getItem('Настройки', '-7', <SettingOutlined />, true, ['ADMIN']),
+  getItem('Настройки', '-7', <SettingOutlined />, true, [
+    'ADMIN',
+    'FIELD_TECH'
+  ]),
   // getItem("Личный кабинет", "account", <UserOutlined />, false),
-  getItem('Вход', 'login', <LoginOutlined />, false),
-  getItem('Выход', 'exit', <LogoutOutlined />, false)
+  getItem('Вход', 'login', <LoginOutlined />, false, ['GUEST']),
+  getItem('Выход', 'exit', <LogoutOutlined />, false, ['FIELD_TECH'])
 ]
 const DefaultLayout = ({ children, error }) => {
   const { user } = useUser()
@@ -72,12 +83,21 @@ const DefaultLayout = ({ children, error }) => {
   }, [location])
 
   const checkRole = (role_ids, my_role_ids) => {
-    if (role_ids.find(row => my_role_ids?.includes(row))) {
+    if (role_ids?.includes('GUEST') && !my_role_ids) {
+      return true
+    }
+    if (role_ids?.includes('ALL') || my_role_ids?.includes('ADMIN')) {
+      return true
+    }
+    if (role_ids?.find(row => my_role_ids?.includes(row))) {
       return true
     } else {
       return false
     }
   }
+  const filteredItems = useMemo(() => {
+    return items.filter(item => checkRole(item.roles, user?.role_keys))
+  }, [user])
 
   return (
     <Layout
@@ -117,11 +137,7 @@ const DefaultLayout = ({ children, error }) => {
         <Menu
           defaultSelectedKeys={['1']}
           mode='inline'
-          items={items.filter(item =>
-            item?.role_keys?.length > 0
-              ? checkRole(item.roles, user?.me?.role_keys)
-              : true
-          )}
+          items={filteredItems}
           onClick={e => navigate(e.key)}
           selectedKeys={[location.pathname.slice(1)]} // Выделение текущего пункта меню
         />

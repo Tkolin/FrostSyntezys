@@ -14,6 +14,7 @@ import ThermistorChainsPage from './pages/ThermistorChainsPage'
 import UserListPage from './pages/UserListPage'
 import AntdConfigProvider from './providers/AntdConfigProvider'
 import { UserProvider } from './providers/UserProvider'
+import ExitPage from './pages/ExitPage'
 const GlobalStyles = createGlobalStyle`
     body {
         margin: 0;
@@ -31,6 +32,7 @@ const App = () => {
           <AntdConfigProvider>
             <DefaultLayout>
               <Routes>
+                <Route path='/exit' element={<ExitPage />} />
                 <Route path='/login' element={<AuthPage />} />
                 <Route path='/static' element={<StatisticPage />} />
                 <Route path='/analytics' element={<AnalyticPage />} />
