@@ -1,7 +1,7 @@
 extend type Query {
-    Locations: [Location!]! @all
-    LocationPaginated(first: Int, page: Int): [Location!]! @paginate
-    Location(id: ID!): Location @find
+    Locations: [Location!]! @guard @all
+    LocationPaginated(first: Int, page: Int): [Location!]! @guard @paginate
+    Location(id: ID!): Location @guard @find
 }
 
 extend type Mutation {
@@ -9,16 +9,16 @@ extend type Mutation {
         x: Float!
         y: Float!
         name: String!
-    ): Location @create
+    ): Location @guard @create
 
     updateLocation(
         id: ID
         x: Float!
         y: Float!
         name: String!
-    ): Location @update
+    ): Location @guard @update
 
-    deleteLocation(id: ID! @eq): Location @delete
+    deleteLocation(id: ID! @eq): Location @guard @delete
 }
 
 type Location {
@@ -28,6 +28,6 @@ type Location {
         created_at: String
         updated_at: String
         name: String
-        installed_thermistor_chains: [InstalledThermistorChain!]! @hasMany
+        installed_thermistor_chains: [InstalledThermistorChain!]!  @hasMany
 
 }

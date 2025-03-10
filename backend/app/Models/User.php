@@ -1,53 +1,48 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Foundation\Auth\User as Authenticatable; // ✅ Заменяем Model на Authenticatable
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-/**
- * Class User
- *
- * @property int $id
- * @property string $name
- * @property string $email
- * @property Carbon|null $email_verified_at
- * @property string $password
- * @property string|null $remember_token
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- *
- * @package App\Models
- */
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
+    protected $table = 'users';
 
-	protected $table = 'users';
+    protected $casts = [
+        'email_verified_at' => 'datetime'
+    ];
 
-	protected $casts = [
-		'email_verified_at' => 'datetime'
-	];
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
 
-	protected $hidden = [
-		'password',
-		'remember_token'
-	];
-
-	protected $fillable = [
+    protected $fillable = [
         'id',
-		'name',
-		'email',
-		'email_verified_at',
-		'password',
-		'remember_token'
-	];
+        'name',
+        'email',
+        'email_verified_at',
+        'password',
+        'remember_token'
+    ];
+
+    // Если нужно, чтобы вычисляемый атрибут автоматически добавлялся при преобразовании модели в массив/JSON
+    protected $appends = ['role_keys'];
+
+    // Определяем связь с моделью UserRole
+    public function roles()
+    {
+        return $this->hasMany(UserRole::class, 'user_id');
+    }
+
+    // Аксессор для вычисляемого атрибута role_keys
+    public function getRoleKeysAttribute()
+    {
+        return $this->roles->pluck('role_key')->toArray();
+    }
 }

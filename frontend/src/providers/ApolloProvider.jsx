@@ -16,7 +16,10 @@ const createApolloClient = () => {
   const authLink = setContext((_, { headers }) => {
     const cookies = new Cookies()
     const token = cookies.get('accessToken')
-    console.log('Токен в аполо' + token)
+    if (!token) {
+      console.log('Отправляю на авторизацию')
+    }
+    console.log('Токен в аполо ' + token)
     return {
       headers: {
         ...headers,

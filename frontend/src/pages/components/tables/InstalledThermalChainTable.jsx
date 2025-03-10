@@ -4,6 +4,7 @@ import { Button, Modal, Space, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { GET_INSTALLED_THERMISTOR_CHAINS_PAGINATE } from '../../../gql/installedThermistorChain'
 import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
+import HasRole from '../components/HasRole'
 import InstalledThermalChainForm from '../forms/InstalledThermalChainForm'
 
 const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
@@ -55,11 +56,13 @@ const InstalledThermalChainTable = ({ onSelectedRowKeys, ...props }) => {
       dataIndex: 'activity',
       render: (_, record) => (
         <Space.Compact>
-          <Button
-            type='link'
-            icon={<SettingOutlined />}
-            onClick={() => setModalEditId(record.id)}
-          ></Button>
+          <HasRole roles={['FIELD_TECH', 'CHIEF_ENGINEER']}>
+            <Button
+              type='link'
+              icon={<SettingOutlined />}
+              onClick={() => setModalEditId(record.id)}
+            ></Button>
+          </HasRole>
         </Space.Compact>
       )
     }

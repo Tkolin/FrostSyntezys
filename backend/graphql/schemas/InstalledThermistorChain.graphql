@@ -1,7 +1,7 @@
 extend type Query {
-    InstalledThermistorChains: [InstalledThermistorChain!]! @all
-    InstalledThermistorChainPaginated(first: Int, page: Int): [InstalledThermistorChain!]! @paginate
-    InstalledThermistorChain(id: ID! @eq): InstalledThermistorChain @find
+    InstalledThermistorChains: [InstalledThermistorChain!]! @guard @all
+    InstalledThermistorChainPaginated(first: Int, page: Int): [InstalledThermistorChain!]! @guard @paginate
+    InstalledThermistorChain(id: ID! @eq): InstalledThermistorChain @guard @find
 }
 
 extend type Mutation {
@@ -13,7 +13,7 @@ extend type Mutation {
         max_warning_temperature: Float
         min_critical_temperature: Float
         max_critical_temperature: Float
-    ): InstalledThermistorChain
+    ): InstalledThermistorChain @guard
 
     updateInstalledThermistorChain(id: ID!,
         id: ID
@@ -23,9 +23,9 @@ extend type Mutation {
         max_warning_temperature: Float
         min_critical_temperature: Float
         max_critical_temperature: Float
-    ): InstalledThermistorChain @update
+    ): InstalledThermistorChain @guard @update
 
-    deleteInstalledThermistorChain(id: ID! @eq): InstalledThermistorChain @delete
+    deleteInstalledThermistorChain(id: ID! @eq): InstalledThermistorChain @guard @delete
 }
 
 type InstalledThermistorChain {

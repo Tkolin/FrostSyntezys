@@ -1,7 +1,7 @@
 extend type Query {
-    InstalledThermistorChainPoints: [InstalledThermistorChainPoint!]! @all
-    InstalledThermistorChainPointPaginated(first: Int, page: Int): [InstalledThermistorChainPoint!]! @paginate
-    InstalledThermistorChainPoint(id: ID!): InstalledThermistorChainPoint @find
+    InstalledThermistorChainPoints: [InstalledThermistorChainPoint!]! @guard @all
+    InstalledThermistorChainPointPaginated(first: Int, page: Int): [InstalledThermistorChainPoint!]! @guard @paginate
+    InstalledThermistorChainPoint(id: ID!): InstalledThermistorChainPoint @guard @find
 }
 
 extend type Mutation {
@@ -16,7 +16,7 @@ extend type Mutation {
         min_critical_temperature: Float
         max_critical_temperature: Float
         installed_thermistor_chain: String
-    ): InstalledThermistorChainPoint @create
+    ): InstalledThermistorChainPoint @guard @create
 
     updateInstalledThermistorChainPoint(id: ID!,
         installed_thermistor_chains_id: ID
@@ -29,9 +29,9 @@ extend type Mutation {
         min_critical_temperature: Float
         max_critical_temperature: Float
         installed_thermistor_chain: String
-    ): InstalledThermistorChainPoint @update
+    ): InstalledThermistorChainPoint @guard @update
 
-    deleteInstalledThermistorChainPoint(id: ID! @eq): InstalledThermistorChainPoint @delete
+    deleteInstalledThermistorChainPoint(id: ID! @eq): InstalledThermistorChainPoint @guard @delete
 }
 
 type InstalledThermistorChainPoint {

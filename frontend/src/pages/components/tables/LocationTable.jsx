@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { DELETE_LOCATION, GET_LOCATIONS_PAGINATE } from '../../../gql/location'
+import HasRole from '../components/HasRole'
 import LocationForm from '../forms/LocationForm'
 
 const LocationTable = ({ ...props }) => {
@@ -59,17 +60,21 @@ const LocationTable = ({ ...props }) => {
       dataIndex: 'activity',
       render: (_, record) => (
         <Space.Compact>
-          <Button
-            type='link'
-            icon={<SettingOutlined />}
-            onClick={() => setModalEditId(record.id)}
-          ></Button>
-          <Button
-            danger
-            type='link'
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record.id)}
-          ></Button>
+          <HasRole roles={['CHIEF_ENGINEER']}>
+            <Button
+              type='link'
+              icon={<SettingOutlined />}
+              onClick={() => setModalEditId(record.id)}
+            ></Button>
+          </HasRole>
+          <HasRole roles={['']}>
+            <Button
+              danger
+              type='link'
+              icon={<DeleteOutlined />}
+              onClick={() => handleDelete(record.id)}
+            ></Button>
+          </HasRole>
         </Space.Compact>
       )
     }

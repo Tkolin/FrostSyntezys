@@ -1,7 +1,7 @@
 extend type Query {
-    ThermistorChains: [ThermistorChain!]! @all
-    ThermistorChainPaginated(first: Int, page: Int): [ThermistorChain!]! @paginate
-    ThermistorChain(id: ID! @eq): ThermistorChain @find
+    ThermistorChains: [ThermistorChain!]! @guard @all
+    ThermistorChainPaginated(first: Int, page: Int): [ThermistorChain!]! @guard @paginate
+    ThermistorChain(id: ID! @eq): ThermistorChain @guard @find
 }
 
 extend type Mutation {
@@ -21,7 +21,7 @@ extend type Mutation {
         battery_type: String
         battery_count: Int
         dimensions: String
-    ): ThermistorChain @create
+    ): ThermistorChain @guard @create
 
     updateThermistorChain(id: ID!,
         id: ID
@@ -40,9 +40,9 @@ extend type Mutation {
         battery_type: String
         battery_count: Int
         dimensions: String
-    ): ThermistorChain @update
+    ): ThermistorChain @guard @update
 
-    deleteThermistorChain(id: ID! @eq): ThermistorChain @delete
+    deleteThermistorChain(id: ID! @eq): ThermistorChain @guard @delete
 }
 
 type ThermistorChain {

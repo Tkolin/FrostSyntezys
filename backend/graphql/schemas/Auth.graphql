@@ -1,7 +1,7 @@
-type Query {
+extend type Query {
     me: User @guard
 }
-type Mutation {
+extend type Mutation {
     register(name: String!, email: String!, password: String!, password_confirmation: String!): AuthPayload!
     login(name: String!, password: String!): AuthPayload!
     logout: Boolean! @guard
@@ -17,4 +17,10 @@ type User {
     id: ID!
     name: String!
     email: String!
+    role_keys: [String]
+}
+
+type Role {
+    id: ID!
+    name: String!
 }

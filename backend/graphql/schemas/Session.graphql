@@ -1,7 +1,7 @@
 extend type Query {
-    Sessions: [Session!]! @all
-    SessionPaginated(first: Int, page: Int): [Session!]! @paginate
-    Session(id: ID!): Session @find
+    Sessions: [Session!]! @guard @all
+    SessionPaginated(first: Int, page: Int): [Session!]! @guard @paginate
+    Session(id: ID!): Session @guard @find
 }
 
 extend type Mutation {
@@ -14,7 +14,7 @@ extend type Mutation {
         last_activity: Int
         created_at: String
         updated_at: String
-    ): Session @create
+    ): Session @guard @create
 
     updateSession(id: ID!,
         id: String
@@ -25,9 +25,9 @@ extend type Mutation {
         last_activity: Int
         created_at: String
         updated_at: String
-    ): Session @update
+    ): Session @guard @update
 
-    deleteSession(id: ID! @eq): Session @delete
+    deleteSession(id: ID! @eq): Session @guard @delete
 }
 
 type Session {

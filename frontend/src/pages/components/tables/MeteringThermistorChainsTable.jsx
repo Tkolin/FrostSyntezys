@@ -7,14 +7,14 @@ import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
 import React, { useEffect, useMemo, useState } from 'react'
 import { GET_INSTALLED_THERMISTOR_CHAIN } from '../../../gql/installedThermistorChain'
-import { DELETE_THERMISTOR_CHAIN } from '../../../gql/thermistorChain'
+import { DELETE_METERING_THERMISTOR_CHAIN } from '../../../gql/MeteringThermistorChain'
 import {
   cutMeteringData,
   getColumnsMetering,
   transformMeteringData
 } from '../../../utils/dataUtils'
+import HasRole from '../components/HasRole'
 import MeteringThermistorChainsForm from '../forms/MeteringThermistorChainsForm'
-import { DELETE_METERING_THERMISTOR_CHAIN } from '../../../gql/MeteringThermistorChain'
 
 const MeteringThermistorChainsTable = ({
   installedThermistorChainsId,
@@ -41,7 +41,7 @@ const MeteringThermistorChainsTable = ({
   const [deleteMutate] = useMutation(DELETE_METERING_THERMISTOR_CHAIN)
 
   const handleDelete = id => {
-     deleteMutate({variables: { id:id}})
+    deleteMutate({ variables: { id: id } })
   }
 
   const handlePageChange = currentPage => {
@@ -59,20 +59,24 @@ const MeteringThermistorChainsTable = ({
         key: 'actions',
         render: (_, record) => (
           <Space>
-            <Button
-              type='link'
-              icon={<SettingOutlined />}
-              onClick={() => {
-                setModalEditId(record.id)
-                setModalVisible(true)
-              }}
-            />
-            <Button
-              danger
-              type='link'
-              icon={<DeleteOutlined />}
-              onClick={() => handleDelete(record.id)}
-            />
+            <HasRole roles={['FIELD_TECH', 'CHIEF_ENGINEER']}>
+              <Button
+                type='link'
+                icon={<SettingOutlined />}
+                onClick={() => {
+                  setModalEditId(record.id)
+                  setModalVisible(true)
+                }}
+              />
+            </HasRole>
+            <HasRole roles={['']}>
+              <Button
+                danger
+                type='link'
+                icon={<DeleteOutlined />}
+                onClick={() => handleDelete(record.id)}
+              />
+            </HasRole>
           </Space>
         )
       }

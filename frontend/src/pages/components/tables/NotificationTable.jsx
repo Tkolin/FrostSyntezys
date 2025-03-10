@@ -18,31 +18,31 @@ const NotificationStatusComponent = type => {
   switch (type.type) {
     case 'WARNING':
       return (
-        <Space.Compact>
+        <Space>
           <WarningFilled style={{ color: '#FFCE20' }} />
           Предупреждение
-        </Space.Compact>
+        </Space>
       )
     case 'DANGER':
       return (
-        <Space.Compact>
+        <Space>
           <CloseCircleFilled style={{ color: '#EE5D50' }} />
           Авария
-        </Space.Compact>
+        </Space>
       )
     case 'COMPLETED':
       return (
-        <Space.Compact>
+        <Space>
           <CheckCircleFilled style={{ color: '#05CD99' }} />
           Решена
-        </Space.Compact>
+        </Space>
       )
     default:
       return (
-        <Space.Compact>
+        <Space>
           <ExclamationCircleFilled style={{ color: '#A3A3A3' }} />
           Нет данных
-        </Space.Compact>
+        </Space>
       )
   }
 }
@@ -87,7 +87,6 @@ const NotificationTable = ({ ...props }) => {
       dataIndex: 'id',
       render: (_, record) => (
         <div>
-          {record.type_notification_key}
           <NotificationStatusComponent type={record.type_notification_key} />
         </div>
       )

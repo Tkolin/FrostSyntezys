@@ -1,7 +1,7 @@
 extend type Query {
-    MeteringThermistorChainPoints: [MeteringThermistorChainPoint!]! @all
-    MeteringThermistorChainPointPaginated(first: Int, page: Int): [MeteringThermistorChainPoint!]! @paginate
-    MeteringThermistorChainPoint(id: ID!): MeteringThermistorChainPoint @find
+    MeteringThermistorChainPoints: [MeteringThermistorChainPoint!]! @guard  @all
+    MeteringThermistorChainPointPaginated(first: Int, page: Int): [MeteringThermistorChainPoint!]! @guard  @paginate
+    MeteringThermistorChainPoint(id: ID!): MeteringThermistorChainPoint @guard  @find
 }
 
 extend type Mutation {
@@ -13,7 +13,7 @@ extend type Mutation {
         value: String
         unit_id: String
         metering_thermistor_chain: String
-    ): MeteringThermistorChainPoint @create
+    ): MeteringThermistorChainPoint  @guard @create
 
     updateMeteringThermistorChainPoint(id: ID!,
         id: ID
@@ -23,9 +23,9 @@ extend type Mutation {
         value: String
         unit_id: String
         metering_thermistor_chain: String
-    ): MeteringThermistorChainPoint @update
+    ): MeteringThermistorChainPoint @guard  @update
 
-    deleteMeteringThermistorChainPoint(id: ID! @eq): MeteringThermistorChainPoint @delete
+    deleteMeteringThermistorChainPoint(id: ID! @eq): MeteringThermistorChainPoint  @guard @delete
 }
 
 type MeteringThermistorChainPoint {

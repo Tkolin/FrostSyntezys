@@ -1,17 +1,14 @@
-import { Alert, Button, Card, Form, Modal } from 'antd'
+import { useQuery } from '@apollo/client'
+import { Alert, Card, Form } from 'antd'
 import { useState } from 'react'
+import { GET_INSTALLED_THERMISTOR_CHAINS } from '../gql/installedThermistorChain'
+import { useUser } from '../providers/UserProvider'
 import MeteringThermistorFilterPanel from './components/components/MeteringThermistorFilterPanel'
-import InstalledThermalChainForm from './components/forms/InstalledThermalChainForm'
-import InstalledThermalChainTable from './components/tables/InstalledThermalChainTable'
 import MeteringThermistorChainsChart from './components/tables/MeteringThermistorChainsChart'
 import MeteringThermistorChainsTable from './components/tables/MeteringThermistorChainsTable'
 
 const StatisticPage = () => {
-  const [thermalChainGroupSelected, setThermalChainGroupSelected] = useState([])
-  const [
-    installedThermalChainModalStatus,
-    setInstalledThermalChainModalStatus
-  ] = useState(false)
+  const { data, loading, error } = useQuery(GET_INSTALLED_THERMISTOR_CHAINS)
   const [isGraphMode, setIsGraphMode] = useState(false)
 
   // Создаём экземпляр формы, который передадим в фильтр
@@ -30,28 +27,11 @@ const StatisticPage = () => {
     forecastDays: isForecast ? forecastDays : undefined,
     forecastMethod: isForecast ? forecastMethod : undefined
   }
+  const { user } = useUser()
 
   return (
     <div style={{ height: '100%', gap: '5px', display: 'flex' }}>
-      <Card style={{ width: '100%', maxWidth: '500px' }}>
-        <Alert message='Список термакос' />
-        {thermalChainGroupSelected}
-        <InstalledThermalChainTable
-          onSelectedRowKeys={setThermalChainGroupSelected}
-        />
-        <Button onClick={() => setInstalledThermalChainModalStatus(true)}>
-          Зарегестрировать термокосу
-        </Button>
-        <Modal
-          footer={null}
-          open={installedThermalChainModalStatus}
-          onClose={() => setInstalledThermalChainModalStatus(false)}
-          onCancel={() => setInstalledThermalChainModalStatus(false)}
-          title={'Регистрация термокосы на объекте'}
-        >
-          <InstalledThermalChainForm />
-        </Modal>
-      </Card>
+      <div>Привет, {user ? user.name : 'Гость'}!</div>
 
       <div style={{ width: '100%' }}>
         {/* Используем вынесенный компонент фильтра */}
@@ -60,18 +40,18 @@ const StatisticPage = () => {
           isGraphMode={isGraphMode}
           setIsGraphMode={setIsGraphMode}
         />
-        {thermalChainGroupSelected?.map(row => (
+        {data?.InstalledThermistorChains?.map(row => (
           <Card key={row} style={{ width: '100%' }}>
-            <Alert message={'Замеры по термокосе ' + row} />
+            <Alert message={'Замеры по термокосе ' + row.id} />
             {!isGraphMode ? (
               <MeteringThermistorChainsTable
                 {...dateSourceParams}
-                installedThermistorChainsId={row}
+                installedThermistorChainsId={row.id}
               />
             ) : (
               <MeteringThermistorChainsChart
                 {...dateSourceParams}
-                installedThermistorChainsId={row}
+                installedThermistorChainsId={row.id}
               />
             )}
           </Card>

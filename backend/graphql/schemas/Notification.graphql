@@ -15,7 +15,7 @@ extend type Mutation {
         created_at: String
         updated_at: String
         metering_thermistor_chain_points: String
-    ): Notification @create @guard
+    ): Notification @guard @create
 
     updateNotification(id: ID!,
         id: ID
@@ -27,9 +27,9 @@ extend type Mutation {
         created_at: String
         updated_at: String
         metering_thermistor_chain_points: String
-    ): Notification @update @guard
+    ): Notification @guard @update
 
-    deleteNotification(id: ID! @eq): Notification @delete @guard
+    deleteNotification(id: ID! @eq): Notification  @guard @delete
     setUserInNotification(id: ID!, user_id: ID!, date_end: String!): Notification  @guard
 }
 

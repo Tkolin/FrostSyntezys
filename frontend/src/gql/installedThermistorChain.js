@@ -7,14 +7,10 @@ export const GET_INSTALLED_THERMISTOR_CHAINS = gql`
       id
       thermistor_chain_id
       location_id
-      created_at
-      updated_at
       min_warning_temperature
       max_warning_temperature
       min_critical_temperature
       max_critical_temperature
-      thermistor_chain
-      location
     }
   }
 `

@@ -14,49 +14,71 @@ import {
 import { Breadcrumb, Layout, Menu, theme, Typography } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useUser } from '../providers/UserProvider'
 const { Header, Content, Footer, Sider } = Layout
-function getItem (label, key, icon, disabled, children) {
+function getItem (label, key, icon, disabled, roles) {
   return {
     key,
     icon,
     disabled,
-    children,
+    roles,
     label
   }
 }
 const items = [
-  getItem('Карта', '-1', <CompassOutlined />, true),
-  getItem('Импорт', '-2', <ImportOutlined />, true),
-  getItem('Экспорт', '-2', <ExportOutlined />, true),
-  getItem('Список оборудования', 'thermistor_chains', <InboxOutlined />, false),
-  getItem('Список пользователей', 'user_list', <InboxOutlined />, false),
-  getItem('Список объектов', 'location_list', <InboxOutlined />, false),
-  getItem('Статистика', 'static', <BarChartOutlined />, false),
-  getItem('Визуализация', '-4', <PieChartOutlined />, true),
-  getItem('Журнал', 'journal', <UnorderedListOutlined />, false),
-  getItem('Документация', '-6', <FileTextOutlined />, true),
-  getItem('Настройки', '-7', <SettingOutlined />, true),
+  getItem('Карта', '-1', <CompassOutlined />, true, ['ADMIN']),
+  getItem('Импорт', '-2', <ImportOutlined />, true, ['ADMIN']),
+  getItem('Экспорт', '-3', <ExportOutlined />, true, ['ADMIN']),
+  getItem(
+    'Список оборудования',
+    'thermistor_chains',
+    <InboxOutlined />,
+    false,
+    ['ADMIN']
+  ),
+  getItem('Список пользователей', 'user_list', <InboxOutlined />, false, [
+    'ADMIN'
+  ]),
+  getItem('Список объектов', 'location_list', <InboxOutlined />, false, [
+    'ADMIN'
+  ]),
+  getItem('Статистика', 'static', <BarChartOutlined />, false, ['ADMIN']),
+  getItem('Визуализация', 'analytics', <PieChartOutlined />, false, [
+    'ADMIN',
+    'ANALYST'
+  ]),
+  getItem('Журнал', 'journal', <UnorderedListOutlined />, false, ['AD1MIN']),
+  getItem('Документация', '-6', <FileTextOutlined />, true, ['ADMIN']),
+  getItem('Настройки', '-7', <SettingOutlined />, true, ['ADMIN']),
   // getItem("Личный кабинет", "account", <UserOutlined />, false),
   getItem('Вход', 'login', <LoginOutlined />, false),
   getItem('Выход', 'exit', <LogoutOutlined />, false)
 ]
 const DefaultLayout = ({ children, error }) => {
+  const { user } = useUser()
   const [collapsed, setCollapsed] = useState(false)
   const [breadcrumb, setBreadcrumb] = useState('') // Для хранения текущего пути
   const location = useLocation() // Получаем текущий путь
   const navigate = useNavigate() // Для изменения пути
-
   const {
     token: { colorBgContainer, borderRadiusLG }
   } = theme.useToken()
 
   useEffect(() => {
-    // Обновляем хлебные крошки на основе текущего маршрута
     const routeName =
       items.find(item => item.key === location.pathname.slice(1))?.label ||
       'Главная'
     setBreadcrumb(routeName)
   }, [location])
+
+  const checkRole = (role_ids, my_role_ids) => {
+    if (role_ids.find(row => my_role_ids?.includes(row))) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   return (
     <Layout
       style={{
@@ -79,7 +101,6 @@ const DefaultLayout = ({ children, error }) => {
             color: '#2764FD'
           }}
         >
-          {' '}
           {!collapsed ? (
             <img
               src='full_logo.svg'
@@ -94,10 +115,13 @@ const DefaultLayout = ({ children, error }) => {
           )}
         </div>
         <Menu
-          // theme="dark"
           defaultSelectedKeys={['1']}
           mode='inline'
-          items={items}
+          items={items.filter(item =>
+            item?.role_keys?.length > 0
+              ? checkRole(item.roles, user?.me?.role_keys)
+              : true
+          )}
           onClick={e => navigate(e.key)}
           selectedKeys={[location.pathname.slice(1)]} // Выделение текущего пункта меню
         />
@@ -114,7 +138,7 @@ const DefaultLayout = ({ children, error }) => {
             }}
           >
             <Breadcrumb.Item>{breadcrumb}</Breadcrumb.Item>
-            <Breadcrumb.Item>{breadcrumb}</Breadcrumb.Item>
+            {/* <Breadcrumb.Item>{breadcrumb}</Breadcrumb.Item> */}
           </Breadcrumb>
           <Typography.Title
             level={1}

@@ -12,14 +12,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Location
- * 
+ *
  * @property int $id
  * @property float|null $x
  * @property float|null $y
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $name
- * 
+ *
  * @property Collection|InstalledThermistorChain[] $installed_thermistor_chains
  *
  * @package App\Models
@@ -30,7 +30,8 @@ class Location extends Model
 
 	protected $casts = [
 		'x' => 'float',
-		'y' => 'float'
+		'x' => 'float',
+		'name' => 'string'
 	];
 
 	protected $fillable = [	'id',

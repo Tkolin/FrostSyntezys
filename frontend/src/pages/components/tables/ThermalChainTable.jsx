@@ -6,6 +6,7 @@ import {
   DELETE_THERMISTOR_CHAIN,
   GET_THERMISTOR_CHAINS_PAGINATE
 } from '../../../gql/thermistorChain'
+import HasRole from '../components/HasRole'
 import ThermalChainForm from './../forms/ThermalChainForm'
 
 const ThermalChainTable = ({ ...props }) => {
@@ -24,8 +25,8 @@ const ThermalChainTable = ({ ...props }) => {
     }
   )
   useEffect(() => {
-  refetch()
-}, [])
+    refetch()
+  }, [])
 
   const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
   const handleDelete = id => {
@@ -89,17 +90,21 @@ const ThermalChainTable = ({ ...props }) => {
       dataIndex: 'activity',
       render: (_, record) => (
         <Space.Compact>
-          <Button
-            type='link'
-            icon={<SettingOutlined />}
-            onClick={() => setModalEditId(record.id)}
-          ></Button>
-          <Button
-            danger
-            type='link'
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record.id)}
-          ></Button>
+          <HasRole roles={['FIELD_TECH', 'CHIEF_ENGINEER']}>
+            <Button
+              type='link'
+              icon={<SettingOutlined />}
+              onClick={() => setModalEditId(record.id)}
+            ></Button>
+          </HasRole>
+          <HasRole roles={['FIELD_TECH', 'CHIEF_ENGINEER']}>
+            <Button
+              danger
+              type='link'
+              icon={<DeleteOutlined />}
+              onClick={() => handleDelete(record.id)}
+            ></Button>
+          </HasRole>
         </Space.Compact>
       )
     }
