@@ -77,7 +77,12 @@ return [
     |
     */
 
-    'schema_path' => base_path('graphql/schema.graphql'),
+   'schema' => [
+    'register' => base_path('graphql/schema.graphql'), // Основной файл схемы
+    'locations' => [
+        base_path('graphql/schemas/Location.graphql'), // Исправленный путь
+    ],
+],
 
     /*
     |--------------------------------------------------------------------------

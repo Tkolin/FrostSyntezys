@@ -65,13 +65,23 @@ const LocationForm = ({ id, ...props }) => {
   )
 
   const onFinish = values => {
-    console.log('Значения формы:', values)
+    console.log('Значения формы до преобразования:', values);
+  
+    // Преобразуем x и y в числа
+    const formattedValues = {
+      ...values,
+      x: values.x ? parseFloat(values.x) : null,
+      y: values.y ? parseFloat(values.y) : null,
+    };
+  
+    console.log('Исправленные значения:', formattedValues);
+  
     if (!id) {
-      createLocation({ variables: { ...values } })
+      createLocation({ variables: formattedValues });
     } else {
-      updateLocation({ variables: { id, ...values } })
+      updateLocation({ variables: { id, ...formattedValues } });
     }
-  }
+  };
 
   if (queryLoading) return <Spin />
 
@@ -85,7 +95,7 @@ const LocationForm = ({ id, ...props }) => {
       wrapperCol={{ span: 12 }}
       initialValues={{ measurement_range: 37 }}
     >
-      <Form.Item label='Наименование' name='number'>
+      <Form.Item label='Наименование' name='name'>
         <Input />
       </Form.Item>
       <Divider>Координаты</Divider>

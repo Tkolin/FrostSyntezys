@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "../../.."
+        }
+    ],
+    "require": {
+        "kcs/class-finder": "dev-master"
+    }
+}

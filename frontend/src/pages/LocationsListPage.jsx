@@ -1,7 +1,7 @@
 import { Alert, Button, Card, Modal } from 'antd'
 import { useState } from 'react'
 import LocationForm from './components/forms/LocationForm'
-import LocationTable from './components/tables/LocationTable'
+import LocationTable from './LocationTable'
 
 const LocationsListPage = () => {
   const [createLocationStatus, setLocationModalStatus] = useState(false)

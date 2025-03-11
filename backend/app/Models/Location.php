@@ -1,46 +1,40 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes; // Добавьте эту строку
 
-/**
- * Class Location
- * 
- * @property int $id
- * @property float|null $x
- * @property float|null $y
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property string|null $name
- * 
- * @property Collection|InstalledThermistorChain[] $installed_thermistor_chains
- *
- * @package App\Models
- */
 class Location extends Model
 {
-	protected $table = 'locations';
+    use SoftDeletes; // Добавьте эту строку
 
-	protected $casts = [
-		'x' => 'float',
-		'y' => 'float'
-	];
+    protected $table = 'locations';
 
-	protected $fillable = [	'id',
-		'x',
-		'y',
-		'name'
-	];
+    protected $casts = [
+        'x' => 'float',
+        'y' => 'float'
+    ];
 
-	public function installed_thermistor_chains()
-	{
-		return $this->hasMany(InstalledThermistorChain::class);
-	}
+    protected $fillable = [
+        'id',
+        'x',
+        'y',
+        'name'
+    ];
+
+    public function installed_thermistor_chains()
+    {
+        return $this->hasMany(InstalledThermistorChain::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($location) {
+            // Удаляем все связанные записи
+            $location->installed_thermistor_chains()->delete();
+        });
+    }
 }

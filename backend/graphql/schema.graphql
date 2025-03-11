@@ -1,8 +1,25 @@
+#import schemas/Location.graphql
+
 type Query {
-    _empty: String @all
+    locations: [Location!]! @all
+    locationPaginated(first: Int, page: Int): [Location!]! @paginate
+    location(id: ID!): Location @find
 }
 
 type Mutation {
-    _empty: String @all
+    createLocation(
+        id: ID
+        x: Float
+        y: Float
+        name: String
+    ): Location @create
+
+    updateLocation(
+        id: ID!
+        x: Float
+        y: Float
+        name: String
+    ): Location @update
+
+    deleteLocation(id: ID!): Boolean @field(resolver: "App\\GraphQL\\Mutations\\DeleteLocation")
 }
-#import schemas/*.graphql

@@ -1,0 +1,118 @@
+<?php
+
+declare(strict_types=1);
+
+namespace TheCodingMachine\GraphQLite;
+
+use GraphQL\Type\Definition\FieldDefinition;
+use Psr\Container\ContainerInterface;
+use TheCodingMachine\GraphQLite\Mappers\DuplicateMappingException;
+
+use function array_map;
+use function array_merge;
+use function array_sum;
+use function array_values;
+use function assert;
+use function count;
+use function sort;
+
+/**
+ * A query provider that looks into all controllers of your application to fetch queries.
+ */
+class AggregateControllerQueryProvider implements QueryProviderInterface
+{
+    /**
+     * @param iterable<string>   $controllers          A list of controllers name in the container.
+     * @param ContainerInterface $controllersContainer The container we will fetch controllers from.
+     */
+    public function __construct(
+        private readonly iterable $controllers,
+        private readonly FieldsBuilder $fieldsBuilder,
+        private readonly ContainerInterface $controllersContainer,
+    ) {
+    }
+
+    /** @return array<string,FieldDefinition> */
+    public function getQueries(): array
+    {
+        $queryList = [];
+
+        foreach ($this->controllers as $controllerName) {
+            $controller = $this->controllersContainer->get($controllerName);
+            $queryList[$controllerName] = $this->fieldsBuilder->getQueries($controller);
+        }
+
+        return $this->flattenList($queryList);
+    }
+
+    /** @return array<string, FieldDefinition> */
+    public function getMutations(): array
+    {
+        $mutationList = [];
+
+        foreach ($this->controllers as $controllerName) {
+            $controller = $this->controllersContainer->get($controllerName);
+            $mutationList[$controllerName] = $this->fieldsBuilder->getMutations($controller);
+        }
+
+        return $this->flattenList($mutationList);
+    }
+
+    /** @return array<string, FieldDefinition> */
+    public function getSubscriptions(): array
+    {
+        $subscriptionList = [];
+
+        foreach ($this->controllers as $controllerName) {
+            $controller = $this->controllersContainer->get($controllerName);
+            $subscriptionList[$controllerName] = $this->fieldsBuilder->getSubscriptions($controller);
+        }
+
+        return $this->flattenList($subscriptionList);
+    }
+
+    /**
+     * @param array<string, array<string, FieldDefinition>> $list
+     *
+     * @return array<string, FieldDefinition>
+     */
+    private function flattenList(array $list): array
+    {
+        if (empty($list)) {
+            return [];
+        }
+
+        $flattenedList = array_merge(...array_values($list));
+
+        // Quick check: are there duplicates? If so, the count of the flattenedList is != from the sum of the count of lists.
+        if (count($flattenedList) === array_sum(array_map('count', $list))) {
+            return $flattenedList;
+        }
+
+        // We have an issue, let's detect the duplicate
+        $queriesByName = [];
+        $duplicateClasses = null;
+        $duplicateQueryName = null;
+
+        foreach ($list as $class => $queries) {
+            foreach ($queries as $query => $field) {
+                $duplicatedClass = $queriesByName[$query] ?? null;
+
+                if (! $duplicatedClass) {
+                    $queriesByName[$query] = $class;
+
+                    continue;
+                }
+
+                $duplicateClasses = [$duplicatedClass, $class];
+                $duplicateQueryName = $query;
+            }
+        }
+
+        assert($duplicateClasses !== null && $duplicateQueryName !== null);
+
+        sort($duplicateClasses);
+
+        throw DuplicateMappingException::createForQueryInTwoControllers($duplicateClasses[0], $duplicateClasses[1], $duplicateQueryName);
+    }
+}

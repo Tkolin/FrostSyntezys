@@ -1,0 +1,73 @@
+{
+    "name": "kcs/class-finder",
+    "description": "Utility classes to help discover other classes/namespaces",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alessandro Chitolina",
+            "email": "alekitto@gmail.com"
+        }
+    ],
+    "scripts": {
+        "phpstan": "phpstan analyse lib/ -c vendor/solido/php-coding-standards/phpstan.neon --level=8 --no-progress -vvv --memory-limit=2048M",
+        "cscheck": "vendor/bin/phpcs --standard=Solido lib/",
+        "csfix": "vendor/bin/phpcbf --standard=Solido lib/"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.1",
+        "thecodingmachine/safe": "^1.0 || ^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "doctrine/annotations": "^1.0",
+        "nikic/php-parser": "^4.0 || ^5.0",
+        "phpbench/phpbench": "^1.2",
+        "phpdocumentor/reflection": "^4.0 || ^5.0 || ^6.0",
+        "phpunit/phpunit": "^10.5",
+        "roave/better-reflection": "^6.0",
+        "roave/security-advisories": "dev-master",
+        "solido/php-coding-standards": "dev-master",
+        "symfony/cache": "^5.0 || ^6.0 || ^7.0",
+        "symfony/error-handler": "^5.0 || ^6.0 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kcs\\ClassFinder\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "data/Composer/Psr4/test_file.php"
+        ],
+        "psr-4": {
+            "Kcs\\ClassFinder\\Benchmark\\": "bench/",
+            "Kcs\\ClassFinder\\Tests\\": "tests/",
+            "Kcs\\ClassFinder\\Fixtures\\Psr4\\": "data/Composer/Psr4/",
+            "Kcs\\ClassFinder\\Fixtures\\Psr4WithClassMap\\": "data/Psr4WithClassMap/",
+            "": "data/Composer/Psr4Fallback"
+        },
+        "psr-0": {
+            "Kcs\\ClassFinder\\Fixtures\\Psr0\\": "data/Composer/Psr0/",
+            "": "data/Composer/Psr0Fallback"
+        },
+        "classmap": [
+            "data/Psr4WithClassMap/Map"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.6.x-dev"
+        }
+    },
+    "archive": {
+        "exclude": [ "tests", "data", "docs" ]
+    }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd" backupGlobals="false" colors="true" processIsolation="false">
+  <php>
+    <ini name="error_reporting" value="-1"/>
+  </php>
+  <testsuites>
+    <testsuite name="Unit tests">
+      <directory suffix="Test.php">tests/unit/</directory>
+    </testsuite>
+    <testsuite name="Functional tests">
+      <directory suffix=".phpt">tests/functional/error-handler/</directory>
+      <file>tests/functional/fallback-dirs/test.phpt</file>
+      <file>tests/functional/invalid-class/test.phpt</file>
+      <file>tests/functional/nested-composer-projects/test.phpt</file>
+      <file>tests/issue-13/test.phpt</file>
+      <file>tests/issue-13/test-bogon-files-filter.phpt</file>
+      <file>tests/issue-13/test-path-callback.phpt</file>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory>lib/</directory>
+    </include>
+  </source>
+</phpunit>

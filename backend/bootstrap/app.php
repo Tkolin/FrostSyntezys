@@ -11,15 +11,19 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
+    
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
-            '/graphql',
+            'api/*', // Отключаем CSRF для всех API-запросов
+            'graphql', // Отключаем CSRF для GraphQL
         ]);
+ 
 
-        // Добавляем поддержку Sanctum для авторизации через токен
-        $middleware->group('api', [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        $middleware->validateCsrfTokens(except: [
+            'api/*', // 🔥 Полностью отключаем CSRF для API
         ]);
+        
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
