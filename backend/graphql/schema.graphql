@@ -1,9 +1,12 @@
-#import schemas/Location.graphql
+#import ./schemas/Location.graphql
 
 type Query {
     locations: [Location!]! @all
     locationPaginated(first: Int, page: Int): [Location!]! @paginate
     location(id: ID!): Location @find
+    thermistorChains: [ThermistorChain!]! @all
+    thermistorChainPaginated(first: Int, page: Int): [ThermistorChain!]! @paginate
+    thermistorChain(id: ID!): ThermistorChain @find
 }
 
 type Mutation {
@@ -22,4 +25,70 @@ type Mutation {
     ): Location @update
 
     deleteLocation(id: ID!): Boolean @field(resolver: "App\\GraphQL\\Mutations\\DeleteLocation")
+
+    createThermistorChain(
+        model: String!  # Добавлено обязательное поле model
+        number: String
+        name: String
+        point_count: Int
+        point_step: Float
+        measurement_range: Int
+        error_margin: Float
+        measurement_discreteness: Float
+        sensor_count: Int
+        sensor_distance: Float
+        external_interfaces: String
+        additional_interfaces: String
+        memory_type: String
+        antenna_type: String
+        battery_type: String
+        battery_count: Int
+        dimensions: String
+    ): ThermistorChain @create(model: "App\\Models\\ThermistorChain")
+
+    updateThermistorChain(
+        id: ID!
+        model: String!  # Добавлено обязательное поле model
+        number: String
+        name: String
+        point_count: Int
+        point_step: Float
+        measurement_range: Int
+        error_margin: Float
+        measurement_discreteness: Float
+        sensor_count: Int
+        sensor_distance: Float
+        external_interfaces: String
+        additional_interfaces: String
+        memory_type: String
+        antenna_type: String
+        battery_type: String
+        battery_count: Int
+        dimensions: String
+    ): ThermistorChain @update
+
+    deleteThermistorChain(id: ID!): Boolean @delete
+}
+
+type ThermistorChain {
+    id: ID!
+    model: String!  # Добавлено обязательное поле model
+    number: String
+    name: String
+    point_count: Int
+    point_step: Float
+    measurement_range: Int
+    error_margin: Float
+    measurement_discreteness: Float
+    sensor_count: Int
+    sensor_distance: Float
+    external_interfaces: String
+    additional_interfaces: String
+    memory_type: String
+    antenna_type: String
+    battery_type: String
+    battery_count: Int
+    dimensions: String
+    created_at: String!
+    updated_at: String!
 }

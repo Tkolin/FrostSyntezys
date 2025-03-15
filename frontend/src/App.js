@@ -37,6 +37,8 @@ const App = () => {
               <Route path='/location_list' element={<LocationsListPage />} />
               <Route path='/location/:id/edit' element={<LocationEditPage />} /> {/* Добавленный маршрут */}
               <Route path='/account' element={<AccountPage />} />
+              {/* Добавляем новый маршрут для /users */}
+              <Route path='/users' element={<UserListPage />} />
             </Routes>
           </DefaultLayout>
         </AntdConfigProvider>

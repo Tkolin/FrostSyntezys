@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('thermistor_chains', function (Blueprint $table) {
-            $table->id();
+        Schema::table('thermistor_chains', function (Blueprint $table) {
             $table->string('number')->nullable();
-            $table->string('name')->nullable();
             $table->integer('point_count')->nullable();
             $table->float('point_step')->nullable();
             $table->integer('measurement_range')->nullable();
@@ -29,7 +27,6 @@ return new class extends Migration
             $table->string('battery_type')->nullable();
             $table->integer('battery_count')->nullable();
             $table->string('dimensions')->nullable();
-            $table->timestamps();
         });
     }
 
@@ -38,6 +35,24 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('thermistor_chains');
+        Schema::table('thermistor_chains', function (Blueprint $table) {
+            $table->dropColumn([
+                'number',
+                'point_count',
+                'point_step',
+                'measurement_range',
+                'error_margin',
+                'measurement_discreteness',
+                'sensor_count',
+                'sensor_distance',
+                'external_interfaces',
+                'additional_interfaces',
+                'memory_type',
+                'antenna_type',
+                'battery_type',
+                'battery_count',
+                'dimensions',
+            ]);
+        });
     }
 };

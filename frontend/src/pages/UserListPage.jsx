@@ -1,19 +1,13 @@
-import { Alert, Button, Card } from 'antd'
+import React from 'react';
+import { Card } from 'antd';
+import UsersList from './components/tables/UsersList';
 
 const UserListPage = () => {
   return (
-    <div
-      style={{
-        height: '100%',
-        display: 'flex'
-      }}
-    >
-      <Card style={{ width: '100%' }}>
-        <Alert message='Список существующих термакос (моделей)'></Alert>
-        <Button>Создать запись</Button>
-        {/* <UserListTable style={{ width: '100%' }}></UserListTable> */}
-      </Card>
-    </div>
-  )
-}
-export default UserListPage
+    <Card style={{ width: '100%' }}>
+      <UsersList />
+    </Card>
+  );
+};
+
+export default UserListPage;

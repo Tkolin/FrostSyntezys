@@ -1,3 +1,9 @@
+extend type Query {
+    Locations: [Location!]! @guard @all
+    LocationPaginated(first: Int, page: Int): [Location!]! @guard @paginate
+    Location(id: ID!): Location @guard @find
+}
+
 type Location {
     id: ID!
     x: Float

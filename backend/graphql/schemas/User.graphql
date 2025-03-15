@@ -1,7 +1,7 @@
 extend type Query {
-    Users: [User!]! @all
-    UserPaginated(first: Int, page: Int): [User!]! @paginate
-    User(id: ID!): User @find
+    Users: [User!]! @guard @all
+    UserPaginated(first: Int, page: Int): [User!]! @guard @paginate
+    User(id: ID!): User @guard @find
 }
 
 extend type Mutation {
@@ -14,7 +14,7 @@ extend type Mutation {
         remember_token: String
         created_at: String
         updated_at: String
-    ): User @create
+    ): User @guard @create
 
     updateUser(id: ID!,
         id: ID
@@ -25,20 +25,7 @@ extend type Mutation {
         remember_token: String
         created_at: String
         updated_at: String
-    ): User @update
+    ): User @guard @update
 
-    deleteUser(id: ID!): User @delete
-}
-
-type User {
-        id: ID
-        name: String
-        email: String
-        email_verified_at: String
-        password: String
-        remember_token: String
-        created_at: String
-        updated_at: String
-    id: ID!
-
+    deleteUser(id: ID! @eq): User @guard @delete
 }

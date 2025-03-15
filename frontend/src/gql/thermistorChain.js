@@ -1,15 +1,16 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 // Получение списка всех термисторных цепей
 export const GET_THERMISTOR_CHAINS = gql`
   query GetThermistorChains {
     ThermistorChains {
       id
+      model
       number
       name
     }
   }
-`
+`;
 
 // Получение одной термисторной цепи по ID
 export const GET_THERMISTOR_CHAIN = gql`
@@ -20,8 +21,7 @@ export const GET_THERMISTOR_CHAIN = gql`
       name
       created_at
       updated_at
-      point_count
-      point_step
+
       measurement_range
       error_margin
       measurement_discreteness
@@ -36,7 +36,7 @@ export const GET_THERMISTOR_CHAIN = gql`
       dimensions
     }
   }
-`
+`;
 
 // Пагинация термисторных цепей
 export const GET_THERMISTOR_CHAINS_PAGINATE = gql`
@@ -58,8 +58,7 @@ export const GET_THERMISTOR_CHAINS_PAGINATE = gql`
         name
         created_at
         updated_at
-        point_count
-        point_step
+
         measurement_range
         error_margin
         measurement_discreteness
@@ -75,29 +74,31 @@ export const GET_THERMISTOR_CHAINS_PAGINATE = gql`
       }
     }
   }
-`
+`;
 
 // Создание новой термисторной цепи
 export const CREATE_THERMISTOR_CHAIN = gql`
   mutation CreateThermistorChain(
+    $model: String!  # Обязательное поле
     $number: String
     $name: String
-    $point_count: String
-    $point_step: String
-    $measurement_range: String
-    $error_margin: String
-    $measurement_discreteness: String
-    $sensor_count: String
-    $sensor_distance: String
+    $point_count: Int
+    $point_step: Float
+    $measurement_range: Int
+    $error_margin: Float
+    $measurement_discreteness: Float
+    $sensor_count: Int
+    $sensor_distance: Float
     $external_interfaces: String
     $additional_interfaces: String
     $memory_type: String
     $antenna_type: String
     $battery_type: String
-    $battery_count: String
+    $battery_count: Int
     $dimensions: String
   ) {
     createThermistorChain(
+      model: $model
       number: $number
       name: $name
       point_count: $point_count
@@ -120,7 +121,7 @@ export const CREATE_THERMISTOR_CHAIN = gql`
       name
     }
   }
-`
+`;
 
 // Обновление термисторной цепи
 export const UPDATE_THERMISTOR_CHAIN = gql`
@@ -128,27 +129,23 @@ export const UPDATE_THERMISTOR_CHAIN = gql`
     $id: ID!
     $number: String
     $name: String
-    $point_count: String
-    $point_step: String
-    $measurement_range: String
-    $error_margin: String
-    $measurement_discreteness: String
-    $sensor_count: String
-    $sensor_distance: String
+    $measurement_range: Int
+    $error_margin: Float
+    $measurement_discreteness: Float
+    $sensor_count: Int
+    $sensor_distance: Float
     $external_interfaces: String
     $additional_interfaces: String
     $memory_type: String
     $antenna_type: String
     $battery_type: String
-    $battery_count: String
+    $battery_count: Int
     $dimensions: String
   ) {
     updateThermistorChain(
       id: $id
       number: $number
       name: $name
-      point_count: $point_count
-      point_step: $point_step
       measurement_range: $measurement_range
       error_margin: $error_margin
       measurement_discreteness: $measurement_discreteness
@@ -167,7 +164,7 @@ export const UPDATE_THERMISTOR_CHAIN = gql`
       name
     }
   }
-`
+`;
 
 // Удаление термисторной цепи
 export const DELETE_THERMISTOR_CHAIN = gql`

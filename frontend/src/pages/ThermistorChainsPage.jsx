@@ -1,16 +1,16 @@
-import { Alert, Button, Card, Modal } from 'antd'
-import { useState } from 'react'
-import ThermalChainForm from './components/forms/ThermalChainForm'
-import ThermalChainTable from './components/tables/ThermalChainTable'
+import { Alert, Button, Card, Modal } from 'antd';
+import { useState } from 'react';
+import ThermalChainForm from './components/forms/ThermalChainForm';
+import ThermistorChainList from './ThermistorChainList'; // Импортируем новый компонент
 
 const ThermistorChainsPage = () => {
-  const [createThermalChainModalStatus, setCreateThermalChainModalStatus] =
-    useState(false)
+  const [createThermalChainModalStatus, setCreateThermalChainModalStatus] = useState(false);
+
   return (
     <div
       style={{
         height: '100%',
-        display: 'flex'
+        display: 'flex',
       }}
     >
       <Card style={{ width: '100%' }}>
@@ -18,17 +18,21 @@ const ThermistorChainsPage = () => {
         <Button onClick={() => setCreateThermalChainModalStatus(true)}>
           Создать запись
         </Button>
-        <ThermalChainTable style={{ width: '100%' }}></ThermalChainTable>
+
+        {/* Заменяем ThermalChainTable на ThermistorChainList */}
+        <ThermistorChainList />
+
         <Modal
           open={createThermalChainModalStatus}
-          onClose={() => setCreateThermalChainModalStatus(null)}
-          onCancel={() => setCreateThermalChainModalStatus(null)}
+          onCancel={() => setCreateThermalChainModalStatus(false)} // Исправлено: закрытие модального окна
           title={'Создание термокосы'}
+          footer={null} // Убираем стандартные кнопки модального окна
         >
-          <ThermalChainForm />
+          <ThermalChainForm onSuccess={() => setCreateThermalChainModalStatus(false)} />
         </Modal>
       </Card>
     </div>
-  )
-}
-export default ThermistorChainsPage
+  );
+};
+
+export default ThermistorChainsPage;

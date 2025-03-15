@@ -1,11 +1,12 @@
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons'
 import { useMutation, useQuery } from '@apollo/client'
 import { Button, Modal, Space, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   DELETE_THERMISTOR_CHAIN,
   GET_THERMISTOR_CHAINS_PAGINATE
 } from '../../../gql/thermistorChain'
+import HasRole from '../components/HasRole'
 import ThermalChainForm from './../forms/ThermalChainForm'
 
 const ThermalChainTable = ({ ...props }) => {
@@ -14,15 +15,22 @@ const ThermalChainTable = ({ ...props }) => {
 
   const [modalEditId, setModalEditId] = useState(null)
   const [modalStatic, setModalStatic] = useState(null)
-  const { data, loading, error } = useQuery(GET_THERMISTOR_CHAINS_PAGINATE, {
-    variables: { first, page },
-    onCompleted: resultData => {
-      console.log('data11', resultData)
+  const { data, loading, error, refetch } = useQuery(
+    GET_THERMISTOR_CHAINS_PAGINATE,
+    {
+      variables: { first, page },
+      onCompleted: resultData => {
+        console.log('data11', resultData)
+      }
     }
-  })
+  )
+  useEffect(() => {
+    refetch()
+  }, [])
+
   const [mutate] = useMutation(DELETE_THERMISTOR_CHAIN)
-  const handleDelete = () => {
-    console.log('delete')
+  const handleDelete = id => {
+    mutate({ variables: { id: id } })
   }
   const handlePageChange = pagination => {
     setPage(pagination)
@@ -82,17 +90,21 @@ const ThermalChainTable = ({ ...props }) => {
       dataIndex: 'activity',
       render: (_, record) => (
         <Space.Compact>
-          <Button
-            type='link'
-            icon={<SettingOutlined />}
-            onClick={() => setModalEditId(record.id)}
-          ></Button>
-          <Button
-            danger
-            type='link'
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record.id)}
-          ></Button>
+          <HasRole roles={['FIELD_TECH', 'CHIEF_ENGINEER']}>
+            <Button
+              type='link'
+              icon={<SettingOutlined />}
+              onClick={() => setModalEditId(record.id)}
+            ></Button>
+          </HasRole>
+          <HasRole roles={['FIELD_TECH', 'CHIEF_ENGINEER']}>
+            <Button
+              danger
+              type='link'
+              icon={<DeleteOutlined />}
+              onClick={() => handleDelete(record.id)}
+            ></Button>
+          </HasRole>
         </Space.Compact>
       )
     }
@@ -114,12 +126,13 @@ const ThermalChainTable = ({ ...props }) => {
         }}
       />
       <Modal
+        footer={null}
         open={modalEditId}
         onClose={() => setModalEditId(null)}
         onCancel={() => setModalEditId(null)}
         title={'Управление термокосой'}
       >
-        <ThermalChainForm id={modalEditId} />
+        <ThermalChainForm id={modalEditId} onCompleted={refetch()} />
       </Modal>
     </Space>
   )
