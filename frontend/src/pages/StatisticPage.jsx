@@ -2,7 +2,7 @@ import { Alert, Button, Card, Form, Modal } from 'antd'
 import { useState } from 'react'
 import MeteringThermistorFilterPanel from './components/components/MeteringThermistorFilterPanel'
 import InstalledThermalChainForm from './components/forms/InstalledThermalChainForm'
-import InstalledThermalChainTable from './components/tables/InstalledThermalChainTable'
+import InstalledThermalChainTable from './components/tables/InstalledThermalChainTree'
 import MeteringThermistorChainsChart from './components/tables/MeteringThermistorChainsChart'
 import MeteringThermistorChainsTable from './components/tables/MeteringThermistorChainsTable'
 

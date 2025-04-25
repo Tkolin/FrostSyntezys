@@ -9,25 +9,41 @@ extend type Mutation {
         x: Float!
         y: Float!
         name: String!
+        main_location_id: ID
+        sub_location_ids: [ID]
+
     ): Location @guard @create
+    
+    syncLocationsHierarchy(
+        hierarchy: [LocationHierarchyInput!]!
+    ): Boolean @guard
 
     updateLocation(
         id: ID
         x: Float!
         y: Float!
         name: String!
+        main_location_id: ID
+        sub_location_ids: [ID]
     ): Location @guard @update
 
     deleteLocation(id: ID! @eq): Location @guard @delete
 }
+input LocationHierarchyInput {
+  id: ID!
+  children: [LocationHierarchyInput!]
+}
 
 type Location {
     id: ID!
-         x: Float
-        y: Float
-        created_at: String
-        updated_at: String
-        name: String
-        installed_thermistor_chains: [InstalledThermistorChain!]!  @hasMany
-
+    x: Float
+    y: Float
+    created_at: String
+    updated_at: String
+    name: String
+    sub_locations: [Location]
+    main_location: Location
+    main_location_id: ID
+    sub_location_ids: [ID]
+    installed_thermistor_chains: [InstalledThermistorChain!]!  @hasMany
 }

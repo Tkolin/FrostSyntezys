@@ -31,8 +31,6 @@ const StatisticPage = () => {
 
   return (
     <div style={{ height: '100%', gap: '5px', display: 'flex' }}>
-      <div>Привет, {user ? user.role_keys : 'Гость'}!</div>
-
       <div style={{ width: '100%' }}>
         {/* Используем вынесенный компонент фильтра */}
         <MeteringThermistorFilterPanel

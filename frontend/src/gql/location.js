@@ -6,6 +6,17 @@ export const GET_LOCATIONS = gql`
     Locations {
       id
       name
+      x
+      y
+      main_location_id
+      main_location {
+        id
+        name
+      }
+      sub_locations {
+        id
+        name
+      }
     }
   }
 `
@@ -20,6 +31,19 @@ export const GET_LOCATION = gql`
       created_at
       updated_at
       name
+      main_location_id
+      main_location {
+        id
+        name
+      }
+      sub_locations {
+        id
+        name
+      }
+      installed_thermistor_chains {
+        id
+        name
+      }
     }
   }
 `
@@ -45,28 +69,63 @@ export const GET_LOCATIONS_PAGINATE = gql`
         created_at
         updated_at
         name
+        main_location_id
+        main_location {
+          id
+          name
+        }
       }
     }
   }
 `
-
 // Создание новой локации
 export const CREATE_LOCATION = gql`
-  mutation CreateLocation($x: Float!, $y: Float!, $name: String!) {
-    createLocation(x: $x, y: $y, name: $name) {
+  mutation CreateLocation(
+    $x: Float!
+    $y: Float!
+    $name: String!
+    $main_location_id: ID
+  ) {
+    createLocation(
+      x: $x
+      y: $y
+      name: $name
+      main_location_id: $main_location_id
+    ) {
       id
       name
       x
       y
+      main_location_id
     }
   }
 `
-
+export const SYNC_LOCATIONS_HIERARCHY = gql`
+  mutation SyncLocationsHierarchy($hierarchy: [LocationHierarchyInput!]!) {
+    syncLocationsHierarchy(hierarchy: $hierarchy)
+  }
+`;
 // Обновление локации
 export const UPDATE_LOCATION = gql`
-  mutation UpdateLocation($id: ID!, $x: Float!, $y: Float!, $name: String!) {
-    updateLocation(id: $id, x: $x, y: $y, name: $name) {
+  mutation UpdateLocation(
+    $id: ID!
+    $x: Float
+    $y: Float
+    $name: String
+    $main_location_id: ID
+  ) {
+    updateLocation(
+      id: $id
+      x: $x
+      y: $y
+      name: $name
+      main_location_id: $main_location_id
+    ) {
       id
+      name
+      x
+      y
+      main_location_id
     }
   }
 `

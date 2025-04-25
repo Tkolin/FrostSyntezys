@@ -1,47 +1,60 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
-/**
- * Class Location
- *
- * @property int $id
- * @property float|null $x
- * @property float|null $y
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property string|null $name
- *
- * @property Collection|InstalledThermistorChain[] $installed_thermistor_chains
- *
- * @package App\Models
- */
 class Location extends Model
 {
-	protected $table = 'locations';
+    protected $table = 'locations';
 
-	protected $casts = [
-		'x' => 'float',
-		'x' => 'float',
-		'name' => 'string'
-	];
+    protected $casts = [
+        'x'                 => 'float',
+        'y'                 => 'float',
+        'main_location_id'  => 'integer',
+        'sub_location_ids'  => 'array',
+    ];
 
-	protected $fillable = [	'id',
-		'x',
-		'y',
-		'name'
-	];
+    protected $fillable = [
+        'x',
+        'y',
+        'name',
+        'main_location_id',
+        'sub_location_ids',
+    ];
 
-	public function installed_thermistor_chains()
-	{
-		return $this->hasMany(InstalledThermistorChain::class);
-	}
+    // Автоматически добавляем атрибут sub_location_ids в JSON-вывод
+    protected $appends = ['sub_location_ids'];
+
+    /* ========== Relations ========== */
+
+    public function main_location()
+    {
+        return $this->belongsTo(Location::class, 'main_location_id');
+    }
+
+    public function sub_locations()
+    {
+        return $this->hasMany(Location::class, 'main_location_id');
+    }
+
+    public function installed_thermistor_chains()
+    {
+        return $this->hasMany(InstalledThermistorChain::class);
+    }
+
+    /* ========== Accessors ========== */
+
+    /**
+     * Возвращает массив ID дочерних локаций.
+     */
+    public function getSubLocationIdsAttribute(): array
+    {
+        // Если relation ещё не загружена — загрузим
+        if (! $this->relationLoaded('sub_locations')) {
+            $this->load('sub_locations');
+        }
+        return $this->sub_locations->pluck('id')->toArray();
+    }
 }

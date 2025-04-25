@@ -9,7 +9,7 @@ import React, { useMemo } from 'react'
 import { Cookies } from 'react-cookie'
 
 const httpLink = createHttpLink({
-  uri: 'http://172.29.63.1:8000/graphql/'
+  uri: 'http://localhost:8000/graphql/'
 })
 
 const createApolloClient = () => {

@@ -13,6 +13,7 @@ import React from 'react'
 import {
   CREATE_LOCATION,
   GET_LOCATION,
+  GET_LOCATIONS,
   UPDATE_LOCATION
 } from '../../../gql/location'
 
@@ -45,6 +46,12 @@ const LocationForm = ({ id, onCompleted, ...props }) => {
       openNotification('error', 'Ошибка загрузки', error.message)
     }
   })
+  const {
+    data: dataLocation,
+    loading: queryLoadingLocation,
+    error: queryErrorLocation,
+    refetch: refetchLocation,
+  } = useQuery(GET_LOCATIONS)
 
   // Мутация для создания новой записи
   const [createLocation, { loading: createLoading }] = useMutation(
@@ -53,6 +60,7 @@ const LocationForm = ({ id, onCompleted, ...props }) => {
       onCompleted: resultData => {
         openNotification('success', 'Успешно', 'Термисторная цепь создана')
         form.resetFields()
+        refetchLocation();
         onCompleted && onCompleted()
       },
       onError: error => {
@@ -66,7 +74,7 @@ const LocationForm = ({ id, onCompleted, ...props }) => {
     UPDATE_LOCATION,
     {
       onCompleted: resultData => {
-        openNotification('success', 'Успешно', 'Термисторная цепь обновлена')
+        openNotification('success', 'Успешно', 'Локация обновлена')
       },
       onError: error => {
         openNotification('error', 'Ошибка обновления', error.message)
@@ -103,7 +111,20 @@ const LocationForm = ({ id, onCompleted, ...props }) => {
       <Form.Item label='Y' name='y'>
         <InputNumber />
       </Form.Item>
-
+    <Form.Item
+          label='Главная локация'
+          name='main_location_id'
+          rules={[{ required: false, message: 'Пожалуйста, выберите главную локацию' }]}
+        >
+        <Select
+          allowClear
+            options={dataLocation?.Locations?.map(row => ({
+              value: row.id,
+              label: row.name
+            }))}
+          />
+        </Form.Item>
+          
       <Form.Item wrapperCol={{ span: 24 }}>
         <Button
           type='primary'
