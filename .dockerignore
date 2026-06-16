@@ -1,0 +1,20 @@
+# VCS / IDE
+.git
+.gitignore
+.idea
+.vscode
+
+# Большие/ненужные артефакты в корне
+output.csv
+e.py
+
+# Зависимости и сборки (ставятся внутри образов)
+backend/vendor
+backend/node_modules
+backend/public/build
+backend/storage/logs/*.log
+frontend/node_modules
+frontend/build
+
+# Локальные env бэкенда (генерируется внутри контейнера)
+backend/.env
