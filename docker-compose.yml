@@ -57,6 +57,9 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
+    environment:
+      # Адрес GraphQL, на который ходит браузер. На проде — публичный URL бэкенда.
+      REACT_APP_GRAPHQL_API_URL: ${GRAPHQL_API_URL:-http://localhost:8000/graphql/}
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
 

@@ -8,8 +8,10 @@ import { setContext } from '@apollo/client/link/context'
 import React, { useMemo } from 'react'
 import { Cookies } from 'react-cookie'
 
+// Адрес GraphQL берётся из переменной окружения (задаётся при сборке/старте фронта).
+// Локальный фолбэк — для запуска без настроенного окружения.
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8000/graphql/'
+  uri: process.env.REACT_APP_GRAPHQL_API_URL || 'http://localhost:8000/graphql/'
 })
 
 const createApolloClient = () => {
